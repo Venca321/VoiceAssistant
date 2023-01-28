@@ -21,21 +21,20 @@ class Engine():
             if char in text:
                 text = text.replace(char, "")
         
-        print(text) #Match a odebrání slov z konfigu!
-        text_test = text.split(" ")
-        for word in text_test:
-            if word:
-                for checked_word in words_to_remove:
-                    print(f'"{word}" "{checked_word}" {match(word, checked_word)}')
-        
-        """highest_score = 0
+        for checked_word in text.split(" "): #Pokud je nějaké slovo na 90%+ in words_to_remove, odeber ho
+            if match(words_to_remove, checked_word) > 90:
+                text = text.replace(checked_word, "").replace("  ", " ")
+
+        highest_score = 0
         winner = ""
         for i in list(imported.items()): 
-            score = i[1].Match.match(text)
+            score = int(i[1].Match.match(text))
             if score > highest_score: 
                 highest_score = score
-                winner = i[1]"""
+                winner = i[1]
+
+        print(winner)
 
         #winner.Match.result(text) ???
 
-Engine.process("Ahoj jak se máš? a ")
+Engine.process("Ahoj jak se máš? prdel xD")

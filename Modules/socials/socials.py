@@ -3,7 +3,7 @@ import datetime, os
 
 class Match():
     def match(text):
-        pass
+        return 0
 
 class Data():
     def update(timer):

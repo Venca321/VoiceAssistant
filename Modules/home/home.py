@@ -7,7 +7,7 @@ import os, json
 
 class Match():
     def match(text):
-        pass
+        return 99
 
 class Data():
     def update(timer):

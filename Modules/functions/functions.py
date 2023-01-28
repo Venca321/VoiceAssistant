@@ -83,67 +83,55 @@ def text_fix(text, decode):
                 text = text.replace(i.split(" = ")[1], i.split(" = ")[0]) #2. část replacni tou 1.
     return text
 
-def match(text01, text02):
-    best_score = 0 #Nejlepší score = 0
-    text1 = text01
-    text2 = text02
-    for _ in range(2):
-        text1 = text1.split(" ")
-        same_letters = [] #Pozice stejných písmen list
-        checked_letters = [] #Prověřená písmena list
-        scores = [] #Score list
-        score = 0 #Score = 0
-
-        for i in text1: #i = jednotlivá slova
-            for x in i: #x = jednotlivá písmena
-                if not x in checked_letters: #Pokud tohle písmeno už není vypsané
-                    for pos,char in enumerate(text2): #Získej písmena a jejich pozice v text2
-                        if(char == x): #Pokud se písmeno shoduje s hledaným
-                            checked_letters.append(x) #Zapiš, že už ho máme
-                            same_letters.append(pos) #Zapiš jeho pozice (může jich být více)
-                    
-                for y in same_letters: #Vezmi jednotlivé pozice znaků, které se shodují
-                    working_text2 = text2[y:] #2. text si vem jen od shodujícího se znaku
-                    for w in text1: #Pro každé slovo v textu1
-                        num1 = 0 #Proměná je 0
-                        for z in w: #Pro každé písmeno ve slově (w)
-                            try: #Pokus se
-                                if z == working_text2[num1]: #Pokud se písmeno z textu1 i 2 shodují
-                                    score += 1 #Zviš score
-                            except: None #jinak nic
-                            num1 += 1 #Proměná +1 (další písmeno)                      
-                    scores.append(score) #List score                        
-                same_letters.clear() #Vyčisti list
-
-        for i in scores: #Pro každé score v listu
-            x = (i / ((len(text01.replace(" ", "")) + len(text02.replace(" ", ""))) / 2))*100 #Vypočítat shodu slov ze score
-            if x > best_score: #Pokud je aktuální score lepší, než to největší
-                best_score = x #Přepiš největší score
-        if best_score > 100: best_score = 100
-        text1 = text02 #Prohození proměných text1 a text2
-        text2 = text01 #...
-    return best_score #Výstup
-
-def match2(text1, text2): #Ve frázi text1 hledá slovo text2, vrátí pravděpodobnost výskytu
-    text1 = text1.lower()
-    text2 = text2.lower()
+def match(search_in:list, search_for:str): #V listu stringů search_in hledá největší shodu s search_for, vrátí největší shodu %
+    """
+    Funkce pro match stringu s jedním z listu stringů (return %)
+    search_in: list stringů (v kterých hledat)
+    search_for: string (co hledat)
+    """
+    search_for = search_for.lower()
     chars_to_remove = data.options(f"{os.getcwd()}/Modules/engine/data/config.ini", "Characters to remove")
-    for char in chars_to_remove: #Remove znaků z konfigu
-        if char in text1: text1 = text1.replace(char, "")
-        if char in text2: text2 = text2.replace(char, "")
+    for char in chars_to_remove: search_for = search_for.replace(char, "") #Remove znaků z konfigu
 
-    if not len(text1) > len(text2):
-        text_ram = text2
-        text2 = text1
-        text1 = text_ram
+    text_ram = search_in
+    search_in = []
+    for working_text in text_ram: #Úprava všech stringů v listu (odebrání chars_to_remove)
+        for char in chars_to_remove: working_text = working_text.replace(char, "")
+        search_in.append(working_text.lower()) #Vložení upraveného zpět do search_in
 
-    match = 0
-    text1 = text1.split(" ") #Rozdělí na slova
-    text2 = [x for x in text2] #Rozdělí na písmena
-    for word in text1:
-        word = [x for x in word] #Rozdělí na písmena
-        
+    dict = {} #Dict písmen a pozicím k nim (dict["a"] = [0, 4])
+    output, correct_letter_counter = 0, 0
+    for potencial_match_raw in search_in:
+        reset_match = True
+        potencial_match = [x for x in potencial_match_raw]
+        counter = 0
+        for i in potencial_match: #Vytvoření dict
+            try: dict[i] = dict[i] + [counter]
+            except: dict[i] = [counter]
+            counter += 1
 
+        for search_for_word in search_for.split(" "):
+            best_word_match = 0
+            for offset in range(len(search_for_word)):
+                updated_string = [x for x in search_for_word[offset:]]
+                try: 
+                    for start in dict[updated_string[0]]:
+                        correct_letter_counter = 0
+                        start = int(start)
+                        counter = 0
+                        for letter in updated_string:
+                            try: 
+                                if start+counter in dict[letter]: 
+                                    correct_letter_counter += 1
+                                    counter += 1
+                            except: None
+                            if counter > len(updated_string): break
+                except: None
+                if correct_letter_counter/len(search_for_word)*100 > best_word_match:
+                    best_word_match = correct_letter_counter/len(search_for_word)*100
 
-
-match2("ahojky, jak se máš?", "ahojky")
+            if reset_match: match = best_word_match
+            else: match = (match + best_word_match) / 2 #Průměrování aktuální shody
+                
+        if match > output: output = match #Počítání největší shody 
+    return output
