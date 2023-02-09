@@ -23,6 +23,14 @@ class Voice_server():
         print(f' New client: "{addr[0]}:{addr[1]}" (Active connections: {threading.active_count() - 1})')
         conn.send(SERVER_CERTIFIKATE.encode("utf-8")) #Bezpečnostní ověření
         if conn.recv(2048).decode("utf-8") == CLIENT_CERTIFIKATE:
+            best_client_version = data.read(f"{os.getcwd()}/Modules/voice_server/data/config.ini", "Settings", "voice_version")
+            conn.send(best_client_version.encode("utf-8"))
+            need_update = conn.recv(2048).decode("utf-8")
+            if need_update == "Need_update_pls":
+                file = open("client.py", "r", encoding="utf-8")
+                data0 = file.read()
+                file.close()
+                conn.send(data0.encode("utf-8"))
             connected = True
             while connected:
                 try:
