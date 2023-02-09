@@ -13,7 +13,7 @@ class Data():
     def update(timer):
         if timer % 2 == 0: Octoprint.update() #Updatují se nastřídačku, aby to nespomalovalo systém
         if timer % 2 == 1: Tasmota.update()
-        if timer % 3 == 0: Proxmox.update()
+        if timer % 5 == 0: Proxmox.update()
 
 class Proxmox():
     def update():
@@ -36,12 +36,12 @@ class Proxmox():
 
         vmids = []
         for i in proxmox.get("nodes/proxmox/qemu"):
-            vmids.append(f'proxmox_vmid{i["vmid"]}')
-            data.write(f"{os.getcwd()}/Modules/home/data/data.ini", f'proxmox_vmid{i["vmid"]}', "status", i["status"])
-            data.write(f"{os.getcwd()}/Modules/home/data/data.ini", f'proxmox_vmid{i["vmid"]}', "name", i["name"])
-            data.write(f"{os.getcwd()}/Modules/home/data/data.ini", f'proxmox_vmid{i["vmid"]}', "cpu", str(float(i["cpu"])*100)) #Převedení do procent
-            data.write(f"{os.getcwd()}/Modules/home/data/data.ini", f'proxmox_vmid{i["vmid"]}', "ram", str(float(i["mem"])/float(i["maxmem"])*100)) #Převedení do procent
-            data.write(f"{os.getcwd()}/Modules/home/data/data.ini", f'proxmox_vmid{i["vmid"]}', "uptime", str(float(i["uptime"])/3600)) #Převendení do hodin
+            vmids.append(f'Proxmox_vmid({i["vmid"]})')
+            data.write(f"{os.getcwd()}/Modules/home/data/data.ini", f'Proxmox_vmid({i["vmid"]})', "status", i["status"])
+            data.write(f"{os.getcwd()}/Modules/home/data/data.ini", f'Proxmox_vmid({i["vmid"]})', "name", i["name"])
+            data.write(f"{os.getcwd()}/Modules/home/data/data.ini", f'Proxmox_vmid({i["vmid"]})', "cpu", str(float(i["cpu"])*100)) #Převedení do procent
+            data.write(f"{os.getcwd()}/Modules/home/data/data.ini", f'Proxmox_vmid({i["vmid"]})', "ram", str(float(i["mem"])/float(i["maxmem"])*100)) #Převedení do procent
+            data.write(f"{os.getcwd()}/Modules/home/data/data.ini", f'Proxmox_vmid({i["vmid"]})', "uptime", str(float(i["uptime"])/3600)) #Převendení do hodin
 
         for i in data.sections():
             if "proxmox_vmid" in i and not i in vmids: #Pokud tento VM už neexistuje smaž sekci
