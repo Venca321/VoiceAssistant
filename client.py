@@ -1,11 +1,17 @@
-import socket, threading, time, glob, os
+import socket, threading, time, glob, os, signal
 
 LOCATION = "MIA\\"
 PORT = 25050
-HOST = "192.168.0.11"
+HOST = "192.168.0.10"
 VERSION = "v.0.0"
 SERVER_CERTIFIKATE = "alsjdhaksjdamcxnjahkjdshkjgfajhsflhdkjsahjkfdhasjkfhaskjfhxbacnxbahjsgdkabskfjhkauheuhrwhukawhaslashfjashkjfhasgdjhasgfjhagsfjhgashfgjgafjhgsajhfguzawroawushdkabcsmbvahsgfdjgweqiurz"
 CLIENT_CERTIFIKATE = "hjkahsdkjabnsckjalwdLHJAFJSNflsAHFlhfalsHfljashfljhadslNFBjhsLKFHsalfhhflASHJlfhASJLDhfljashfljashlfhlsAHfljahsfjhaLJSFhLAJHlhFSlajhfaljhfLhLJhLFajshaljshfLJHFLFshlsfahlJASHflshljsa"
+
+def handle_exit(signum, frame):
+    client.close()
+    os._exit(1)
+
+signal.signal(signal.SIGINT, handler=handle_exit)
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect((HOST, PORT))
@@ -14,16 +20,18 @@ if client.recv(2048).decode("utf-8") == SERVER_CERTIFIKATE:
     top_version = client.recv(2048).decode("utf-8")
     if float(top_version[2:]) > float(VERSION[2:]): 
         client.send("Need_update_pls".encode("utf-8"))
-        print("Update!!!")
-        data = client.recv(48152).decode("utf-8")
-        file = open("new_client.py", "a")
-        file.close()
-        file = open("new_client.py", "w")
-        file.write(data)
-        file.close()
-        os.system("python clientautoupdate.py")
-        client.close()
-        exit()
+        input1 = input("\n New version available, please confirm update [Y/n] ")
+        if input1.lower() == "y" or input1.lower() == "":
+            print(" Updating...")
+            data = client.recv(48152).decode("utf-8")
+            file = open("new_client.py", "a")
+            file.close()
+            file = open("new_client.py", "w")
+            file.write(data)
+            file.close()
+            os.system("python clientautoupdate.py")
+            client.close()
+            exit()
 
     elif float(top_version[2:]) < float(VERSION[2:]):
         print(" Version Error")

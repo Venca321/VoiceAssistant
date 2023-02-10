@@ -6,7 +6,7 @@ from Modules.tester import tester
 from Modules.functions.functions import *
 from Modules.voice_server.voice_server import *
 from importlib.machinery import SourceFileLoader
-import multiprocessing, time
+import multiprocessing, time, signal
 
 VERSION = data.read(f"{os.getcwd()}/Data/config.ini", "Settings", "version")
 MODULES = data.options(f"{os.getcwd()}/Modules/tester/data/config.ini", "Modules")
@@ -45,6 +45,7 @@ class Startup():
             time.sleep(60 - (time.time() - start))
 
 if __name__ == '__main__':
+    signal.signal(signal.SIGINT, handler=handle_exit)
     print(f"\n\n -----------------------------------------\n\n    Smart Voice Assistent System ({VERSION}) \n            © Parma Industries\n\n -----------------------------------------\n\n")
     time.sleep(2)
     tester.Tester.startup_test() #Startup test = test souborů

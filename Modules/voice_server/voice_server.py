@@ -22,17 +22,19 @@ class Voice_server():
         CLIENT_CERTIFIKATE = data.read(f"{os.getcwd()}/Modules/voice_server/data/config.ini", "Security", "client_certifikate")
         print(f' New client: "{addr[0]}:{addr[1]}" (Active connections: {threading.active_count() - 1})')
         conn.send(SERVER_CERTIFIKATE.encode("utf-8")) #Bezpečnostní ověření
-        if conn.recv(2048).decode("utf-8") == CLIENT_CERTIFIKATE:
-            best_client_version = data.read(f"{os.getcwd()}/Modules/voice_server/data/config.ini", "Settings", "voice_version")
-            conn.send(best_client_version.encode("utf-8"))
-            need_update = conn.recv(2048).decode("utf-8")
-            if need_update == "Need_update_pls":
-                file = open("client.py", "r", encoding="utf-8")
+        if conn.recv(2048).decode("utf-8") == CLIENT_CERTIFIKATE: #Pokud se ověří
+            file = open("client.py", "r")
+            client_version = file.readlines()[5].replace("\n", "").replace('"', "").replace("VERSION = ", "") #Získání verze klienta tady na serveru
+            file.close()
+            conn.send(client_version.encode("utf-8")) #Poslání verze klienta
+            need_update = conn.recv(2048).decode("utf-8") 
+            if need_update == "Need_update_pls": #Pokud potřebuje update:
+                file = open("client.py", "r", encoding="utf-8") #Přeposlání souboru
                 data0 = file.read()
                 file.close()
-                conn.send(data0.encode("utf-8"))
-            connected = True
-            while connected:
+                conn.send(data0.encode("utf-8")) #...
+            connected = True 
+            while connected: #Zahájení připojení
                 try:
                     lenght = int(conn.recv(2048).decode("utf-8")) #Přijme informaci o velikosti dat
                     message = conn.recv(lenght+100).decode("utf-8") #Přijme zprávu o velikosti lenght
@@ -40,6 +42,8 @@ class Voice_server():
                         if message: #Zpracování a odpověd
                             #conn.send(input_process(message, True).encode("utf-8")) #Odpověď
                             Engine.process(message)
+                            print("--> ", message)
+                            conn.send(message.encode("utf-8"))
                     except: None
                 except: #Pokud dojde k chybě, nebo se klient odpojí, uzavři spojení
                     print(f" Client {addr} disconnected (Active connections: {threading.active_count() - 2})")

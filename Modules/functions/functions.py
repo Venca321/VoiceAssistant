@@ -1,5 +1,5 @@
 
-import configparser, os
+import configparser, os, time
 
 class data():
     def write(location, section, option, data):
@@ -71,6 +71,13 @@ class data():
             for i in file.options(text_fix(section, False)): output.append(text_fix(i, True)) #U všeho musí proběhnout text_fix
             return output
         except: return None
+
+def handle_exit(signum, frame):
+    print("\n Stopping server...")
+    time.sleep(2)
+    print(" Server stopped, bye")
+    time.sleep(1)
+    os._exit(1)
 
 def text_fix(text, decode):
     list0 = ["//y// = ý", "//a// = á", "//i// = í", "//e// = é", "//u// = ú", "/e/ = ě", "/s/ = š", "/c/ = č", "/r/ = ř", "/z/ = ž", "\\n = \n", "/u/ = ů", "%% = %", "//U// = Ů", "//Y// = Ý", "//A// = Á", "//I// = Í", "//E// = É", "/E/ = Ě", "/S/ = Š", "/C/ = Č", "/R/ = Ř", "/Z/ = Ž", "/U/ = Ů"]
