@@ -1,7 +1,11 @@
 
+from Modules.functions.functions import *
+
 class Match():
     def match(text, output=False):
-        return 0
+        out = Texts.best(f"{os.getcwd()}/Modules/my_math/data/vocabulary.ini", text)
+        if output: return eval(out[1])
+        else: return out[0]
 
 class Data():
     def update(timer):

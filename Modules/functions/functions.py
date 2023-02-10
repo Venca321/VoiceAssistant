@@ -152,6 +152,7 @@ class Texts():
         text = co v tom hledat
         """
         best_match_num = 0
+        best_match = ""
         options = data.options(file, "Match")
         for function in options:
             posible_matches = data.read(file, "Match", function).split(", ")

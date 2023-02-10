@@ -1,13 +1,13 @@
 """ MIA hlasová asistentka (následovník hlasového asistenta trixe) 9. 11. 2022"""
 
 import os
-#os.system("pip install -r requirements.txt")
 from Modules.tester import tester
 from Modules.functions.functions import *
 from Modules.voice_server.voice_server import *
 from importlib.machinery import SourceFileLoader
 import multiprocessing, time, signal
 
+os.system("clear")
 VERSION = data.read(f"{os.getcwd()}/Data/config.ini", "Settings", "version")
 MODULES = data.options(f"{os.getcwd()}/Modules/tester/data/config.ini", "Modules")
 imported = {}
