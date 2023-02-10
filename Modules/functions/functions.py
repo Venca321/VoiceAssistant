@@ -72,12 +72,13 @@ class data():
             return output
         except: return None
 
+running = True
 def handle_exit(signum, frame):
-    print("\n Stopping server...")
-    time.sleep(2)
-    print(" Server stopped, bye")
-    time.sleep(1)
-    os._exit(1)
+    global running
+    if running:
+        running = False
+        print("\n Stopping server...\n Server stopped, bye")
+        os._exit(1)
 
 def text_fix(text, decode):
     list0 = ["//y// = ý", "//a// = á", "//i// = í", "//e// = é", "//u// = ú", "/e/ = ě", "/s/ = š", "/c/ = č", "/r/ = ř", "/z/ = ž", "\\n = \n", "/u/ = ů", "%% = %", "//U// = Ů", "//Y// = Ý", "//A// = Á", "//I// = Í", "//E// = É", "/E/ = Ě", "/S/ = Š", "/C/ = Č", "/R/ = Ř", "/Z/ = Ž", "/U/ = Ů"]

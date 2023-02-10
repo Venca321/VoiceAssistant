@@ -63,7 +63,7 @@ print(" 1) send file\n 2) Type something \n")
 
 def my_sender():
     while True:
-        time.sleep(0.1)
+        time.sleep(0.25)
         text = input("--> ")
 
         if text.lower() == "1":

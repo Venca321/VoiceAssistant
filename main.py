@@ -32,9 +32,6 @@ class Startup():
         time.sleep(1)
         Voice_server.start()
 
-    def discord_server():
-        time.sleep(1)
-
     def tests(): #Automatické testy funkčnosti (updaty souborů, servery...)
         time.sleep(3)
         tester.Tester.test(True)
@@ -44,6 +41,9 @@ class Startup():
             tester.Tester.test()
             time.sleep(60 - (time.time() - start))
 
+    def discord_server(): #Má se to sem vůbec dávat? Chtěl bych UI, které to nahradí
+        time.sleep(1)
+
 if __name__ == '__main__':
     signal.signal(signal.SIGINT, handler=handle_exit)
     print(f"\n\n -----------------------------------------\n\n    Smart Voice Assistent System ({VERSION}) \n            © Parma Industries\n\n -----------------------------------------\n\n")
@@ -52,7 +52,7 @@ if __name__ == '__main__':
     time.sleep(1)
     p1 = multiprocessing.Process(target=Startup.data_update).start() #Setup multiprocessingu
     p2 = multiprocessing.Process(target=Startup.voice_server).start()
-    p3 = multiprocessing.Process(target=Startup.discord_server).start()
-    p4 = multiprocessing.Process(target=Startup.tests).start()
+    p3 = multiprocessing.Process(target=Startup.tests).start()
+    p4 = multiprocessing.Process(target=Startup.discord_server).start()
 
 """ Parma Industries """

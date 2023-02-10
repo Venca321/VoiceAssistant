@@ -33,8 +33,6 @@ class Engine():
                 highest_score = score
                 winner = i[1]
 
-        #print(winner)
-
-        #winner.Match.result(text) ???
-
-Engine.process("Ahoj jak se máš? prdel xD")
+        output = winner.Match.match(text, True) #Pokud by byla potřeba nějaká úprava textu
+        
+        return output

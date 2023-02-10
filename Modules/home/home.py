@@ -6,18 +6,21 @@ from proxmoxer import ProxmoxAPI
 import os, json
 
 class Match():
-    def match(text):
-        return 99
+    def match(text, output=False):
+        if output: return "ahoj"
+        else: return 99
 
 class Data():
     def update(timer):
         if timer % 2 == 0: Octoprint.update() #Updatují se nastřídačku, aby to nespomalovalo systém
         if timer % 2 == 1: Tasmota.update()
-        if timer % 5 == 0: Proxmox.update()
+        if timer % 5 == 0: 
+            try: Proxmox.update() #Někdy dochází k nějakému problému s data filem
+            except: None
 
 class Proxmox():
     def update():
-        try: proxmox = ProxmoxAPI(data.read(f"{os.getcwd()}/Modules/home/data/config.ini", "Proxmox", "ip"), user="API@pve", password="VoiceAssistant", verify_ssl=False) #Proxmox login...
+        try: proxmox_data = ProxmoxAPI(data.read(f"{os.getcwd()}/Modules/home/data/config.ini", "Proxmox", "ip"), user="API@pve", password="VoiceAssistant", verify_ssl=False, ) #Proxmox login...
         except: 
             for i in data.sections(f"{os.getcwd()}/Modules/home/data/data.ini"):
                 if "proxmox" in i.lower():
@@ -28,14 +31,14 @@ class Proxmox():
                     data.write(f"{os.getcwd()}/Modules/home/data/data.ini", i, "uptime", "---")
             return
 
-        for i in proxmox.nodes.get():
+        for i in proxmox_data.nodes.get():
             data.write(f"{os.getcwd()}/Modules/home/data/data.ini", "Proxmox", "status", i["status"])
             data.write(f"{os.getcwd()}/Modules/home/data/data.ini", "Proxmox", "cpu", str(float(i["cpu"])*100)) #Převedení do %
             data.write(f"{os.getcwd()}/Modules/home/data/data.ini", "Proxmox", "ram", str(float(i["mem"])/float(i["maxmem"])*100 )) #Převedení do %
             data.write(f"{os.getcwd()}/Modules/home/data/data.ini", "Proxmox", "uptime", str(float(i["uptime"])/3600 )) #Převednení do hodin
 
         vmids = []
-        for i in proxmox.get("nodes/proxmox/qemu"):
+        for i in proxmox_data.get("nodes/proxmox/qemu"):
             vmids.append(f'Proxmox_vmid({i["vmid"]})')
             data.write(f"{os.getcwd()}/Modules/home/data/data.ini", f'Proxmox_vmid({i["vmid"]})', "status", i["status"])
             data.write(f"{os.getcwd()}/Modules/home/data/data.ini", f'Proxmox_vmid({i["vmid"]})', "name", i["name"])

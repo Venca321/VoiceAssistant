@@ -40,10 +40,7 @@ class Voice_server():
                     message = conn.recv(lenght+100).decode("utf-8") #Přijme zprávu o velikosti lenght
                     try: 
                         if message: #Zpracování a odpověd
-                            #conn.send(input_process(message, True).encode("utf-8")) #Odpověď
-                            Engine.process(message)
-                            print("--> ", message)
-                            conn.send(message.encode("utf-8"))
+                            conn.send(Engine.process(message).encode("utf-8"))
                     except: None
                 except: #Pokud dojde k chybě, nebo se klient odpojí, uzavři spojení
                     print(f" Client {addr} disconnected (Active connections: {threading.active_count() - 2})")
