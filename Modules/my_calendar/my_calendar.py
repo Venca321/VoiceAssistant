@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup as Soup
 import datetime, requests, os
 
 class Match():
-    def match(text):
+    def match(text, output=False):
         return 0
 
 class Data():

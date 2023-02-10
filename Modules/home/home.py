@@ -7,8 +7,9 @@ import os, json
 
 class Match():
     def match(text, output=False):
-        if output: return "ahoj"
-        else: return 99
+        out = Texts.best(f"{os.getcwd()}/Modules/home/data/vocabulary.ini", text)
+        if output: return eval(out[1])
+        else: return out[0]
 
 class Data():
     def update(timer):
@@ -19,6 +20,9 @@ class Data():
             except: None
 
 class Proxmox():
+    def test():
+        return "Proxmox stats"
+
     def update():
         try: proxmox_data = ProxmoxAPI(data.read(f"{os.getcwd()}/Modules/home/data/config.ini", "Proxmox", "ip"), user="API@pve", password="VoiceAssistant", verify_ssl=False, ) #Proxmox login...
         except: 

@@ -22,7 +22,7 @@ class Engine():
                 text = text.replace(char, "")
         
         for checked_word in text.split(" "): #Pokud je nějaké slovo na 90%+ in words_to_remove, odeber ho
-            if match(words_to_remove, checked_word) > 90:
+            if Texts.match(words_to_remove, checked_word) > 90:
                 text = text.replace(checked_word, "").replace("  ", " ")
 
         highest_score = 0

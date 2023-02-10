@@ -9,7 +9,7 @@ CLIENT_CERTIFIKATE = "hjkahsdkjabnsckjalwdLHJAFJSNflsAHFlhfalsHfljashfljhadslNFB
 
 def handle_exit(signum, frame):
     client.close()
-    os._exit(1)
+    os._exit(3)
 
 signal.signal(signal.SIGINT, handler=handle_exit)
 

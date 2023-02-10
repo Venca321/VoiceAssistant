@@ -3,7 +3,7 @@ from Modules.functions.functions import *
 import os
 
 class Match():
-    def match(text):
+    def match(text, output=False):
         return 0
 
 class Data():
