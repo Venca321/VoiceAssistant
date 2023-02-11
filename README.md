@@ -4,6 +4,8 @@
 - Rename file [certificate-example.ini](certificate-example.ini) to "certificate.ini"
 - Insert random strings as certificates (random = a4s4fk5jdhfgh8GgfFhdRTdghtmmJ)
 - Copy file certificate.ini to [/Server/Data/](Server/Data/) and [/Client/](Client/)
+- Run [/Server/main.py](Server/main.py) (ctrl+c to stop)
+- Run [/Client/client.py](Client/client.py) (ctrl+c to stop)
 
 <h3 align="left">Connect with me:</h3>
 

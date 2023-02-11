@@ -4,7 +4,8 @@ certificate = configparser.ConfigParser(allow_no_value=True)
 certificate.read("certificate.ini")
 
 PORT = 25050
-HOST = "192.168.0.10"
+#HOST = "192.168.0.10"
+HOST = input("Host: ")
 VERSION = "v.0.0"
 SERVER_CERTIFICATE = certificate.get("Certificate", "server")
 CLIENT_CERTIFICATE = certificate.get("Certificate", "client")
@@ -58,7 +59,7 @@ def my_recv(): #Recv část
     while True:
         message = client.recv(2048).decode("utf-8")
         if message:
-            print(f" {message}")
+            print(f"{message}")
 
 def my_sender(): #Sender část
     while True:
