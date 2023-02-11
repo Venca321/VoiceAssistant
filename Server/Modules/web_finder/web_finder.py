@@ -21,7 +21,7 @@ class Wiki():
         if text.startswith(" "): text = text[1:]
 
         wiki = wikipediaapi.Wikipedia("cs") #Najít wiki stránku v češtině
-        page = wiki.page("python")
+        page = wiki.page(text)
         output = page.summary.split("\n")[0] #Vzít jen 1. odstavec
         
         for checked_word in output.split(" "): #Pokud je nějaké slovo na 90%+ in words_to_remove, odeber ho

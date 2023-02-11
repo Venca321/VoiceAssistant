@@ -58,12 +58,12 @@ def my_recv(): #Recv část
     while True:
         message = client.recv(2048).decode("utf-8")
         if message:
-            print("\n", message, "\n")
+            print(f" {message}")
 
 def my_sender(): #Sender část
     while True:
         time.sleep(0.25)
-        text = input(" --> ")
+        text = input("")
         if text: send(text)
 
 threading.Thread(target=my_sender).start()

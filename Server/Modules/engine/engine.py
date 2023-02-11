@@ -1,6 +1,7 @@
 
 from importlib.machinery import SourceFileLoader
 from Modules.functions.functions import *
+from Modules.web_finder import web_finder
 import os
 
 MODULES = data.options(f"{os.getcwd()}/Modules/tester/data/config.ini", "Modules")
@@ -34,8 +35,8 @@ class Engine():
                 highest_score = score
                 winner = i[1]
 
-        print(highest_score)
+        #print(highest_score)
         if highest_score > 75: output = winner.Match.match(text, True) #Pokud by byla potřeba nějaká úprava textu
-        #else: print(highest_score)
+        else: output = web_finder.Wiki.find(text)
 
         return output
