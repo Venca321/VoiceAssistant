@@ -6,6 +6,7 @@
 - Copy file certificate.ini to [/Server/Data/](Server/Data/) and [/Client/](Client/)
 - Run [/Server/main.py](Server/main.py) (ctrl+c to stop)
 - Run [/Client/client.py](Client/client.py) (ctrl+c to stop)
+- Inpur the host, the server gave you
 
 ---
 

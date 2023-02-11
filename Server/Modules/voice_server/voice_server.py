@@ -29,7 +29,7 @@ class Voice_server():
         if conn.recv(2048).decode("utf-8") == CLIENT_CERTIFICATE: #Pokud se ověří
 
             file = open("client.py", "r")
-            client_version = file.readlines()[7].replace("\n", "").replace('"', "").replace("VERSION = ", "") #Získání verze klienta tady na serveru
+            client_version = file.readlines()[8].replace("\n", "").replace('"', "").replace("VERSION = ", "") #Získání verze klienta tady na serveru
             file.close()
             conn.send(client_version.encode("utf-8")) #Poslání verze klienta
             need_update = conn.recv(2048).decode("utf-8") 

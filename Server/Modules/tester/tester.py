@@ -125,4 +125,4 @@ class Tester():
         if output: 
             print(f' Testing functionality...   100% [{100*"#"}]')
             time.sleep(0.2)
-            print(f" Everything seems to be working properly (Server on: {HOST}:{PORT})\n")
+            print(f" Everything seems to be working properly (Server on: {HOST})\n")
