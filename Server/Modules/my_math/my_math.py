@@ -11,7 +11,7 @@ class Data():
     def update(timer):
         pass
 
-class Calculator():
+class Calculator(): # Tohle chce celé předělat -----------------------------------------------------
     def calculate(text):
         text = text.lower().replace("_", "") #Odebrání mezer
         replacement_num = ["nula // 0", "nultou // 0", "nuly // 0", "jedna // 1", "první // 1", "jedné // 1", "jedný // 1", "dva // 2", "druhou // 2", "dvou // 2", "tři // 3", "třetí // 3", "tří // 3", "čtyři // 4", "čtvrtou // 4", "čtyř // 4", "pátou // 5", "pěti // 5", "pět // 5", "šestou // 6", "šesti // 6", "šest // 6", "sedmou // 7", "sedmi // 7", "sedm // 7", "osmou // 8", "osmi // 8", "osm // 8", "devět // 9", "devátou // 9", "devíti // 9", "desátou // 10", "deseti // 10", "desíti // 10", "deset // 10"]

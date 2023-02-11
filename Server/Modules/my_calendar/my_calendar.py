@@ -14,6 +14,9 @@ class Data():
         pass
 
 class Calendar():
+    def check_changes():
+        pass
+
     def rozvrh_supl(den):
         day = (datetime.datetime.today()+datetime.timedelta(days=int(den))).strftime("%y%m%d") #Datum na určený den
         dayweek = str((datetime.datetime.today()+datetime.timedelta(days=int(den))).weekday()) #Den v týdnu

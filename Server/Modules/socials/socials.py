@@ -13,7 +13,7 @@ class Data():
         pass
 
 class Socials():
-    def ahoj(text):
+    def ahoj():
         time = int(datetime.datetime.now().strftime('%H%M'))
         if time < 1000: return "Dobré ráno pane"
         elif time >= 1000 and time <= 1800: return "Dobrý den pane"

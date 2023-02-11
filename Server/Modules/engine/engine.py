@@ -34,6 +34,8 @@ class Engine():
                 highest_score = score
                 winner = i[1]
 
-        output = winner.Match.match(text, True) #Pokud by byla potřeba nějaká úprava textu
-        
+        print(highest_score)
+        if highest_score > 75: output = winner.Match.match(text, True) #Pokud by byla potřeba nějaká úprava textu
+        #else: print(highest_score)
+
         return output
