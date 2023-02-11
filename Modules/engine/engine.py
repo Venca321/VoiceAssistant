@@ -13,6 +13,7 @@ for x in MODULES: #Automatický import modulů z listu v /Modules/tester/data/co
 class Engine():
     def process(text):
         if not text: return
+        if text == "9H9k2bm!&64iNoerHuwB@HkON": return "nNq8j3ma15G^KXaV33Ma*W^Rj"
         text = text.lower()
         chars_to_remove = data.options(f"{os.getcwd()}/Modules/engine/data/config.ini", "Characters to remove")
         words_to_remove = data.options(f"{os.getcwd()}/Modules/engine/data/config.ini", "Words to remove")

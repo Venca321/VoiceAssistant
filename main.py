@@ -33,6 +33,8 @@ class Startup():
         Voice_server.start()
 
     def tests(): #Automatické testy funkčnosti (updaty souborů, servery...)
+        tester.Tester.startup_test() #Startup test = test souborů
+        print(" Testing functionality...", end="\r")
         time.sleep(3)
         tester.Tester.test(True)
         time.sleep(60)
@@ -47,12 +49,11 @@ class Startup():
 if __name__ == '__main__':
     signal.signal(signal.SIGINT, handler=handle_exit)
     print(f"\n\n -----------------------------------------\n\n    Smart Voice Assistent System ({VERSION}) \n            © Parma Industries\n\n -----------------------------------------\n\n")
-    time.sleep(2)
-    tester.Tester.startup_test() #Startup test = test souborů
     time.sleep(1)
-    p1 = multiprocessing.Process(target=Startup.data_update).start() #Setup multiprocessingu
-    p2 = multiprocessing.Process(target=Startup.voice_server).start()
-    p3 = multiprocessing.Process(target=Startup.tests).start()
+    p1 = multiprocessing.Process(target=Startup.tests).start()
+    time.sleep(1)
+    p2 = multiprocessing.Process(target=Startup.data_update).start() #Setup multiprocessingu
+    p3 = multiprocessing.Process(target=Startup.voice_server).start()
     p4 = multiprocessing.Process(target=Startup.discord_server).start()
 
 """ Parma Industries """

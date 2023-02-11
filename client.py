@@ -13,13 +13,13 @@ def handle_exit(signum, frame):
 
 signal.signal(signal.SIGINT, handler=handle_exit)
 
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Client connect
 client.connect((HOST, PORT))
-if client.recv(2048).decode("utf-8") == SERVER_CERTIFIKATE: 
+if client.recv(2048).decode("utf-8") == SERVER_CERTIFIKATE: #Client auth
     client.send(CLIENT_CERTIFIKATE.encode("utf-8"))
-    top_version = client.recv(2048).decode("utf-8")
-    if float(top_version[2:]) > float(VERSION[2:]): 
-        client.send("Need_update_pls".encode("utf-8"))
+    top_version = client.recv(2048).decode("utf-8") #Zjištění server verze
+    if float(top_version[2:]) > float(VERSION[2:]):
+        client.send("Need_update_pls".encode("utf-8")) #Autoupdate
         input1 = input("\n New version available, please confirm update [Y/n] ")
         if input1.lower() == "y" or input1.lower() == "":
             print(" Updating...")
@@ -31,62 +31,37 @@ if client.recv(2048).decode("utf-8") == SERVER_CERTIFIKATE:
             file.close()
             os.system("python clientautoupdate.py")
             client.close()
-            exit()
+            os._exit(3)
 
-    elif float(top_version[2:]) < float(VERSION[2:]):
+    elif float(top_version[2:]) < float(VERSION[2:]): #Pokud je tady větší verze než na serveru, error
         print(" Version Error")
         client.close()
-        exit()
-
-    else:
-        client.send("Updated".encode("utf-8"))
+        os._exit(3)
+    else: client.send("Updated".encode("utf-8"))
 else: 
-    print(" Auth Error")
+    print(" Auth Error") #Auth error
     client.close()
-    exit()
+    os._exit(3)
 
-print(f"\n Running best version ({VERSION})\n")
+print(f"\n Successfully connected with version {VERSION}\n")
 
-def send(msg):
+def send(msg): #Send fce
     msg_lengh = str(len(msg))
     client.send((msg_lengh.encode("utf-8")))
     time.sleep(0.1)
     client.send((msg.encode("utf-8")))
 
-def my_recv():
+def my_recv(): #Recv část
     while True:
         message = client.recv(2048).decode("utf-8")
         if message:
             print("\n", message, "\n")
 
-print(" 1) send file\n 2) Type something \n")
-
-def my_sender():
+def my_sender(): #Sender část
     while True:
         time.sleep(0.25)
         text = input("--> ")
-
-        if text.lower() == "1":
-            name = input("Soubor: ")
-
-            if name.lower() == "all":
-                for i in glob.glob(f"{LOCATION}**\*.*", recursive=True):
-                    if not "__pycache__" in i:
-                        print(i)
-                        file = open(i, "r", encoding="utf-8")
-                        data = file.read()
-                        file.close()
-                        send(f'V1 /%/ {i} /%/ {data}')
-                        time.sleep(0.1)
-
-            else:
-                file = open(LOCATION+name, "r", encoding="utf-8")
-                data = file.read()
-                file.close()
-                send(f"V1 /%/ {LOCATION+name} /%/ {data}")
-
-        else:
-            send(text)
+        if text: send(text)
 
 threading.Thread(target=my_sender).start()
 threading.Thread(target=my_recv).start()

@@ -1,5 +1,5 @@
 
-import time, os
+import time, os, socket
 from Modules.functions.functions import *
 
 class Tester():
@@ -20,7 +20,7 @@ class Tester():
                 print(f'\n Error while checking module! {os.getcwd()}/{data.read(CONFIG_FILE, "Modules", i)}{i}.py')
                 exit()
 
-        print(f' Loading files...            20% [{25*"#"}{75*"."}]', end="\r")
+        print(f' Loading files...            20% [{20*"#"}{80*"."}]', end="\r")
         for i in data.options(CONFIG_FILE, "Special_scripts"): #Testování nestandartních modulů
             try: 
                 file = open(f'{os.getcwd()}/{data.read(CONFIG_FILE, "Special_scripts", i)}{i}.py', "r")
@@ -30,7 +30,7 @@ class Tester():
                 print(f'\n Error special script not found! {os.getcwd()}/{data.read(CONFIG_FILE, "Special_scripts", i)}{i}.py')
                 exit()
 
-        print(f' Loading files...            40% [{50*"#"}{50*"."}]', end="\r")
+        print(f' Loading files...            40% [{40*"#"}{60*"."}]', end="\r")
         for i in data.options(CONFIG_FILE, "Configs"): #Testování config souborů
             try: 
                 file = open(f'{os.getcwd()}/{data.read(CONFIG_FILE, "Configs", i)}', "r")
@@ -40,7 +40,7 @@ class Tester():
                 print(f'\n Error config file not found! {os.getcwd()}/{data.read(CONFIG_FILE, "Configs", i)}')
                 exit()
 
-        print(f' Loading files...            60% [{50*"#"}{50*"."}]', end="\r")
+        print(f' Loading files...            60% [{60*"#"}{40*"."}]', end="\r")
         for i in data.options(CONFIG_FILE, "Vocabulary"): #Testování config souborů
             try: 
                 file = open(f'{os.getcwd()}/{data.read(CONFIG_FILE, "Vocabulary", i)}', "r")
@@ -54,14 +54,14 @@ class Tester():
                 print(f'\n Error with vocabulary file! {os.getcwd()}/{data.read(CONFIG_FILE, "Vocabulary", i)}')
                 exit()
 
-        print(f' Loading files...            80% [{75*"#"}{25*"."}]', end="\r")
+        print(f' Loading files...            80% [{80*"#"}{20*"."}]', end="\r")
         for i in data.options(CONFIG_FILE, "Data"): #Testování dat
             try: 
                 file = open(f'{os.getcwd()}/{data.read(CONFIG_FILE, "Data", i)}', "r")
                 data_lines += len(file.read().split("\n"))
                 file.close()
             except: #Pokud neexistuje
-                print(f' Warning data file not found! {os.getcwd()}/{data.read(CONFIG_FILE, "Data", i)}')
+                print(f'\n Warning data file not found! {os.getcwd()}/{data.read(CONFIG_FILE, "Data", i)}')
                 time.sleep(1)
                 try: #Pokus se vytvořit
                     file = open(f'{os.getcwd()}/{data.read(CONFIG_FILE, "Data", i)}', "x")
@@ -77,8 +77,52 @@ class Tester():
     def test(output=False): #output = True je 1. test (s printem)
         if output: print(f' Testing functionality...     0% [{100*"."}]', end="\r")
 
+        SERVER_CERTIFIKATE = data.read(f"{os.getcwd()}/Modules/voice_server/data/config.ini", "Security", "server_certifikate")
+        CLIENT_CERTIFIKATE = data.read(f"{os.getcwd()}/Modules/voice_server/data/config.ini", "Security", "client_certifikate")
+        PORT = int(data.read(f"{os.getcwd()}/Modules/voice_server/data/config.ini", "Settings", "port"))
+        HOST = socket.gethostbyname(socket.gethostname())
 
+        try:
+            client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Client connect
+            client.connect((HOST, PORT))
+            if output: print(f' Testing functionality...    20% [{20*"#"}{80*"."}]', end="\r")
+        except:
+            print("\n [Testing] Error connectiong to host...")
+            client.close()
+            return
+
+        try:
+            if client.recv(2048).decode("utf-8") == SERVER_CERTIFIKATE: #Client auth
+                client.send(CLIENT_CERTIFIKATE.encode("utf-8"))
+                if output: print(f' Testing functionality...    40% [{40*"#"}{60*"."}]', end="\r")
+        except:
+            print("\n [Testing] Auth error...")
+            client.close()
+            return
+
+        try:
+            client.recv(2048).decode("utf-8") #Zjištění server verze
+            client.send("Updated".encode("utf-8"))
+            if output: print(f' Testing functionality...    60% [{60*"#"}{40*"."}]', end="\r")
+        except:
+            print("\n [Testing] Version error...")
+            client.close()
+            return
+
+        try:
+            client.send((str(len("9H9k2bm!&64iNoerHuwB@HkON")).encode("utf-8")))
+            time.sleep(0.1)
+            client.send("9H9k2bm!&64iNoerHuwB@HkON".encode("utf-8"))
+            out = client.recv(2048).decode("utf-8")
+            if not out == "nNq8j3ma15G^KXaV33Ma*W^Rj": raise
+            if output: print(f' Testing functionality...    80% [{80*"#"}{20*"."}]', end="\r")
+        except:
+            print("\n [Testing] Comunication error...")
+            client.close()
+            return
+
+        client.close()
         if output: 
-            print(f' Testing functionality...   100% [{100*"#"}]\n')
+            print(f' Testing functionality...   100% [{100*"#"}]')
             time.sleep(0.2)
-            print(" Everything seems to be working properly.\n")
+            print(f" Everything seems to be working properly (Server on: {HOST}:{PORT})\n")
