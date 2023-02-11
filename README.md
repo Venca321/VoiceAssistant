@@ -7,6 +7,8 @@
 - Run [/Server/main.py](Server/main.py) (ctrl+c to stop)
 - Run [/Client/client.py](Client/client.py) (ctrl+c to stop)
 
+---
+
 <h3 align="left">Connect with me:</h3>
 
 - 📧 **kontakt@vaclavparma.cz** / **contact@vaclavparma.cz**
