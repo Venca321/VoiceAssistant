@@ -1,5 +1,5 @@
 
-import wikipediaapi, os
+import wikipedia, os
 from Modules.functions.functions import *
 
 class Match():
@@ -19,10 +19,10 @@ class Wiki():
             if Texts.match(remove_from_input, checked_word) > 90:
                 text = text.replace(checked_word, "").replace("  ", " ")
         if text.startswith(" "): text = text[1:]
-
-        wiki = wikipediaapi.Wikipedia("cs") #Najít wiki stránku v češtině
-        page = wiki.page(text)
-        output = page.summary.split("\n")[0] #Vzít jen 1. odstavec
+        
+        wikipedia.set_lang("cs") #Wikipedie CS
+        page = wikipedia.search(text) #Stránky
+        output = wikipedia.summary(page[0]).split("\n")[0] #Obsah
         
         for checked_word in output.split(" "): #Pokud je nějaké slovo na 90%+ in words_to_remove, odeber ho
             if Texts.match(remove_from_output, checked_word) > 90:
