@@ -1,3 +1,4 @@
 Workspace/
 certificate.ini
-__pycache__/
+__pycache__
+*.pyc
