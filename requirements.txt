@@ -6,3 +6,4 @@ configparser==5.2.0
 discord.py==1.7.3
 gTTS==2.2.4
 asyncio==3.4.3
+Wikipedia-API==0.5.8
