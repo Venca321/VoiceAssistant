@@ -78,7 +78,7 @@ def handle_exit(signum, frame):
     if running:
         running = False
         print("\n Stopping server...\n Server stopped, bye")
-        os._exit(999)
+        os._exit(1)
 
 def text_fix(text, decode):
     list0 = ["//y// = ý", "//a// = á", "//i// = í", "//e// = é", "//u// = ú", "/e/ = ě", "/s/ = š", "/c/ = č", "/r/ = ř", "/z/ = ž", "\\n = \n", "/u/ = ů", "%% = %", "//U// = Ů", "//Y// = Ý", "//A// = Á", "//I// = Í", "//E// = É", "/E/ = Ě", "/S/ = Š", "/C/ = Č", "/R/ = Ř", "/Z/ = Ž", "/U/ = Ů"]
@@ -138,8 +138,9 @@ class Texts():
                     except: None
                     if correct_letter_counter/len(search_for_word)*100 > best_word_match:
                         best_word_match = correct_letter_counter/len(search_for_word)*100
-
-                if reset_match: match = best_word_match
+                if reset_match: 
+                    match = best_word_match
+                    reset_match = False
                 else: match = (match + best_word_match) / 2 #Průměrování aktuální shody
                     
             if match > output: output = match #Počítání největší shody 
@@ -153,12 +154,12 @@ class Texts():
         """
         best_match_num = 0
         best_match = ""
-        options = data.options(file, "Match")
+        options = data.options(file, "Match") # Seber všechny možnosti, které se musí projít
         for function in options:
-            posible_matches = data.read(file, "Match", function).split(", ")
-            actual_match = Texts.match(posible_matches, text)
+            posible_matches = data.read(file, "Match", function).split(", ") # Udělat list možností u jednotlivé fce
+            actual_match = Texts.match(posible_matches, text) # Největší shoda pro tuhle fci
             if actual_match > best_match_num:
-                best_match_num = actual_match
+                best_match_num = actual_match # Zapamatuj největší shodu s fcí
                 best_match = function
 
         return best_match_num, best_match[:1].upper()+best_match[1:]

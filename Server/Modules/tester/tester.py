@@ -18,7 +18,7 @@ class Tester():
                 if not "class Match():" in file_data or not "class Data():" in file_data: raise #Check, zda obsahuje classy nutné k funkčnosti
             except: #Pokud to nejde
                 print(f'\n Error while checking module! {os.getcwd()}/{data.read(CONFIG_FILE, "Modules", i)}{i}.py')
-                exit()
+                os._exit(1)
 
         print(f' Loading files...            20% [{20*"#"}{80*"."}]', end="\r")
         for i in data.options(CONFIG_FILE, "Special_scripts"): #Testování nestandartních modulů
@@ -28,7 +28,7 @@ class Tester():
                 file.close()
             except:
                 print(f'\n Error special script not found! {os.getcwd()}/{data.read(CONFIG_FILE, "Special_scripts", i)}{i}.py')
-                exit()
+                os._exit(1)
 
         print(f' Loading files...            40% [{40*"#"}{60*"."}]', end="\r")
         for i in data.options(CONFIG_FILE, "Configs"): #Testování config souborů
@@ -38,7 +38,7 @@ class Tester():
                 file.close()
             except:
                 print(f'\n Error config file not found! {os.getcwd()}/{data.read(CONFIG_FILE, "Configs", i)}')
-                exit()
+                os._exit(1)
 
         print(f' Loading files...            60% [{60*"#"}{40*"."}]', end="\r")
         for i in data.options(CONFIG_FILE, "Vocabulary"): #Testování config souborů
@@ -52,7 +52,7 @@ class Tester():
                 file.close()
             except:
                 print(f'\n Error with vocabulary file! {os.getcwd()}/{data.read(CONFIG_FILE, "Vocabulary", i)}')
-                exit()
+                os._exit(1)
 
         print(f' Loading files...            80% [{80*"#"}{20*"."}]', end="\r")
         for i in data.options(CONFIG_FILE, "Data"): #Testování dat
@@ -68,7 +68,7 @@ class Tester():
                     file.close()
                 except: 
                     print(f'\n Error data file cannot be created! {os.getcwd()}/{data.read(CONFIG_FILE, "Data", i)}')
-                    exit()
+                    os._exit(1)
 
         print(f' Loading files...           100% [{100*"#"}]') #Vše ok
         time.sleep(0.2)
@@ -77,8 +77,8 @@ class Tester():
     def test(output=False): #output = True je 1. test (s printem)
         if output: print(f' Testing functionality...     0% [{100*"."}]', end="\r")
 
-        SERVER_CERTIFIKATE = data.read(f"{os.getcwd()}/Modules/voice_server/data/config.ini", "Security", "server_certifikate")
-        CLIENT_CERTIFIKATE = data.read(f"{os.getcwd()}/Modules/voice_server/data/config.ini", "Security", "client_certifikate")
+        SERVER_CERTIFIKATE = data.read(f"{os.getcwd()}/Data/certifikate.ini", "Certifikate", "server")
+        CLIENT_CERTIFIKATE = data.read(f"{os.getcwd()}/Data/certifikate.ini", "Certifikate", "client")
         PORT = int(data.read(f"{os.getcwd()}/Modules/voice_server/data/config.ini", "Settings", "port"))
         HOST = socket.gethostbyname(socket.gethostname())
 

@@ -20,9 +20,6 @@ class Data():
             except: None
 
 class Proxmox():
-    def test():
-        return "Proxmox stats"
-
     def update():
         try: proxmox_data = ProxmoxAPI(data.read(f"{os.getcwd()}/Modules/home/data/config.ini", "Proxmox", "ip"), user="API@pve", password="VoiceAssistant", verify_ssl=False, ) #Proxmox login...
         except: 
@@ -53,6 +50,9 @@ class Proxmox():
         for i in data.sections():
             if "proxmox_vmid" in i and not i in vmids: #Pokud tento VM už neexistuje smaž sekci
                 data.remove_section(f"{os.getcwd()}/Modules/home/data/data.ini", i)
+
+    def info():
+        return "Proxmox info"
 
 class Octoprint():
     def update():
@@ -86,6 +86,9 @@ class Octoprint():
                 data.write(f"{os.getcwd()}/Modules/home/data/data.ini", "Octoprint", "printTime", "---")
                 data.write(f"{os.getcwd()}/Modules/home/data/data.ini", "Octoprint", "printPercent", "---")
 
+    def info():
+        return "Octoprint info"
+
 class Tasmota():
     def update():
         tasmota_ip = data.read(f"{os.getcwd()}/Modules/home/data/config.ini", "Tasmota", "ip") #Získání IP
@@ -100,3 +103,6 @@ class Tasmota():
         except: 
             data.write(f"{os.getcwd()}/Modules/home/data/data.ini", "Tasmota", "status", "Offline") #Zapsání hodnoty do souboru
             data.write(f"{os.getcwd()}/Modules/home/data/data.ini", "Tasmota", "power", "---")
+
+    def info():
+        return "Tasmota info"
