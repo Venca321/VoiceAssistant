@@ -22,11 +22,11 @@ class Voice_server():
             thread = threading.Thread(target=Voice_server.handle_client, args=(conn, addr), daemon=True).start()
 
     def handle_client(conn, addr): #Handle jednotlivých klientů
-        SERVER_CERTIFIKATE = data.read(f"{os.getcwd()}/Data/certifikate.ini", "Certifikate", "server")
-        CLIENT_CERTIFIKATE = data.read(f"{os.getcwd()}/Data/certifikate.ini", "Certifikate", "client")
+        SERVER_CERTIFICATE = data.read(f"{os.getcwd()}/Data/certificate.ini", "Certificate", "server")
+        CLIENT_CERTIFICATE = data.read(f"{os.getcwd()}/Data/certificate.ini", "Certificate", "client")
         #print(f' New client: "{addr[0]}:{addr[1]}" (Active connections: {threading.active_count() - 1})')
-        conn.send(SERVER_CERTIFIKATE.encode("utf-8")) #Bezpečnostní ověření
-        if conn.recv(2048).decode("utf-8") == CLIENT_CERTIFIKATE: #Pokud se ověří
+        conn.send(SERVER_CERTIFICATE.encode("utf-8")) #Bezpečnostní ověření
+        if conn.recv(2048).decode("utf-8") == CLIENT_CERTIFICATE: #Pokud se ověří
 
             file = open("client.py", "r")
             client_version = file.readlines()[4].replace("\n", "").replace('"', "").replace("VERSION = ", "") #Získání verze klienta tady na serveru

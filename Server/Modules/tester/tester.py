@@ -77,8 +77,8 @@ class Tester():
     def test(output=False): #output = True je 1. test (s printem)
         if output: print(f' Testing functionality...     0% [{100*"."}]', end="\r")
 
-        SERVER_CERTIFIKATE = data.read(f"{os.getcwd()}/Data/certifikate.ini", "Certifikate", "server")
-        CLIENT_CERTIFIKATE = data.read(f"{os.getcwd()}/Data/certifikate.ini", "Certifikate", "client")
+        SERVER_CERTIFICATE = data.read(f"{os.getcwd()}/Data/certificate.ini", "Certificate", "server")
+        CLIENT_CERTIFICATE = data.read(f"{os.getcwd()}/Data/certificate.ini", "Certificate", "client")
         PORT = int(data.read(f"{os.getcwd()}/Modules/voice_server/data/config.ini", "Settings", "port"))
         HOST = socket.gethostbyname(socket.gethostname())
 
@@ -92,8 +92,8 @@ class Tester():
             return
 
         try:
-            if client.recv(2048).decode("utf-8") == SERVER_CERTIFIKATE: #Client auth
-                client.send(CLIENT_CERTIFIKATE.encode("utf-8"))
+            if client.recv(2048).decode("utf-8") == SERVER_CERTIFICATE: #Client auth
+                client.send(CLIENT_CERTIFICATE.encode("utf-8"))
                 if output: print(f' Testing functionality...    40% [{40*"#"}{60*"."}]', end="\r")
         except:
             print("\n [Testing] Auth error...")

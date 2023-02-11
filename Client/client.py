@@ -1,10 +1,13 @@
-import socket, threading, time, os, signal
+import socket, threading, time, os, signal, configparser
+
+certificate = configparser.ConfigParser(allow_no_value=True)
+certificate.read("certificate.ini")
 
 PORT = 25050
 HOST = "192.168.0.10"
 VERSION = "v.0.0"
-SERVER_CERTIFIKATE = "alsjdhaksjdamcxnjahkjdshkjgfajhsflhdkjsahjkfdhasjkfhaskjfhxbacnxbahjsgdkabskfjhkauheuhrwhukawhaslashfjashkjfhasgdjhasgfjhagsfjhgashfgjgafjhgsajhfguzawroawushdkabcsmbvahsgfdjgweqiurz"
-CLIENT_CERTIFIKATE = "hjkahsdkjabnsckjalwdLHJAFJSNflsAHFlhfalsHfljashfljhadslNFBjhsLKFHsalfhhflASHJlfhASJLDhfljashfljashlfhlsAHfljahsfjhaLJSFhLAJHlhFSlajhfaljhfLhLJhLFajshaljshfLJHFLFshlsfahlJASHflshljsa"
+SERVER_CERTIFICATE = certificate.get("Certificate", "server")
+CLIENT_CERTIFICATE = certificate.get("Certificate", "client")
 
 def handle_exit(signum, frame):
     client.close()
@@ -15,8 +18,8 @@ signal.signal(signal.SIGINT, handler=handle_exit)
 os.system("clear")
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Client connect
 client.connect((HOST, PORT))
-if client.recv(2048).decode("utf-8") == SERVER_CERTIFIKATE: #Client auth
-    client.send(CLIENT_CERTIFIKATE.encode("utf-8"))
+if client.recv(2048).decode("utf-8") == SERVER_CERTIFICATE: #Client auth
+    client.send(CLIENT_CERTIFICATE.encode("utf-8"))
     top_version = client.recv(2048).decode("utf-8") #Zjištění server verze
     if float(top_version[2:]) > float(VERSION[2:]):
         client.send("Need_update_pls".encode("utf-8")) #Autoupdate

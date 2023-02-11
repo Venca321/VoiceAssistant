@@ -1,9 +1,9 @@
 <h3 align="left">How to run:</h3>
 
 - Run: `pip install -r requirements.txt`
-- Rename file [certifikate-patern.ini](certifikate-patern.ini) to "certifikate.ini"
-- Insert random strings as certifikates
-- Copy file certifikate.ini to [/Server/Data/](Server/Data/) and [/Client](Client/)
+- Rename file [certificate-example.ini](certificate-example.ini) to "certificate.ini"
+- Insert random strings as certificates (random = a4s4fk5jdhfgh8GgfFhdRTdghtmmJ)
+- Copy file certificate.ini to [/Server/Data/](Server/Data/) and [/Client/](Client/)
 
 <h3 align="left">Connect with me:</h3>
 
