@@ -2,14 +2,6 @@
 import wikipedia, os
 from Modules.functions.functions import *
 
-class Match():
-    def match(text, output=False):
-        return 0
-
-class Data():
-    def update(timer):
-        pass
-
 class Wiki():
     def find(text):
         remove_from_input = data.read(f"{os.getcwd()}/Modules/web_finder/data/config.ini", "Wiki", "remove_from_input").split(", ")
@@ -22,13 +14,14 @@ class Wiki():
         
         wikipedia.set_lang("cs") #Wikipedie CS
         page = wikipedia.search(text) #Stránky
-        output = wikipedia.summary(page[0]).split("\n")[0] #Obsah
-        
-        for checked_word in output.split(" "): #Pokud je nějaké slovo na 90%+ in words_to_remove, odeber ho
-            if Texts.match(remove_from_output, checked_word) > 90:
-                output = output.replace(checked_word, "").replace("  ", " ")
+        if Texts.match([page[0]], text) >= 80: #Checkout zda title stránky má s texten shodu větší, než 80%
+            output = wikipedia.summary(page[0]).split("\n")[0] #Obsah
+            
+            for checked_word in output.split(" "): #Pokud je nějaké slovo na 90%+ in words_to_remove, odeber ho
+                if Texts.match(remove_from_output, checked_word) > 90:
+                    output = output.replace(checked_word, "").replace("  ", " ")
 
-        return output
+            return output
 
 class Google:
     def find():
