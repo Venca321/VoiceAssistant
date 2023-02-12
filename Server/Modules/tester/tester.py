@@ -72,7 +72,7 @@ class Tester():
 
         print(f' Loading files...           100% [{100*"#"}]') #Vše ok
         time.sleep(0.2)
-        print(f"\n Successfully loaded:\n   {code_lines} lines of code\n   {config_lines} lines of configuration\n   {vocabulary_lines} lines of vocabulary data\n   {data_lines} lines of data\n")
+        print(f"\n Successfully loaded ({code_lines+config_lines+vocabulary_lines+data_lines} lines):\n   {code_lines} lines of code\n   {config_lines} lines of configuration\n   {vocabulary_lines} lines of vocabulary data\n   {data_lines} lines of data\n")
 
     def test(output=False): #output = True je 1. test (s printem)
         if output: print(f' Testing functionality...     0% [{100*"."}]', end="\r")

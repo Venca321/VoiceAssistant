@@ -1,5 +1,5 @@
 
-import datetime, os
+import datetime, os, random
 from Modules.functions.functions import *
 
 class Match():
@@ -19,6 +19,13 @@ class Socials():
         elif time >= 1000 and time <= 1800: return "Dobrý den pane"
         elif time > 1800: return "Dobrý večer pane"
         else: return f"Time error ({time})"
+
+    def jak_se_mas():
+        pocity = ["Mám se dobře.", "Mám se fajn.", "Jde to.", "Mám se skvěle.", "Dobrý", "Dobře"]
+        return random.choice(pocity)
+
+    def help():
+        return " --- Help ---\n Vyhledávání na internetu\n Probíhá vývoj dalších funkcí..."
 
 class Bus():
     pass
