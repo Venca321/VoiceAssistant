@@ -1,11 +1,10 @@
 """ MIA hlasová asistentka (následovník hlasového asistenta trixe) 9. 11. 2022"""
 
-import os
 from Modules.tester import tester
 from Modules.functions.functions import *
 from Modules.voice_server.voice_server import *
 from importlib.machinery import SourceFileLoader
-import multiprocessing, time, signal
+import multiprocessing, time, signal, os, subprocess
 
 os.system("clear")
 VERSION = data.read(f"{os.getcwd()}/Data/config.ini", "Settings", "version")
@@ -16,7 +15,24 @@ for x in MODULES: #Automatický import z /Modules/tester/data/config.ini
     try: imported[x] = SourceFileLoader(x,f'{os.getcwd()}/{data.read(f"{os.getcwd()}/Modules/tester/data/config.ini", "Modules", x)}{x}.py').load_module()
     except: print(f" Error importing {x}")
 
-class Startup():
+class Threads():
+    def autoupdate():
+        while True:
+            print(" Server updating...")
+            subprocess.run(["git", "pull"], capture_output=True) #Auto pull z githubu
+            print(" Server updated.\n")
+            time.sleep(60*60) #Haždou hodinu
+
+    def tests(): #Automatické testy funkčnosti (updaty souborů, servery...)
+        print(" Testing functionality...", end="\r")
+        time.sleep(3)
+        tester.Tester.test(True)
+        time.sleep(60)
+        while True:
+            start = time.time()
+            tester.Tester.test()
+            time.sleep(60 - (time.time() - start))
+
     def data_update(): #V každém souboru Data.update() -- zastupuje data i time_core
         time.sleep(1)
         timer = 0
@@ -32,24 +48,17 @@ class Startup():
         time.sleep(1)
         Voice_server.start()
 
-    def tests(): #Automatické testy funkčnosti (updaty souborů, servery...)
-        print(" Testing functionality...", end="\r")
-        time.sleep(3)
-        tester.Tester.test(True)
-        time.sleep(60)
-        while True:
-            start = time.time()
-            tester.Tester.test()
-            time.sleep(60 - (time.time() - start))
 
 if __name__ == '__main__':
     signal.signal(signal.SIGINT, handler=handle_exit)
     print(f"\n\n -----------------------------------------\n\n    Smart Voice Assistent System ({VERSION}) \n            © Parma Industries\n\n -----------------------------------------\n\n")
-    time.sleep(1)
+    time.sleep(0.5)
+    #multiprocessing.Process(target=Threads.autoupdate).start() #Autoupdate z githubu (Může být potřeba nastavení gitu)
+    #time.sleep(1) #Tuhle a tu řádku nad tím jze odkomentovat, pokud nechcete automatické updaty z githubu
     tester.Tester.startup_test() #Test souborů
     time.sleep(1)
-    p1 = multiprocessing.Process(target=Startup.tests).start() #Setup multiprocessingu
-    p2 = multiprocessing.Process(target=Startup.data_update).start()
-    p3 = multiprocessing.Process(target=Startup.voice_server).start()
+    multiprocessing.Process(target=Threads.tests).start() #Setup multiprocessingu
+    multiprocessing.Process(target=Threads.data_update).start()
+    multiprocessing.Process(target=Threads.voice_server).start()
 
 """ Parma Industries """
