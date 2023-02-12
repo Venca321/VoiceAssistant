@@ -1,11 +1,10 @@
 import socket, threading, time, os, signal, configparser
 
 certificate = configparser.ConfigParser(allow_no_value=True)
-certificate.read("certificate.ini")
+certificate.read(f"certificate.ini")
 
 PORT = 25050
-#HOST = "192.168.0.10"
-HOST = input("Host: ")
+host = certificate.get("Host", "automatic")
 VERSION = "v.0.0"
 SERVER_CERTIFICATE = certificate.get("Certificate", "server")
 CLIENT_CERTIFICATE = certificate.get("Certificate", "client")
@@ -17,8 +16,15 @@ def handle_exit(signum, frame):
 signal.signal(signal.SIGINT, handler=handle_exit)
 
 os.system("clear")
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Client connect
-client.connect((HOST, PORT))
+try:
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Client connect
+    client.connect((host, PORT))
+except:
+    print("Error automatic host not working")
+    host = input("Host: ")
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Client connect
+    client.connect((host, PORT))
+
 if client.recv(2048).decode("utf-8") == SERVER_CERTIFICATE: #Client auth
     client.send(CLIENT_CERTIFICATE.encode("utf-8"))
     top_version = client.recv(2048).decode("utf-8") #Zjištění server verze
@@ -52,18 +58,16 @@ print(f"\n Successfully connected with version {VERSION}\n")
 def send(msg): #Send fce
     msg_lengh = str(len(msg))
     client.send((msg_lengh.encode("utf-8")))
-    time.sleep(0.1)
+    time.sleep(0.05)
     client.send((msg.encode("utf-8")))
 
 def my_recv(): #Recv část
     while True:
         message = client.recv(2048).decode("utf-8")
-        if message:
-            print(f"{message}")
+        if message: print(f"{message}")
 
 def my_sender(): #Sender část
     while True:
-        time.sleep(0.25)
         text = input("")
         if text: send(text)
 

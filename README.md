@@ -1,12 +1,32 @@
-<h3 align="left">How to run:</h3>
+<h3 align="left">O projektu:</h3>
 
-- Run: `pip install -r requirements.txt`
-- Rename file [certificate-example.ini](certificate-example.ini) to "certificate.ini"
-- Insert random strings as certificates (random = a4s4fk5jdhfgh8GgfFhdRTdghtmmJ)
-- Copy file certificate.ini to [/Server/Data/](Server/Data/) and [/Client/](Client/)
-- Run [/Server/main.py](Server/main.py) (ctrl+c to stop)
-- Run [/Client/client.py](Client/client.py) (ctrl+c to stop)
-- Inpur the host, the server gave you
+MIA je hlasový asistent vytvořen v roce 2023
+Účelem projektu je zlepšit časovou organizaci mého dne a usnadnit každodenní činnosti.
+
+---
+
+<h3 align="left">Jak spustit:</h3>
+
+- Použijte: `python installer.py`
+- Postupujte podle pokynů
+- Spusťte [/Server/main.py](Server/main.py) (ctrl+c to stop)
+- Spusťte [/Client/client.py](Client/client.py) (ctrl+c to stop)
+- Pokud je potřeba, vložte IP adresu, ktero vám dal server
+
+---
+
+<h3 align="left">Jak používat:</h3>
+
+- V aktuální chvíli je ve stádiu vývoje a je tedy možné se pouze ptát na "kdo je"/"co je", což bude vyhledáno na wikipedii. (Funguje pouze formou chatu - hlasová funkce ještě není podporována)
+
+##### Připravuji:
+
+- Kalendář
+- To do list
+- Poznámky
+- Vyhledávání autobusových/vlakových spojení
+- Vyhledávání informací na internetu
+- A další...
 
 ---
 
