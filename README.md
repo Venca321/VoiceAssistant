@@ -2,6 +2,7 @@
 
 MIA je hlasový asistent vytvořen v roce 2023
 Účelem projektu je zlepšit časovou organizaci mého dne a usnadnit každodenní činnosti.
+Hlasový asistent jako takový je v češtině, server v angličtině
 
 ---
 
