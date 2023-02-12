@@ -12,7 +12,7 @@ class Voice_server():
             server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Vytvoření serveru
             server.bind((HOST, PORT))
         except:
-            print(" Comunication error, cannot bind address!")
+            print(" Comunication error, cannot bind address! Please wait before trying again.")
             os._exit(1)
 
         server.listen()
@@ -28,7 +28,7 @@ class Voice_server():
         conn.send(SERVER_CERTIFICATE.encode("utf-8")) #Bezpečnostní ověření
         if conn.recv(2048).decode("utf-8") == CLIENT_CERTIFICATE: #Pokud se ověří
 
-            file = open("client.py", "r")
+            file = open("Client_updater/client.py", "r")
             for line in file.readlines(): #Získání verze klienta tady na serveru
                 if "VERSION = " in line:
                     client_version = line.replace("VERSION = ", "").replace('"', "").replace("\n", "")

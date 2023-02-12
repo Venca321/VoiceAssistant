@@ -1,8 +1,8 @@
 <h3 align="left">O projektu:</h3>
 
-MIA je hlasový asistent vytvořen v roce 2023
+MIA je hlasový asistent vytvořen v roce 2023.
 Účelem projektu je zlepšit časovou organizaci mého dne a usnadnit každodenní činnosti.
-Hlasový asistent jako takový je v češtině, server v angličtině
+Hlasový asistent jako takový je v češtině, server v angličtině.
 
 ---
 
@@ -12,7 +12,7 @@ Hlasový asistent jako takový je v češtině, server v angličtině
 - Postupujte podle pokynů
 - Spusťte [/Server/main.py](Server/main.py) (ctrl+c to stop)
 - Spusťte [/Client/client.py](Client/client.py) (ctrl+c to stop)
-- Pokud je potřeba, vložte IP adresu, ktero vám dal server
+- Pokud je potřeba, vložte IP adresu, kterou vám dal server
 
 ---
 
