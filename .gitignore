@@ -1,4 +1,6 @@
-Workspace/
-certificate.ini
-__pycache__
 *.pyc
+Workspace/
+cache/
+__pycache__
+certificate.ini
+test.py
