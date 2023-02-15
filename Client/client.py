@@ -20,7 +20,7 @@ try:
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Client connect
     client.connect((host, PORT))
 except:
-    print("Error automatic host not working")
+    print("Nelze se automaticky připojit k hostiteli")
     host = input("Host: ")
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Client connect
     client.connect((host, PORT))
@@ -30,9 +30,9 @@ if client.recv(2048).decode("utf-8") == SERVER_CERTIFICATE: #Client auth
     top_version = client.recv(2048).decode("utf-8") #Zjištění server verze
     if float(top_version[2:]) > float(VERSION[2:]):
         client.send("Need_update_pls".encode("utf-8")) #Autoupdate
-        input1 = input("\n New version available, please confirm update [Y/n] ")
+        input1 = input("\n Je dostupná nová verze, prosím potvrďte aktualizaci [Y/n] ")
         if input1.lower() == "y" or input1.lower() == "":
-            print(" Updating...")
+            print(" Aktualizování...")
             data = client.recv(48152).decode("utf-8")
             file = open("new_client.py", "a")
             file.close()
@@ -53,7 +53,7 @@ else:
     client.close()
     os._exit(1)
 
-print(f"\n Successfully connected with version {VERSION}\n")
+print(f"\n Úspěšně připojeno s verzí {VERSION}\n")
 
 def send(msg): #Send fce
     msg_lengh = str(len(msg))
