@@ -22,6 +22,7 @@ Hlasový asistent jako takový je v češtině, server v angličtině.
 
 ##### Připravuji:
 
+- Help / Pomoct nabídka
 - Kalendář
 - To do list
 - Poznámky
