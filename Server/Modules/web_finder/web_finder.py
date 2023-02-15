@@ -2,9 +2,8 @@
 from Modules.functions.functions import *
 import wikipedia, os
 
-
 class Wiki():
-    def find(text):
+    def find(text:str):
         """
         Najde v textu klíčová slova, které najde na wikipedii, pokud dosáhne dostatečné shody, vrátí to
         text = string

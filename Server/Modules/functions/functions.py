@@ -2,7 +2,10 @@
 import configparser, os
 
 class data():
-    def write(location, section, option, data):
+    def write(location:str, section:str, option:str, data:str):
+        """
+        Zapíše do ini souboru location[str] do sekce section[str] nastavení option[str] o hodnotě data[str]
+        """
         try:
             file = configparser.ConfigParser(allow_no_value=True) #ConfigParser config
             file.read(location) #File read
@@ -19,7 +22,10 @@ class data():
                 return True
             except: return None
 
-    def read(location, section, option):
+    def read(location:str, section:str, option:str):
+        """
+        Returne hodnotu nastavení option[str] v sekci section[str], souboru location[str]
+        """
         try:
             file = configparser.ConfigParser(allow_no_value=True) #ConfigParser config
             file.read(location) #File read
@@ -27,7 +33,10 @@ class data():
             return output
         except: return None
 
-    def add_section(location, section):
+    def add_section(location:str, section:str):
+        """
+        Přidá sekci section[str] do souboru location[str]
+        """
         try:
             file = configparser.ConfigParser(allow_no_value=True) #ConfigPasrser config
             file.read(location) #File read
@@ -36,7 +45,10 @@ class data():
             return True
         except: return None
 
-    def remove_section(location, section):
+    def remove_section(location:str, section:str):
+        """
+        Odstraní sekci section[str] v souboru location[str]
+        """
         try:
             file = configparser.ConfigParser(allow_no_value=True) #ConfigPasrser config
             file.read(location) #File read
@@ -45,7 +57,10 @@ class data():
             return True
         except: return None
 
-    def remove_option(location, section, option):
+    def remove_option(location:str, section:str, option:str):
+        """
+        Odstraní nastavení optiont[str] v sekci section[str], souboru location[str]
+        """
         try:
             file = configparser.ConfigParser(allow_no_value=True) #ConfigPasrser config
             file.read(location) #File read
@@ -54,7 +69,10 @@ class data():
             return True
         except: return None
 
-    def sections(location):
+    def sections(location:str):
+        """
+        Returne sekce v souboru location[str]
+        """
         try:
             file = configparser.ConfigParser(allow_no_value=True) #ConfigPasrser config
             file.read(location) #File read
@@ -63,7 +81,10 @@ class data():
             return output
         except: return None
 
-    def options(location, section):
+    def options(location:str, section:str):
+        """
+        Returne nastavení v souboru location[str], sekci section[str]
+        """
         try:
             file = configparser.ConfigParser(allow_no_value=True) #ConfigPasrser config
             file.read(location) #File read
@@ -74,7 +95,10 @@ class data():
 
 def handle_exit(signum, frame): os._exit(1)
 
-def text_fix(text, decode):
+def text_fix(text:str, decode:bool):
+    """
+    Oprava textu text[str]
+    """
     list0 = ["//y// = ý", "//a// = á", "//i// = í", "//e// = é", "//u// = ú", "/e/ = ě", "/s/ = š", "/c/ = č", "/r/ = ř", "/z/ = ž", "\\n = \n", "/u/ = ů", "%% = %", "//U// = Ů", "//Y// = Ý", "//A// = Á", "//I// = Í", "//E// = É", "/E/ = Ě", "/S/ = Š", "/C/ = Č", "/R/ = Ř", "/Z/ = Ž", "/U/ = Ů"]
     for i in list0: #Pro věci v listu
         if decode == True: #Pokud má dekódovat 
@@ -140,7 +164,7 @@ class Texts():
             if match > output: output = match #Počítání největší shody 
         return output
 
-    def best(file, text):
+    def best(file:str, text:str):
         """
         Fukce pro porovnání souboru ve tvaru (sekce Match): fce = ["neco", "neco]
         file = path/to/file.ini

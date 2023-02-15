@@ -12,7 +12,10 @@ for x in MODULES: #Automatický import modulů z listu v /Modules/tester/data/co
     except: print(f" Error importing {x}")
 
 class Engine():
-    def process(text):
+    def process(text:str):
+        """
+        Zpracuje požadavek text[str] a vrátí odpověď[str], nebo nic, pokud odpověď není
+        """
         if not text: return
         if text == "9H9k2bm!&64iNoerHuwB@HkON": return "nNq8j3ma15G^KXaV33Ma*W^Rj"
         text = text.lower()

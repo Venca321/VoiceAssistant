@@ -6,13 +6,20 @@ from proxmoxer import ProxmoxAPI
 import os, json
 
 class Match():
-    def match(text, output=False):
+    def match(text:str, output:bool=False):
+        """
+        Output False: returne procenta nejlepší shody
+        Output True: returne výsledek funkce největší shody
+        """
         out = Texts.best(f"{os.getcwd()}/Modules/home/data/vocabulary.ini", text)
         if output: return eval(out[1])
         else: return out[0]
 
 class Data():
-    def update(timer):
+    def update(timer:int):
+        """
+        Updatne data fcí v souboru
+        """
         if timer % 2 == 0: Octoprint.update() #Updatují se nastřídačku, aby to nespomalovalo systém
         if timer % 2 == 1: Tasmota.update()
         if timer % 5 == 0: 
@@ -21,6 +28,9 @@ class Data():
 
 class Proxmox():
     def update():
+        """
+        Updatne Proxmox data
+        """
         try: proxmox_data = ProxmoxAPI(data.read(f"{os.getcwd()}/Modules/home/data/config.ini", "Proxmox", "ip"), user="API@pve", password="VoiceAssistant", verify_ssl=False, ) #Proxmox login...
         except: 
             for i in data.sections(f"{os.getcwd()}/Modules/home/data/data.ini"):
@@ -52,10 +62,16 @@ class Proxmox():
                 data.remove_section(f"{os.getcwd()}/Modules/home/data/data.ini", i)
 
     def info():
+        """
+        Returne proxmox info
+        """
         return "Proxmox info"
 
 class Octoprint():
     def update():
+        """
+        Updatne Octoprint data
+        """
         octoprint_ip = data.read(f"{os.getcwd()}/Modules/home/data/config.ini", "Octoprint", "ip") #Získání IP
         s = HTMLSession()
         url = f"http://{octoprint_ip}/api/connection?apikey=3D402F19D3F742518BD31B0FE3EA5CF2"
@@ -87,10 +103,16 @@ class Octoprint():
                 data.write(f"{os.getcwd()}/Modules/home/data/data.ini", "Octoprint", "printPercent", "---")
 
     def info():
+        """
+        Returne Octoprint info
+        """
         return "Octoprint info"
 
 class Tasmota():
     def update():
+        """
+        Updatne Tasmota data
+        """
         tasmota_ip = data.read(f"{os.getcwd()}/Modules/home/data/config.ini", "Tasmota", "ip") #Získání IP
         s = HTMLSession()
         url = f"http://{tasmota_ip}/cm?cmnd=Power" 
@@ -105,4 +127,7 @@ class Tasmota():
             data.write(f"{os.getcwd()}/Modules/home/data/data.ini", "Tasmota", "power", "---")
 
     def info():
+        """
+        Returne Tasmota data
+        """
         return "Tasmota info"

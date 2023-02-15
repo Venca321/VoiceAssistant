@@ -4,20 +4,33 @@ from bs4 import BeautifulSoup as Soup
 import datetime, requests, os
 
 class Match():
-    def match(text, output=False):
+    def match(text:str, output:bool=False):
+        """
+        Output False: returne procenta nejlepší shody
+        Output True: returne výsledek funkce největší shody
+        """
         out = Texts.best(f"{os.getcwd()}/Modules/my_calendar/data/vocabulary.ini", text)
         if output: return eval(out[1])
         else: return out[0]
 
 class Data():
-    def update(timer):
+    def update(timer:int):
+        """
+        Updatne data fcí v souboru
+        """
         pass
 
 class Calendar():
     def check_changes():
+        """
+        Checkne změny v suplování... (Aby nedošlo k dezinformaci)
+        """
         pass
 
-    def rozvrh_supl(den):
+    def rozvrh_supl(den:str):
+        """
+        Returne rozvrh se suplováním na daný den
+        """
         day = (datetime.datetime.today()+datetime.timedelta(days=int(den))).strftime("%y%m%d") #Datum na určený den
         dayweek = str((datetime.datetime.today()+datetime.timedelta(days=int(den))).weekday()) #Den v týdnu
         weeknumber = str((datetime.datetime.today()+datetime.timedelta(days=int(den))).isocalendar()[1])

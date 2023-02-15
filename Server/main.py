@@ -17,6 +17,9 @@ for x in MODULES: #Automatický import z /Modules/tester/data/config.ini
 
 class Threads():
     def autoupdate():
+        """
+        Automaticky updatne server (nutno opravit)
+        """
         while True:
             print(" Server updating...")
             subprocess.run(["git", "pull"], capture_output=True) #Auto pull z githubu
@@ -24,6 +27,9 @@ class Threads():
             time.sleep(60*60) #Haždou hodinu
 
     def tests(): #Automatické testy funkčnosti (updaty souborů, servery...)
+        """
+        Prováděné testy (kontrola souborů)
+        """
         print(" Testing functionality...", end="\r")
         time.sleep(3)
         tester.Tester.test(True)
@@ -45,6 +51,7 @@ class Threads():
             else: timer = 0 #Timer reset
             
     def voice_server():
+        """Spustí a udržuje voice server"""
         time.sleep(1)
         Voice_server.start()
 

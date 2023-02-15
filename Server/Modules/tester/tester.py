@@ -4,6 +4,9 @@ from Modules.functions.functions import *
 
 class Tester():
     def startup_test(): #Testování všech souborů
+        """
+        Zkontroluje přítomnost všech modulů a dalších souborů /data/config.ini
+        """
         CONFIG_FILE = f"{os.getcwd()}/Modules/tester/data/config.ini"
 
         print(f' Loading files...             0% [{100*"."}]', end="\r")
@@ -74,7 +77,10 @@ class Tester():
         time.sleep(0.2)
         print(f"\n Successfully loaded ({code_lines+config_lines+vocabulary_lines+data_lines} lines):\n   {code_lines} lines of code\n   {config_lines} lines of configuration\n   {vocabulary_lines} lines of vocabulary data\n   {data_lines} lines of data\n")
 
-    def test(output=False): #output = True je 1. test (s printem)
+    def test(output:bool=False): #output = True je 1. test (s printem)
+        """
+        Otestuje funkčnost server systému
+        """
         if output: print(f' Testing functionality...     0% [{100*"."}]', end="\r")
 
         SERVER_CERTIFICATE = data.read(f"{os.getcwd()}/Data/certificate.ini", "Certificate", "server")

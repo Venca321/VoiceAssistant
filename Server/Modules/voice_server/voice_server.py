@@ -5,6 +5,9 @@ import socket, threading, os
 
 class Voice_server():
     def start():
+        """
+        Startne voice server systém
+        """
         PORT = int(data.read(f"{os.getcwd()}/Modules/voice_server/data/config.ini", "Settings", "port"))
         HOST = socket.gethostbyname(socket.gethostname()) #IP počítače
 
@@ -22,6 +25,9 @@ class Voice_server():
             thread = threading.Thread(target=Voice_server.handle_client, args=(conn, addr), daemon=True).start()
 
     def handle_client(conn, addr): #Handle jednotlivých klientů
+        """
+        Handle pro jednotlivé klienty
+        """
         SERVER_CERTIFICATE = data.read(f"{os.getcwd()}/Data/certificate.ini", "Certificate", "server")
         CLIENT_CERTIFICATE = data.read(f"{os.getcwd()}/Data/certificate.ini", "Certificate", "client")
         #print(f' New client: "{addr[0]}:{addr[1]}" (Active connections: {threading.active_count() - 1})')

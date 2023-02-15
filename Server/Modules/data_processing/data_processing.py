@@ -3,17 +3,27 @@ from Modules.functions.functions import *
 import os
 
 class Match():
-    def match(text, output=False):
+    def match(text:str, output:bool=False):
+        """
+        Output False: returne procenta nejlepší shody
+        Output True: returne výsledek funkce největší shody
+        """
         out = Texts.best(f"{os.getcwd()}/Modules/data_processing/data/vocabulary.ini", text)
         if output: return eval(out[1])
         else: return out[0]
 
 class Data():
-    def update(timer):
+    def update(timer:int):
+        """
+        Updatne data fcí v souboru
+        """
         pass
 
 class Notes():
-    def write(text):
+    def write(text:str):
+        """
+        Zapíše poznámky
+        """
         num = 0
         finished = False
         while not finished: #Získá 1. dostupné číslo v sekci [Notes]
@@ -27,7 +37,10 @@ class Notes():
         pass
 
 class Records():
-    def write(text):
+    def write(text:str):
+        """
+        Zapíše rekord
+        """
         num = 0
         finished = False
         while not finished: #Získá 1. dostupné číslo v sekci [Records]
@@ -41,7 +54,10 @@ class Records():
         pass
 
 class To_do_list():
-    def write(text):
+    def write(text:str):
+        """
+        Zapíše věc do to do listu
+        """
         num = 0
         finished = False
         while not finished: #Získá 1. dostupné číslo v sekci [To_do_list]
