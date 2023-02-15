@@ -11,7 +11,7 @@ class Match():
         else: return out[0]
 
 class Data():
-    def update():
+    def update(timer):
         pass
 
 class Distance():
