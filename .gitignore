@@ -1,5 +1,6 @@
 *.pyc
 Workspace/
+wikidata/
 cache/
 __pycache__
 certificate.ini
