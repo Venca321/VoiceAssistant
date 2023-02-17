@@ -26,7 +26,7 @@ class Wiki():
 
             return output
 
-    def wikidata_find(text:str):
+    def wikidata_find(text:str, odstavcu:int=1):
         """
         Najde v textu klíčová slova, které najde v lokálních souborech (zpracovaná data z wikipedie), pokud dosáhne dostatečné shody, vrátí to
         """
@@ -45,7 +45,17 @@ class Wiki():
                 output = file.read()
                 file.close()
 
-                output = output.split("\n")[0]
+                out = output.split("\n")
+                output = ""
+                try:
+                    for i in range(odstavcu):
+                        if len(out[i]) < 25: out.remove(out[i])
+                        text = out[i]
+                        if text.endswith(" "): text = text[:-1]
+                        if text.endswith(" ="): text = text[:-2]
+                        if text.startswith(" "): text = text[1:]
+                        output = output + "\n" + text
+                except: None
 
                 for checked_word in output.split(" "): #Pokud je nějaké slovo na 90%+ in words_to_remove, odeber ho
                     if Texts.match(remove_from_output, checked_word) > 90:
