@@ -1,5 +1,5 @@
 
-import time, os, socket
+import time, os, socket, csv
 from Modules.functions.functions import *
 
 class Tester():
@@ -73,9 +73,15 @@ class Tester():
                     print(f'\n Error data file cannot be created! {os.getcwd()}/{data.read(CONFIG_FILE, "Data", i)}')
                     os._exit(1)
 
+        WEB_WIKI = data.read(f"{os.getcwd()}/Data/config.ini", "Settings", "wiki_finder_online")
+        wiki_data = 0
+        if WEB_WIKI == "False":
+            wikidata = csv.reader(open(f"{os.getcwd()}/Data/wikidata/wikidata.csv", "r"))
+            for row in wikidata: wiki_data += 1
+
         print(f' Loading files...           100% [{100*"#"}]') #Vše ok
         time.sleep(0.2)
-        print(f"\n Successfully loaded ({code_lines+config_lines+vocabulary_lines+data_lines} lines):\n   {code_lines} lines of code\n   {config_lines} lines of configuration\n   {vocabulary_lines} lines of vocabulary data\n   {data_lines} lines of data\n")
+        print(f"\n Successfully loaded ({code_lines+config_lines+vocabulary_lines+data_lines} lines):\n   {code_lines} lines of code\n   {config_lines} lines of configuration\n   {vocabulary_lines} lines of vocabulary data\n   {data_lines} lines of data\n   {wiki_data} wikidata pages\n")
 
     def test(output:bool=False): #output = True je 1. test (s printem)
         """

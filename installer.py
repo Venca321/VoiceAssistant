@@ -6,14 +6,16 @@ def get_random_string(length): #Generování certifikátu
     return ''.join(random.choice(letters) for i in range(length))
 
 while True:
-    input1 = input("Can I install required modules from requirements.txt (Y/n)? ").lower()
+    input1 = input("Mohu instalovat potřebné knihovny z requirements.txt (Y/n)? ").lower()
     if input1 == "y" or input1 == "": break
     elif input1 == "n": exit()
     
 os.system('pip install -r requirements.txt') #Instalace requirements.txt
 
+import configparser
+
 while True:
-    input2 = input("You want to generate certificates (otherwise you have to insert your own) (Y/n)? ").lower()
+    input2 = input("Chcete automaticky vygenerovat certifikáty (jinak je budete muset manuálně vložit) (Y/n)? ").lower()
     if input2 == "y" or input2 == "" or input2 == "n": break
 
 if input2 == "" or input2.lower() == "y":
@@ -21,15 +23,15 @@ if input2 == "" or input2.lower() == "y":
     client_certificate = get_random_string(64)
 
 else:
-    print('You need to insert two different certificates in the form: "K25hd4lAHslH4Lh3alskdj"')
-    server_certificate = input("Your server certificate: ")
-    client_certificate = input("Your client certificate: ")
+    print('Musíte vložit dva rozdílné certifikáty typu (doporučuji 50 a více znaků): "K25hd4lAHslH4Lh3alskdj"')
+    server_certificate = input("Váš server certifikát: ")
+    client_certificate = input("Váš klient certifikát: ")
 
-print(f"Your client certificate is: {client_certificate}")
-print(f"Your server certificate is: {server_certificate}")
+print(f"Váš klient certifikát je: {client_certificate}")
+print(f"Váš server certifikát je: {server_certificate}")
 
 while True:
-    input3 = input("You wish to set up these certificates automatically (Y/n)? ").lower()
+    input3 = input("Přejete se tyto certifikáty nastavit automaticky (Y/n)? ").lower()
     if input3 == "y" or input3 == "": break
     elif input3 == "n": exit()
 
@@ -47,4 +49,20 @@ file = open(f"{os.getcwd()}/Server/Data/certificate.ini", "a")
 file.write(f"[Certificate]\nserver = {server_certificate}\nclient = {client_certificate}")
 file.close()
 
-print("Setup completed")
+while True:
+    input4 = input("Chcete použít vyhledávání informací online (Y/n)?").lower()
+    if input4 == "y" or input4 == "": break
+    elif input4 == "n": 
+        data = configparser.ConfigParser(allow_no_value=True)
+        data.read("Server/Data/config.ini")
+        data.set("Settings", "wiki_finder_online", "False")
+        with open("Server/Data/config.ini", "w") as configfile: file.write(configfile) #Uložení
+        print("Než budete pokračovat, postupujte podle dokumentace a stáhněte si wikidata")
+        exit()
+
+data = configparser.ConfigParser(allow_no_value=True)
+data.read("Server/Data/config.ini")
+data.set("Settings", "wiki_finder_online", "True")
+with open("Server/Data/config.ini", "w") as configfile: file.write(configfile) #Uložení
+
+print("Instalace dokončena")
