@@ -34,7 +34,7 @@ class Voice_server():
         conn.send(SERVER_CERTIFICATE.encode("utf-8")) #Bezpečnostní ověření
         if conn.recv(2048).decode("utf-8") == CLIENT_CERTIFICATE: #Pokud se ověří
 
-            file = open("Client_updater/client.py", "r")
+            file = open("Client_updater/client-core.py", "r")
             for line in file.readlines(): #Získání verze klienta tady na serveru
                 if "VERSION = " in line:
                     client_version = line.replace("VERSION = ", "").replace('"', "").replace("\n", "")
@@ -43,7 +43,7 @@ class Voice_server():
             need_update = conn.recv(2048).decode("utf-8") 
 
             if need_update == "Need_update_pls": #Pokud potřebuje update:
-                file = open("client.py", "r", encoding="utf-8") #Přeposlání souboru
+                file = open("Client_updater/client-core.py", "r")
                 data0 = file.read()
                 file.close()
                 conn.send(data0.encode("utf-8")) #...

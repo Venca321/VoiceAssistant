@@ -43,26 +43,26 @@ except:None
 file = open(f"{os.getcwd()}/Client/certificate.ini", "a").close()
 file = open(f"{os.getcwd()}/Server/Data/certificate.ini", "a").close()
 file = open(f"{os.getcwd()}/Client/certificate.ini", "w")
-file.write(f"[Certificate]\nserver = {server_certificate}\nclient = {client_certificate}\n\n[Host]\nautomatic = {socket.gethostbyname(socket.gethostname())}")
+file.write(f"[Certificate]\nserver = {server_certificate}\nclient = {client_certificate}\n\n[Host]\nautomatic = {socket.gethostbyname(socket.gethostname())}\n\n[Client]\nversion = v.?.?")
 file.close()
 file = open(f"{os.getcwd()}/Server/Data/certificate.ini", "a")
 file.write(f"[Certificate]\nserver = {server_certificate}\nclient = {client_certificate}")
 file.close()
 
 while True:
-    input4 = input("Chcete použít vyhledávání informací online (Y/n)?").lower()
+    input4 = input("Chcete použít vyhledávání informací online (Y/n)? ").lower()
     if input4 == "y" or input4 == "": break
     elif input4 == "n": 
         data = configparser.ConfigParser(allow_no_value=True)
         data.read("Server/Data/config.ini")
         data.set("Settings", "wiki_finder_online", "False")
-        with open("Server/Data/config.ini", "w") as configfile: file.write(configfile) #Uložení
+        with open("Server/Data/config.ini", "w") as configfile: data.write(configfile) #Uložení
         print("Než budete pokračovat, postupujte podle dokumentace a stáhněte si wikidata")
         exit()
 
 data = configparser.ConfigParser(allow_no_value=True)
 data.read("Server/Data/config.ini")
 data.set("Settings", "wiki_finder_online", "True")
-with open("Server/Data/config.ini", "w") as configfile: file.write(configfile) #Uložení
+with open("Server/Data/config.ini", "w") as configfile: data.write(configfile) #Uložení
 
 print("Instalace dokončena")
