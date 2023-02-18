@@ -102,7 +102,7 @@ class Kde_lezi():
         """
         Funkce, která vrátí informace o tomto městě
         """
-        return f"{text[0]} leží v {text[1]} v {text[2]} na {text[3]} {text[4]}"
+        return f"{text[0]} ({text[1]}) leží v {text[2]} na {text[3]} {text[4]}"
 
     def stat(text:str):
         """
