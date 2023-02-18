@@ -39,7 +39,6 @@ class Engine():
                 highest_score = score
                 winner = i[1]
 
-        #print(highest_score)
         if highest_score > 75: output = winner.Match.match(text, True) #Pokud by byla potřeba nějaká úprava textu
         elif WEB_WIKI == "True": output = web_finder.Wiki.web_find(text)
         else: output = web_finder.Wiki.wikidata_find(text)

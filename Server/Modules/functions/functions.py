@@ -181,3 +181,25 @@ class Texts():
                 best_match = function
 
         return best_match_num, best_match[:1].upper()+best_match[1:]
+
+    def match_in(file:str, text:str):
+        """
+        Fukce pro porovnání souboru ve tvaru (sekce Match): fce = neco, neco
+        Ale hledá tyto možnosti v textu, což znamená, že "Kde je" má 100% shodu s "Kde je peněženka"
+        """
+        best_match_num = 0
+        best_match = ""
+        options = data.options(file, "Match") # Seber všechny možnosti, které se musí projít
+        for function in options:
+            posible_matches = str(data.read(file, "Match", function)).split(", ") # Udělat list možností u jednotlivé fce
+            for posible_match in posible_matches:
+                posible_matches_words = posible_match.split(" ")
+                for word in posible_matches_words:
+                    try: match = (match + Texts.match(text.split(" "), word))/2
+                    except: match = Texts.match(text.split(" "), word)
+                if match > best_match_num:
+                    best_match_num = match
+                    best_match = function
+                match = None
+
+        return best_match_num, best_match[:1].upper()+best_match[1:]
