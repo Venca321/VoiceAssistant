@@ -10,7 +10,7 @@ Hlasový asistent jako takový je v češtině, server v angličtině.
 
 - Použijte: `python installer.py`
 - Postupujte podle pokynů
-- Spusťte [/Server/main.py](Server/main.py) (ctrl+c to stop)
+- Spusťte [/Server/server.py](Server/main.py) (ctrl+c to stop)
 - Spusťte [/Client/client.py](Client/client.py) (ctrl+c to stop)
 - Pokud je potřeba, vložte IP adresu, kterou vám dal server
 
