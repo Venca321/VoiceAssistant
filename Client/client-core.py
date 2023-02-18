@@ -9,6 +9,10 @@ VERSION = "v.0.0"
 SERVER_CERTIFICATE = certificate.get("Certificate", "server")
 CLIENT_CERTIFICATE = certificate.get("Certificate", "client")
 
+if not certificate.get("Client", "version") == VERSION: 
+    certificate.set("Client", "version", VERSION)
+    with open("certificate.ini", "w") as configfile: certificate.write(configfile) #Uložení
+
 def handle_exit(signum, frame):
     client.close()
     os._exit(1)
@@ -28,30 +32,7 @@ except:
 if client.recv(2048).decode("utf-8") == SERVER_CERTIFICATE: #Client auth
     client.send(CLIENT_CERTIFICATE.encode("utf-8"))
     top_version = client.recv(2048).decode("utf-8") #Zjištění server verze
-    if float(top_version[2:]) > float(VERSION[2:]):
-        client.send("Need_update_pls".encode("utf-8")) #Autoupdate
-        input1 = input("\n Je dostupná nová verze, prosím potvrďte aktualizaci [Y/n] ")
-        if input1.lower() == "y" or input1.lower() == "":
-            print(" Aktualizování...")
-            data = client.recv(48152).decode("utf-8")
-            file = open("new_client.py", "a")
-            file.close()
-            file = open("new_client.py", "w")
-            file.write(data)
-            file.close()
-            os.system("python clientautoupdate.py")
-            client.close()
-            os._exit(1)
-
-    elif float(top_version[2:]) < float(VERSION[2:]): #Pokud je tady větší verze než na serveru, error
-        print(" Version Error")
-        client.close()
-        os._exit(1)
-    else: client.send("Updated".encode("utf-8"))
-else: 
-    print(" Auth Error") #Auth error
-    client.close()
-    os._exit(1)
+    client.send("Updated".encode("utf-8")) #Autoupdate
 
 print(f"\n Úspěšně připojeno s verzí {VERSION}\n")
 
