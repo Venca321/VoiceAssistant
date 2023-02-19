@@ -5,7 +5,7 @@ from Modules.web_finder import web_finder
 import os
 
 MODULES = data.options(f"{os.getcwd()}/Modules/tester/data/config.ini", "Modules")
-WEB_WIKI = data.read(f"{os.getcwd()}/Data/config.ini", "Settings", "wiki_finder_online")
+WEB_WIKI = str(data.read(f"{os.getcwd()}/Data/config.ini", "Settings", "wiki_finder_online"))
 imported = {}
 
 for x in MODULES: #Automatický import modulů z listu v /Modules/tester/data/config.ini
@@ -39,8 +39,8 @@ class Engine():
                 highest_score = score
                 winner = i[1]
 
-        if highest_score > 75: output = winner.Match.match(text, True) #Pokud by byla potřeba nějaká úprava textu
-        elif WEB_WIKI == "True": output = web_finder.Wiki.web_find(text)
+        if highest_score > 85: output = winner.Match.match(text, True) #Pokud by byla potřeba nějaká úprava textu
+        elif WEB_WIKI == "True":  output = web_finder.Wiki.web_find(text)
         else: output = web_finder.Wiki.wikidata_find(text)
 
         return output

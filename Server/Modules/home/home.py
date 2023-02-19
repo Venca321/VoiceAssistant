@@ -95,7 +95,7 @@ class Octoprint():
                 data.write(f"{os.getcwd()}/Modules/home/data/data.ini", "Octoprint", "fileName", out["job"]["file"]["name"]) #Zapsání dat do souboru
                 data.write(f"{os.getcwd()}/Modules/home/data/data.ini", "Octoprint", "printTimeLeft", str("{:.2f}".format(float(out["progress"]["printTimeLeft"])/60)))
                 data.write(f"{os.getcwd()}/Modules/home/data/data.ini", "Octoprint", "printTime", str("{:.2f}".format(float(out["progress"]["printTime"])/60)))
-                data.write(f"{os.getcwd()}/Modules/home/data/data.ini", "Octoprint", "printPercent", str(float("{:.2f}".format(float(data.get("Octoprint", "printTime"))/(float(data.get("Octoprint", "printTime"))+float(data.get("Octoprint", "printTimeLeft")))*100))))
+                data.write(f"{os.getcwd()}/Modules/home/data/data.ini", "Octoprint", "printPercent", str(float("{:.2f}".format(float(data.read(f"{os.getcwd()}/Modules/home/data/data.ini", "Octoprint", "printTime"))/(float(data.read(f"{os.getcwd()}/Modules/home/data/data.ini", "Octoprint", "printTime"))+float(data.read(f"{os.getcwd()}/Modules/home/data/data.ini", "Octoprint", "printTimeLeft")))*100))))
             except: 
                 data.write(f"{os.getcwd()}/Modules/home/data/data.ini", "Octoprint", "fileName", "---") #Zapsání dat do souboru
                 data.write(f"{os.getcwd()}/Modules/home/data/data.ini", "Octoprint", "printTimeLeft", "---")
