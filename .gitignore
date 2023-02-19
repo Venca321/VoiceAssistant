@@ -1,7 +1,7 @@
 *.pyc
-Workspace/
 wikidata/
 cache/
+.userdata/
 __pycache__
 certificate.ini
-test.py
+users.ini

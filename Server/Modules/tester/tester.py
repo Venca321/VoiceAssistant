@@ -11,7 +11,7 @@ class Tester():
 
         print(f' Loading files...             0% [{100*"."}]', end="\r")
 
-        code_lines, config_lines, vocabulary_lines, data_lines = 0, 0, 0, 0
+        code_lines, config_lines, vocabulary_lines, wiki_data = 0, 0, 0, 0
         for i in data.options(CONFIG_FILE, "Modules"): #Testování modulů
             try: 
                 file = open(f'{os.getcwd()}/{data.read(CONFIG_FILE, "Modules", i)}{i}.py', "r") #Pokus se je otevřít
@@ -58,30 +58,37 @@ class Tester():
                 os._exit(1)
 
         print(f' Loading files...            80% [{80*"#"}{20*"."}]', end="\r")
-        for i in data.options(CONFIG_FILE, "Data"): #Testování dat
+        for i in data.options(CONFIG_FILE, "Other_data"): #Testování dat
             try: 
-                file = open(f'{os.getcwd()}/{data.read(CONFIG_FILE, "Data", i)}', "r")
-                data_lines += len(file.read().split("\n"))
+                file = open(f'{os.getcwd()}/{data.read(CONFIG_FILE, "Other_data", i)}', "r")
                 file.close()
             except: #Pokud neexistuje
-                print(f'\n Warning data file not found! {os.getcwd()}/{data.read(CONFIG_FILE, "Data", i)}')
+                print(f'\n Warning data file not found! {os.getcwd()}/{data.read(CONFIG_FILE, "Other_data", i)}')
                 time.sleep(1)
                 try: #Pokus se vytvořit
-                    file = open(f'{os.getcwd()}/{data.read(CONFIG_FILE, "Data", i)}', "x")
+                    file = open(f'{os.getcwd()}/{data.read(CONFIG_FILE, "Other_data", i)}', "x")
                     file.close()
                 except: 
-                    print(f'\n Error data file cannot be created! {os.getcwd()}/{data.read(CONFIG_FILE, "Data", i)}')
+                    print(f'\n Error data file cannot be created! {os.getcwd()}/{data.read(CONFIG_FILE, "Other_data", i)}')
                     os._exit(1)
 
+        for i in data.options(CONFIG_FILE, "User_data"): #Testování dat
+            i_path = data.read(CONFIG_FILE, "User_data", i)
+            try: 
+                path = os.path.join(os.getcwd(), i_path, ".userdata/")
+                os.mkdir(path)
+            except: #Pokud neexistuje
+                print(f'\n Error folder {path} cannot be created!')
+                os._exit(1)        
+
         WEB_WIKI = data.read(f"{os.getcwd()}/Data/config.ini", "Settings", "wiki_finder_online")
-        wiki_data = 0
         if WEB_WIKI == "False":
             wikidata = csv.reader(open(f"{os.getcwd()}/Data/wikidata/wikidata.csv", "r"))
             for row in wikidata: wiki_data += 1
 
         print(f' Loading files...           100% [{100*"#"}]') #Vše ok
         time.sleep(0.2)
-        print(f"\n Successfully loaded ({code_lines+config_lines+vocabulary_lines+data_lines} lines):\n   {code_lines} lines of code\n   {config_lines} lines of configuration\n   {vocabulary_lines} lines of vocabulary data\n   {data_lines} lines of data\n   {wiki_data} wikidata pages\n")
+        print(f"\n Successfully loaded ({code_lines+config_lines+vocabulary_lines} lines):\n   {code_lines} lines of code\n   {config_lines} lines of configuration\n   {vocabulary_lines} lines of vocabulary data\n   {wiki_data} wikidata pages\n")
 
     def test(output:bool=False): #output = True je 1. test (s printem)
         """
