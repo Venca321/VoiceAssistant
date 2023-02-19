@@ -1,7 +1,8 @@
 
 from Modules.functions.functions import *
 from Modules.engine.engine import *
-import socket, threading, os
+from Modules.user_manager.user_manager import AuthStore
+import socket, threading, os, time
 
 class Voice_server():
     def start():
@@ -47,8 +48,17 @@ class Voice_server():
                 data0 = file.read()
                 file.close()
                 conn.send(data0.encode("utf-8")) #...
+
+            try:
+                conn.send("!Send-Username?".encode("utf-8"))
+                username = conn.recv(2048).decode("utf-8")
+                conn.send("!Send-Password?".encode("utf-8"))
+                password = conn.recv(2048).decode("utf-8")
+                AuthStore.login(AuthStore, username, password)
+            except: None
                 
-            connected = True 
+            if not AuthStore.username == "" or AuthStore.password == "": connected = True 
+            else: connected = False
             while connected: #Zahájení připojení
                 try:
                     lenght = int(conn.recv(2048).decode("utf-8")) #Přijme informaci o velikosti dat

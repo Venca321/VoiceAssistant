@@ -93,6 +93,19 @@ class data():
             return output
         except: return None
 
+class Userdata():
+    def encode(text:str, password:str):
+        """
+        Vrátí text zakódovaný heslem 
+        """
+        pass
+
+    def decode(text:str, password:str):
+        """
+        Vrátí text rozkódovaný heslem
+        """
+        pass
+
 def handle_exit(signum, frame): os._exit(1)
 
 def text_fix(text:str, decode:bool):

@@ -9,6 +9,21 @@ VERSION = "v.0.0"
 SERVER_CERTIFICATE = certificate.get("Certificate", "server")
 CLIENT_CERTIFICATE = certificate.get("Certificate", "client")
 
+client_username = certificate.get("Client", "username")
+client_password = certificate.get("Client", "password")
+if client_username == "" or client_password == "":
+    print("Nemáte uložené přihlašovací údaje, prosím přihlašte se:")
+    client_username = input("Uživatelské jméno: ")
+    client_password = input("Heslo: ")
+    while True:
+        input1 = input("Chcete uložit přihlašovací údaje [Y/n]?").lower()
+        if input1 == "n": break
+        elif input1 == "y" or input1 == "":
+            certificate.set("Client", "username", client_username)
+            certificate.set("Client", "password", client_password)
+            with open("certificate.ini", "w") as configfile: certificate.write(configfile) #Uložení
+            break
+
 if not certificate.get("Client", "version") == VERSION: 
     certificate.set("Client", "version", VERSION)
     with open("certificate.ini", "w") as configfile: certificate.write(configfile) #Uložení
@@ -33,6 +48,14 @@ if client.recv(2048).decode("utf-8") == SERVER_CERTIFICATE: #Client auth
     client.send(CLIENT_CERTIFICATE.encode("utf-8"))
     top_version = client.recv(2048).decode("utf-8") #Zjištění server verze
     client.send("Updated".encode("utf-8")) #Autoupdate
+
+server_message = client.recv(2048).decode("utf-8")
+if server_message == "!Send-Username?": client.send(client_username.encode("utf-8"))
+else: exit()
+
+server_message = client.recv(2048).decode("utf-8")
+if server_message == "!Send-Password?": client.send(client_password.encode("utf-8"))
+else: exit()
 
 print(f"\n Úspěšně připojeno s verzí {VERSION}\n")
 

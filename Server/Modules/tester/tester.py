@@ -77,9 +77,7 @@ class Tester():
             try: 
                 path = os.path.join(os.getcwd(), i_path, ".userdata/")
                 os.mkdir(path)
-            except: #Pokud neexistuje
-                print(f'\n Error folder {path} cannot be created!')
-                os._exit(1)        
+            except: None
 
         WEB_WIKI = data.read(f"{os.getcwd()}/Data/config.ini", "Settings", "wiki_finder_online")
         if WEB_WIKI == "False":
@@ -113,7 +111,7 @@ class Tester():
         try:
             if client.recv(2048).decode("utf-8") == SERVER_CERTIFICATE: #Client auth
                 client.send(CLIENT_CERTIFICATE.encode("utf-8"))
-                if output: print(f' Testing functionality...    40% [{40*"#"}{60*"."}]', end="\r")
+                if output: print(f' Testing functionality...    20% [{40*"#"}{60*"."}]', end="\r")
         except:
             print("\n [Testing] Auth error...")
             client.close()
@@ -122,9 +120,20 @@ class Tester():
         try:
             client.recv(2048).decode("utf-8") #Zjištění server verze
             client.send("Updated".encode("utf-8"))
-            if output: print(f' Testing functionality...    60% [{60*"#"}{40*"."}]', end="\r")
+            if output: print(f' Testing functionality...    40% [{60*"#"}{40*"."}]', end="\r")
         except:
             print("\n [Testing] Version error...")
+            client.close()
+            return
+
+        try:
+            client.recv(2048).decode("utf-8") #Zjištění server verze
+            client.send("Tester(6982734987923668712639127318923)!!!".encode("utf-8"))
+            client.recv(2048).decode("utf-8")
+            client.send("TesterPassword:93278498".encode("utf-8"))
+            if output: print(f' Testing functionality...    60% [{60*"#"}{40*"."}]', end="\r")
+        except:
+            print("\n [Testing] Login error...")
             client.close()
             return
 
