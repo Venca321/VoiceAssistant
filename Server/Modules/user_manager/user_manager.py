@@ -11,6 +11,7 @@ class AuthStore():
         """
         Přihlásit uživatele
         """
+        #if username and not username == "Tester(6982734987923668712639127318923)!!!":
         self.username = username
         self.password = password
         UserData.check_files()
@@ -19,8 +20,8 @@ class AuthStore():
         """
         Odhlásit uživatele - není nutné (po zaniknutí připojení se odhlásí samo)
         """
-        self.username = None
-        self.password = None
+        self.username = ""
+        self.password = ""
 
 class UserData():
     def check_files():

@@ -1,8 +1,9 @@
 
 from importlib.machinery import SourceFileLoader
+from Modules.user_manager.user_manager import AuthStore
 from Modules.functions.functions import *
 from Modules.web_finder import web_finder
-import os
+import os, datetime
 
 MODULES = data.options(f"{os.getcwd()}/Modules/tester/data/config.ini", "Modules")
 WEB_WIKI = str(data.read(f"{os.getcwd()}/Data/config.ini", "Settings", "wiki_finder_online"))
@@ -18,6 +19,7 @@ class Engine():
         Zpracuje požadavek text[str] a vrátí odpověď[str], nebo nic, pokud odpověď není
         """
         if not text: return
+        origo_text = text
         if text == "9H9k2bm!&64iNoerHuwB@HkON": return "nNq8j3ma15G^KXaV33Ma*W^Rj"
         text = text.lower()
         chars_to_remove = data.options(f"{os.getcwd()}/Modules/engine/data/config.ini", "Characters to remove")
@@ -42,5 +44,7 @@ class Engine():
         if highest_score > 85: output = winner.Match.match(text, True) #Pokud by byla potřeba nějaká úprava textu
         elif WEB_WIKI == "True":  output = web_finder.Wiki.web_find(text)
         else: output = web_finder.Wiki.wikidata_find(text)
+
+        data.write(f"{os.getcwd()}/Modules/engine/data/.userdata/{AuthStore.username}.ini", "Log", datetime.datetime.now().strftime("%d/%m/%Y_%H:%M:%S:%f"), Userdata.encode(f"{origo_text}", AuthStore.password))
 
         return output

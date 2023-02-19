@@ -98,13 +98,27 @@ class Userdata():
         """
         Vrátí text zakódovaný heslem 
         """
-        pass
+        text_encoded = ('_'.join(format(ord(x), 'b') for x in text))
+        password_encoded = int(''.join(format(ord(x), 'b') for x in password), 2)
+
+        out = ""
+        for i in text_encoded.split("_"):
+            out = out + "_" + str(int(i)+password_encoded)
+        return str(out[1:])
 
     def decode(text:str, password:str):
         """
         Vrátí text rozkódovaný heslem
         """
-        pass
+        try:
+            password_encoded = int(''.join(format(ord(x), 'b') for x in password), 2)
+
+            out = []
+            for i in text.split("_"):
+                out.append(str(int(i)-password_encoded))
+            
+            return "".join(chr(int(i, 2)) for i in out)
+        except: return None
 
 def handle_exit(signum, frame): os._exit(1)
 
