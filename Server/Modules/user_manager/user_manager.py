@@ -7,21 +7,26 @@ class AuthStore():
     AuthStore.username vrátí uživatelské jméno, kterým je uživatel přihlášen
     AuthStore.password vrátí heslo, kterým je uživatel přihlášen
     """
-    def login(self, username:str, password:str):
+    def login(username:str, password:str, second_try:bool=False):
         """
         Přihlásit uživatele
         """
-        #if username and not username == "Tester(6982734987923668712639127318923)!!!":
-        self.username = username
-        self.password = password
-        UserData.check_files()
+        for i in data.options(f"{os.getcwd()}/Data/users.ini", "Users"):
+            if Userdata.decode(data.read(f"{os.getcwd()}/Data/users.ini", "Users", i), password) == password and Userdata.decode(i, password) == username:
+                user = {}
+                user["username"] = username
+                user["password"] = password
+                return user
+        
+        return AuthStore.register(username, password)
 
-    def logout(self):
+    def register(username:str, password:str):
         """
-        Odhlásit uživatele - není nutné (po zaniknutí připojení se odhlásí samo)
+        Registruje uživatele
         """
-        self.username = ""
-        self.password = ""
+        data.write(f"{os.getcwd()}/Data/users.ini", "Users", Userdata.encode(username, password), Userdata.encode(password, password))
+        UserData.check_files()
+        return AuthStore.login(username, password, True)
 
 class UserData():
     def check_files():

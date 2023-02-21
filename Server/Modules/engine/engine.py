@@ -1,6 +1,5 @@
 
 from importlib.machinery import SourceFileLoader
-from Modules.user_manager.user_manager import AuthStore
 from Modules.functions.functions import *
 from Modules.web_finder import web_finder
 import os, datetime
@@ -14,7 +13,7 @@ for x in MODULES: #Automatický import modulů z listu v /Modules/tester/data/co
     except: print(f" Error importing {x}")
 
 class Engine():
-    def process(text:str):
+    def process(user, text:str):
         """
         Zpracuje požadavek text[str] a vrátí odpověď[str], nebo nic, pokud odpověď není
         """
@@ -45,6 +44,6 @@ class Engine():
         elif WEB_WIKI == "True":  output = web_finder.Wiki.web_find(text)
         else: output = web_finder.Wiki.wikidata_find(text)
 
-        data.write(f"{os.getcwd()}/Modules/engine/data/.userdata/{AuthStore.username}.ini", "Log", datetime.datetime.now().strftime("%d/%m/%Y_%H:%M:%S:%f"), Userdata.encode(f"{origo_text}", AuthStore.password))
+        data.write(f"{os.getcwd()}/Modules/engine/data/.userdata/{user['username']}.ini", "Log", datetime.datetime.now().strftime("%d/%m/%Y_%H/%M/%S/%f"), Userdata.encode(f"{origo_text}", user['password']))
 
         return output

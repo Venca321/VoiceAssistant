@@ -54,10 +54,10 @@ class Voice_server():
                 username = conn.recv(2048).decode("utf-8")
                 conn.send("!Send-Password?".encode("utf-8"))
                 password = conn.recv(2048).decode("utf-8")
-                AuthStore.login(AuthStore, username, password)
+                user = AuthStore.login(username, password)
             except: None
-                
-            if not AuthStore.username == "" or AuthStore.password == "": connected = True 
+
+            if user: connected = True 
             else: connected = False
             while connected: #Zahájení připojení
                 try:
@@ -65,7 +65,7 @@ class Voice_server():
                     message = conn.recv(lenght+100).decode("utf-8") #Přijme zprávu o velikosti lenght
                     try: 
                         if message: #Zpracování a odpověd
-                            conn.send(Engine.process(message).encode("utf-8"))
+                            conn.send(Engine.process(user, message).encode("utf-8"))
                     except: None
                 except: #Pokud dojde k chybě, nebo se klient odpojí, uzavři spojení
                     #print(f" Client {addr} disconnected (Active connections: {threading.active_count() - 2})")
