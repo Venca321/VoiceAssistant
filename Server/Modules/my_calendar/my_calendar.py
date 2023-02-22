@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup as Soup
 import datetime, requests, os
 
 class Match():
-    def match(text:str, output:bool=False):
+    def match(user:dict, text:str, output:bool=False):
         """
         Output False: returne procenta nejlepší shody
         Output True: returne výsledek funkce největší shody

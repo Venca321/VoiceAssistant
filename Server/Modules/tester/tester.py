@@ -99,6 +99,12 @@ class Tester():
         PORT = int(data.read(f"{os.getcwd()}/Modules/voice_server/data/config.ini", "Settings", "port"))
         HOST = socket.gethostbyname(socket.gethostname())
 
+        file = open("Client_updater/client-core.py", "r")
+        for line in file.readlines(): #Získání verze klienta tady na serveru
+            if "VERSION = " in line:
+                client_version = line.replace("VERSION = ", "").replace('"', "").replace("\n", "")
+        file.close()
+
         try:
             client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Client connect
             client.connect((HOST, PORT))
@@ -109,31 +115,23 @@ class Tester():
             return
 
         try:
+            client.send(CLIENT_CERTIFICATE.encode("utf-8"))
             if client.recv(2048).decode("utf-8") == SERVER_CERTIFICATE: #Client auth
-                client.send(CLIENT_CERTIFICATE.encode("utf-8"))
-                if output: print(f' Testing functionality...    20% [{40*"#"}{60*"."}]', end="\r")
+                if output: print(f' Testing functionality...    40% [{40*"#"}{60*"."}]', end="\r")
         except:
             print("\n [Testing] Auth error...")
             client.close()
             return
 
         try:
-            client.recv(2048).decode("utf-8") #Zjištění server verze
-            client.send("Updated".encode("utf-8"))
-            if output: print(f' Testing functionality...    40% [{60*"#"}{40*"."}]', end="\r")
-        except:
-            print("\n [Testing] Version error...")
-            client.close()
-            return
-
-        try:
-            client.recv(2048).decode("utf-8") #Zjištění server verze
-            client.send("Tester(6982734987923668712639127318923)!!!".encode("utf-8"))
-            client.recv(2048).decode("utf-8")
-            client.send("TesterPassword:93278498".encode("utf-8"))
+            client.send(f"{client_version}, Tester(6982734988923), 9823649269".encode("utf-8"))
+            out = client.recv(2048).decode("utf-8") #Zjištění server verze
+            if out == "Auth_error":
+                client.send(f"Register Tester(6982734988923), 9823649269".encode("utf-8"))
+                client.recv(2048).decode("utf-8") #Zjištění server verze
             if output: print(f' Testing functionality...    60% [{60*"#"}{40*"."}]', end="\r")
         except:
-            print("\n [Testing] Login error...")
+            print("\n [Testing] Version error...")
             client.close()
             return
 

@@ -13,7 +13,7 @@ for x in MODULES: #Automatický import modulů z listu v /Modules/tester/data/co
     except: print(f" Error importing {x}")
 
 class Engine():
-    def process(user, text:str):
+    def process(user:dict, text:str):
         """
         Zpracuje požadavek text[str] a vrátí odpověď[str], nebo nic, pokud odpověď není
         """
@@ -35,12 +35,12 @@ class Engine():
         highest_score = 0
         winner = ""
         for i in list(imported.items()): 
-            score = int(i[1].Match.match(text))
+            score = int(i[1].Match.match(user, text))
             if score > highest_score: 
                 highest_score = score
                 winner = i[1]
 
-        if highest_score > 85: output = winner.Match.match(text, True) #Pokud by byla potřeba nějaká úprava textu
+        if highest_score > 85: output = winner.Match.match(user, text, True) #Pokud by byla potřeba nějaká úprava textu
         elif WEB_WIKI == "True":  output = web_finder.Wiki.web_find(text)
         else: output = web_finder.Wiki.wikidata_find(text)
 

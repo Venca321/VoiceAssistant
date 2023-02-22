@@ -3,7 +3,7 @@ from Modules.functions.functions import *
 import os
 
 class Match():
-    def match(text:str, output:bool=False):
+    def match(user:dict, text:str, output:bool=False):
         """
         Output False: returne procenta nejlepší shody
         Output True: returne výsledek funkce největší shody

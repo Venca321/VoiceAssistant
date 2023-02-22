@@ -29,36 +29,36 @@ class Voice_server():
         """
         Handle pro jednotlivé klienty
         """
+        connected = False
         SERVER_CERTIFICATE = data.read(f"{os.getcwd()}/Data/certificate.ini", "Certificate", "server")
         CLIENT_CERTIFICATE = data.read(f"{os.getcwd()}/Data/certificate.ini", "Certificate", "client")
         #print(f' New client: "{addr[0]}:{addr[1]}" (Active connections: {threading.active_count() - 1})')
-        conn.send(SERVER_CERTIFICATE.encode("utf-8")) #Bezpečnostní ověření
-        if conn.recv(2048).decode("utf-8") == CLIENT_CERTIFICATE: #Pokud se ověří
+        if conn.recv(2048).decode("utf-8") == CLIENT_CERTIFICATE: #Bezpečnostní ověření
+            conn.send(SERVER_CERTIFICATE.encode("utf-8"))
 
             file = open("Client_updater/client-core.py", "r")
             for line in file.readlines(): #Získání verze klienta tady na serveru
                 if "VERSION = " in line:
                     client_version = line.replace("VERSION = ", "").replace('"', "").replace("\n", "")
             file.close()
-            conn.send(client_version.encode("utf-8")) #Poslání verze klienta
-            need_update = conn.recv(2048).decode("utf-8") 
+            
+            info = conn.recv(2048).decode("utf-8").split(", ")
+            user = AuthStore.login(info[1], info[2])
+            if user["status"] == "Auth_error": 
+                conn.send("Auth_error".encode("utf-8"))
+                register = conn.recv(2048).decode("utf-8").replace("Register ", "").split(", ")
+                user = AuthStore.register(register[0], register[1])
 
-            if need_update == "Need_update_pls": #Pokud potřebuje update:
+            if info[0][2:] > client_version[2:]: conn.send("Version_error".encode("utf-8"))
+            elif info[0][2:] < client_version[2:]:
                 file = open("Client_updater/client-core.py", "r")
                 data0 = file.read()
                 file.close()
-                conn.send(data0.encode("utf-8")) #...
+                conn.send(data0.encode("utf-8"))
+            else: 
+                conn.send("No_new_update".encode("utf-8"))
+                connected = True
 
-            try:
-                conn.send("!Send-Username?".encode("utf-8"))
-                username = conn.recv(2048).decode("utf-8")
-                conn.send("!Send-Password?".encode("utf-8"))
-                password = conn.recv(2048).decode("utf-8")
-                user = AuthStore.login(username, password)
-            except: None
-
-            if user: connected = True 
-            else: connected = False
             while connected: #Zahájení připojení
                 try:
                     lenght = int(conn.recv(2048).decode("utf-8")) #Přijme informaci o velikosti dat

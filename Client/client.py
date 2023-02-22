@@ -19,6 +19,21 @@ VERSION = certificate.get("Client", "version")
 SERVER_CERTIFICATE = certificate.get("Certificate", "server")
 CLIENT_CERTIFICATE = certificate.get("Certificate", "client")
 
+client_username = certificate.get("Client", "username")
+client_password = certificate.get("Client", "password")
+if client_username == "" or client_password == "":
+    print("Nemáte uložené přihlašovací údaje, prosím přihlašte se:")
+    client_username = input("Uživatelské jméno: ")
+    client_password = input("Heslo: ")
+    while True:
+        input1 = input("Chcete uložit přihlašovací údaje [Y/n]?").lower()
+        if input1 == "n": break
+        elif input1 == "y" or input1 == "":
+            certificate.set("Client", "username", client_username)
+            certificate.set("Client", "password", client_password)
+            with open("certificate.ini", "w") as configfile: certificate.write(configfile) #Uložení
+            break
+
 def handle_exit(signum, frame):
     client.close()
     os._exit(1)
@@ -36,38 +51,35 @@ except:
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Client connect
     client.connect((host, PORT))
 
+client.send(CLIENT_CERTIFICATE.encode("utf-8"))
 if client.recv(2048).decode("utf-8") == SERVER_CERTIFICATE: #Client auth
-    client.send(CLIENT_CERTIFICATE.encode("utf-8"))
-    top_version = client.recv(2048).decode("utf-8") #Zjištění server verze
-    if VERSION[2:] == "?.?":
-        client.send("Updated".encode("utf-8"))
+    client.send(f"{VERSION}, {client_username}, {client_password}".encode("utf-8"))
+    data = client.recv(48152).decode("utf-8")
+
+    if data == "Auth_error":
+        client.send(f"Register {client_username}, {client_password}".encode("utf-8"))
+        data = client.recv(48152).decode("utf-8")
+
+    if data == "Version_error":
+        print(" Version Error")
+        client.close()
+        os._exit(1)
+    
+    elif data == "No_new_update":
         client.close()
         os.system("python client-core.py")
         os._exit(1)
-    if float(top_version[2:]) > float(VERSION[2:]):
-        client.send("Need_update_pls".encode("utf-8")) #Autoupdate
+
+    else:
         input1 = input("\n Je dostupná nová verze, prosím potvrďte aktualizaci [Y/n] ")
         if input1.lower() == "y" or input1.lower() == "":
             print(" Aktualizování...")
-            data = client.recv(48152).decode("utf-8")
             file = open("client-core.py", "w")
             file.write(data)
             file.close()
             client.close()
             os.system("python client-core.py")
             os._exit(1)
-
-    elif float(top_version[2:]) == float(VERSION[2:]):
-        client.send("Updated".encode("utf-8"))
-        client.close()
-        os.system("python client-core.py")
-        os._exit(1)
-
-    elif float(top_version[2:]) < float(VERSION[2:]): #Pokud je tady větší verze než na serveru, error
-        print(" Version Error")
-        client.close()
-        os._exit(1)
-    else: client.send("Updated".encode("utf-8"))
 else: 
     print(" Auth Error") #Auth error
     client.close()
