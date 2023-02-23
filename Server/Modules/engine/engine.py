@@ -4,6 +4,7 @@ from Modules.functions.functions import *
 from Modules.web_finder import web_finder
 import os, datetime
 
+LOGS_LIMIT = 25
 MODULES = data.options(f"{os.getcwd()}/Modules/tester/data/config.ini", "Modules")
 WEB_WIKI = str(data.read(f"{os.getcwd()}/Data/config.ini", "Settings", "wiki_finder_online"))
 imported = {}
@@ -45,5 +46,9 @@ class Engine():
         else: output = web_finder.Wiki.wikidata_find(text)
 
         data.write(f"{os.getcwd()}/Modules/engine/data/.userdata/{user['username']}.ini", "Log", datetime.datetime.now().strftime("%d/%m/%Y_%H/%M/%S/%f"), Userdata.encode(f"{origo_text}", user['password']))
+        logs = data.options(f"{os.getcwd()}/Modules/engine/data/.userdata/{user['username']}.ini", "Log")
+        if len(logs) >= LOGS_LIMIT:
+            for i in range(len(logs)-(LOGS_LIMIT-1)):
+                data.remove_option(f"{os.getcwd()}/Modules/engine/data/.userdata/{user['username']}.ini", "Log", logs[i])
 
         return output
