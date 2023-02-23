@@ -4,7 +4,7 @@ from Modules.functions.functions import *
 from Modules.web_finder import web_finder
 import os, datetime
 
-LOGS_LIMIT = 25
+LOGS_LIMIT = int(data.read(f"{os.getcwd()}/Data/config.ini", "Settings", "history_limit"))
 MODULES = data.options(f"{os.getcwd()}/Modules/tester/data/config.ini", "Modules")
 WEB_WIKI = str(data.read(f"{os.getcwd()}/Data/config.ini", "Settings", "wiki_finder_online"))
 imported = {}
