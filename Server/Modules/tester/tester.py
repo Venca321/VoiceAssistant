@@ -48,7 +48,6 @@ class Tester():
             try: 
                 file = open(f'{os.getcwd()}/{data.read(CONFIG_FILE, "Vocabulary", i)}', "r")
                 text = file.read()
-                if not "[Match]" in text: raise
                 file.close()
                 file = open(f'{os.getcwd()}/{data.read(CONFIG_FILE, "Vocabulary", i)}', "r")
                 vocabulary_lines += len(file.read().split("\n"))

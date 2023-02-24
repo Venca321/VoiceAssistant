@@ -7,8 +7,8 @@ class Wiki():
         """
         Najde v textu klíčová slova, které najde na wikipedii, pokud dosáhne dostatečné shody, vrátí to
         """
-        remove_from_input = data.read(f"{os.getcwd()}/Modules/web_finder/data/config.ini", "Wiki", "remove_from_input").split(", ")
-        remove_from_output = data.read(f"{os.getcwd()}/Modules/web_finder/data/config.ini", "Wiki", "remove_from_output").split(", ")
+        remove_from_input = data.read(f"{os.getcwd()}/Modules/web_finder/data/vocabulary.ini", "Wiki_remove", "remove_from_input").split(", ")
+        remove_from_output = data.read(f"{os.getcwd()}/Modules/web_finder/data/vocabulary.ini", "Wiki_remove", "remove_from_output").split(", ")
 
         for checked_word in text.split(" "): #Pokud je nějaké slovo na 90%+ in words_to_remove, odeber ho
             if Texts.match(remove_from_input, checked_word) > 90:
@@ -30,8 +30,8 @@ class Wiki():
         """
         Najde v textu klíčová slova, které najde v lokálních souborech (zpracovaná data z wikipedie), pokud dosáhne dostatečné shody, vrátí to
         """
-        remove_from_input = data.read(f"{os.getcwd()}/Modules/web_finder/data/config.ini", "Wiki", "remove_from_input").split(", ")
-        remove_from_output = data.read(f"{os.getcwd()}/Modules/web_finder/data/config.ini", "Wiki", "remove_from_output").split(", ")
+        remove_from_input = data.read(f"{os.getcwd()}/Modules/web_finder/data/vocabulary.ini", "Wiki_remove", "remove_from_input").split(", ")
+        remove_from_output = data.read(f"{os.getcwd()}/Modules/web_finder/data/vocabulary.ini", "Wiki_remove", "remove_from_output").split(", ")
 
         for checked_word in text.split(" "): #Pokud je nějaké slovo na 90%+ in words_to_remove, odeber ho
             if Texts.match(remove_from_input, checked_word) > 90:
@@ -56,6 +56,8 @@ class Wiki():
                         if text.startswith(" "): text = text[1:]
                         output = output + "\n" + text
                 except: None
+
+                if output.startswith("\n"): output = output[1:]
 
                 for checked_word in output.split(" "): #Pokud je nějaké slovo na 90%+ in words_to_remove, odeber ho
                     if Texts.match(remove_from_output, checked_word) > 90:
