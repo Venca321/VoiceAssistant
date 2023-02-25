@@ -1,5 +1,6 @@
 
 from importlib.machinery import SourceFileLoader
+from Modules.user_manager.user_manager import UserData
 from Modules.functions.functions import *
 from Modules.web_finder import web_finder
 import os, datetime
@@ -45,7 +46,7 @@ class Engine():
         elif WEB_WIKI == "True":  output = web_finder.Wiki.web_find(text)
         else: output = web_finder.Wiki.wikidata_find(text)
 
-        data.write(f"{os.getcwd()}/Modules/engine/data/.userdata/{user['username']}.ini", "Log", datetime.datetime.now().strftime("%d/%m/%Y_%H/%M/%S/%f"), Userdata.encode(f"{origo_text}", user['password']))
+        data.write(f"{os.getcwd()}/Modules/engine/data/.userdata/{user['username']}.ini", "Log", datetime.datetime.now().strftime("%d/%m/%Y_%H/%M/%S/%f"), UserData.encode(f"{origo_text}", user['password']))
         logs = data.options(f"{os.getcwd()}/Modules/engine/data/.userdata/{user['username']}.ini", "Log")
         if len(logs) >= LOGS_LIMIT:
             for i in range(len(logs)-(LOGS_LIMIT-1)):
