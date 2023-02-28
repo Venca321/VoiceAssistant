@@ -1,5 +1,5 @@
 html {
-    background-color: #25262f;
+    background-color: #2d2f35;
 }
 
 h1 {
@@ -8,16 +8,19 @@ h1 {
 
 p {
     color: #ffffff;
+    font-family: Arial;
 }
 
 a {
     color: #ffffff;
+    font-family: Arial;
 }
 
 input,
 select,
 textarea {
     color: #ffffff;
+    font-family: Arial;
 }
 
 input {

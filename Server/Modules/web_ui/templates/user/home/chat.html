@@ -5,49 +5,129 @@
     <title>Chat</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/user/home/chat.css')}}">
+    <script src="js/chat.js"></script>
 </head>
 
 <body>
+    <section id="menu">
+        {% with messages = get_flashed_messages() %}
+        <p id="back"><a href="/home">Zpět</a></p>
+        <p> {{messages[0]}} </p>
+        {% endwith %}
+    </section>
+    <section id="chat">
+        <div id="bottom">
+            {% with messages = get_flashed_messages() %}
+            {% if messages[20] %}
+            <div class="server_message">
+                <p> {{messages[20]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[10] %}
+            <div class="user_message">
+                <p> {{messages[10]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[19] %}
+            <div class="server_message">
+                <p> {{messages[19]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[9] %}
+            <div class="user_message">
+                <p> {{messages[9]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[18] %}
+            <div class="server_message">
+                <p> {{messages[18]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[8] %}
+            <div class="user_message">
+                <p> {{messages[8]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[17] %}
+            <div class="server_message">
+                <p> {{messages[17]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[7] %}
+            <div class="user_message">
+                <p> {{messages[7]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[16] %}
+            <div class="server_message">
+                <p> {{messages[16]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[6] %}
+            <div class="user_message">
+                <p> {{messages[6]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[15] %}
+            <div class="server_message">
+                <p> {{messages[15]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[5] %}
+            <div class="user_message">
+                <p> {{messages[5]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[14] %}
+            <div class="server_message">
+                <p> {{messages[14]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[4] %}
+            <div class="user_message">
+                <p> {{messages[4]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[13] %}
+            <div class="server_message">
+                <p> {{messages[13]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[3] %}
+            <div class="user_message">
+                <p> {{messages[3]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[12] %}
+            <div class="server_message">
+                <p> {{messages[12]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[2] %}
+            <div class="user_message">
+                <p> {{messages[2]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[11] %}
+            <div class="server_message">
+                <p> {{messages[11]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[1] %}
+            <div class="user_message">
+                <p> {{messages[1]}} </p>
+            </div>
+            {% endif %}
 
-    <h3 style='color: #ccc;font-size: 30px;'>No message yet..</h3>
-    <div class="message_holder"></div>
-
-    <form action="" method="POST">
-        <input type="text" class="username" placeholder="User Name" />
-        <input type="text" class="message" placeholder="Messages" />
-        <input type="submit" />
-    </form>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
-    <script type="text/javascript">
-        var socket = io.connect('http://' + document.domain + ':' + location.port);
-
-        socket.on('connect', function () {
-            socket.emit('my event', {
-                data: 'User Connected'
-            })
-            var form = $('form').on('submit', function (e) {
-                e.preventDefault()
-                let user_name = $('input.username').val()
-                let user_input = $('input.message').val()
-                socket.emit('my event', {
-                    user_name: user_name,
-                    message: user_input
-                })
-                $('input.message').val('').focus()
-            })
-        })
-        socket.on('my response', function (msg) {
-            console.log(msg)
-            if (typeof msg.user_name !== 'undefined') {
-                $('h3').remove()
-                $('div.message_holder').append('<div><b style="color: #000">' + msg.user_name + '</b> ' + msg.message + '</div>')
-            }
-        })
-    </script>
-
+            {% endwith %}
+        </div>
+    </section>
+    <section id="entry">
+        <form method="POST" autocomplete="off">
+            <input name="message" id="message" placeholder="Tady napište nějakou zprávu" autofocus="autofocus">
+            <button type="submit" id="submit">-></button>
+        </form>
+    </section>
 </body>
 
 </html>
