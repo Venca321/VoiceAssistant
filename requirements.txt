@@ -8,3 +8,5 @@ asyncio==3.4.3
 wikipedia==1.4.0
 geopy==2.3.0
 cryptography==37.0.2
+Flask==2.2.3
+waitress==2.1.2

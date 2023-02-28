@@ -6,7 +6,8 @@ html {
     position: fixed;
     z-index: 999999;
     background-color: #202229;
-    text-align: left;
+    display: inline-block;
+    text-align: right;
     width: 100vw;
     height: 8vh;
     top: 0px;
