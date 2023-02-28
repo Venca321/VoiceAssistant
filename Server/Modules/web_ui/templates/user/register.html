@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registrace</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/user/register.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+</head>
+
+<body>
+    <h1>Registrace</h1>
+    <p>Zde si můžete zaregistrovat nový účet. Pokud už účet máte, přejděte na <a
+            href="{{url_for('login')}}">přihlášení</a></p>
+    <form method="POST">
+        <input name="username" class="my_input" placeholder="Honzík847">
+        <br>
+        <input name="email" class="my_input" placeholder="honzik847@fakemail.com">
+        <br>
+        <input name="password" class="my_input" type="password" placeholder="**********">
+        <br>
+        <input name="repeat_password" class="my_input" type="password" placeholder="**********">
+        <br>
+        <button type="submit"><a>Registrovat se</a></button>
+    </form>
+</body>
+
+</html>

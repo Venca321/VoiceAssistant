@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>MIA</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+</head>
+
+<body>
+    <section id="menu">
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+    </section>
+    <br>
+    <h1>Test</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium at quasi sit illo, reprehenderit rem modi
+        natus quos odit fugit pariatur corporis esse quisquam cum tenetur sint laboriosam vero dignissimos.</p>
+    {% for message in get_flashed_messages()%}
+    <p> {{message}} </p>
+    {% endfor %}
+</body>
+
+</html>

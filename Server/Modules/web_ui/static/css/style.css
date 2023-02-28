@@ -1,0 +1,29 @@
+html {
+    background-color: #25262f;
+}
+
+h1 {
+    color: #ffffff;
+}
+
+p {
+    color: #ffffff;
+}
+
+a {
+    color: #ffffff;
+}
+
+input,
+select,
+textarea {
+    color: #ffffff;
+}
+
+input {
+    background-color: #31333e;
+}
+
+button {
+    background-color: #31333e;
+}
