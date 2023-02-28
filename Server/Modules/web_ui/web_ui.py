@@ -81,6 +81,11 @@ def regiter_post():
     
     return render_template("user/register.html")
 
+@app.route("/logout") ##############################    Logout    ##############################
+def logout():
+    AuthManager.logout()
+    return redirect(url_for("login"))
+
 @app.route("/home") ##############################    Home    ##############################
 def home():
     if AuthManager.is_logged:

@@ -10,10 +10,17 @@
 
 <body>
     <section id="menu">
-        {% with messages = get_flashed_messages() %}
-        <!--<p id="back"><a href="/home">Zpět</a></p>-->
-        <p> {{messages[0]}} </p>
-        {% endwith %}
+        <div class="dropdown">
+            {% with messages = get_flashed_messages() %}
+            <!--<p id="back"><a href="/home">Zpět</a></p>-->
+            <button class="dropbtn">
+                <p>{{ messages[0] }}</p>
+            </button>
+            <div class="dropdown-content">
+                <a href="/logout">Logout</a>
+            </div>
+            {% endwith %}
+        </div>
     </section>
     <section id="chat">
         <div id="bottom">
