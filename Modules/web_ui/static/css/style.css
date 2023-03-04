@@ -1,5 +1,6 @@
 html {
     background-color: #2d2f35;
+    touch-action: manipulation;
 }
 
 h1 {
