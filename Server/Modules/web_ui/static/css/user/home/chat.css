@@ -1,0 +1,150 @@
+html {
+    overflow-x: hidden;
+}
+
+#menu {
+    position: fixed;
+    z-index: 999999;
+    background-color: #202229;
+    display: inline-block;
+    text-align: right;
+    width: 100vw;
+    height: 8vh;
+    top: 0px;
+    left: 0px;
+}
+
+#menu p {
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.dropbtn {
+    right: 0;
+    border: none;
+    background-color: #20222900;
+    width: 15vw;
+    text-align: center;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    text-align: center;
+    display: none;
+    position: absolute;
+    background-color: #313239;
+    width: 15vw;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: #ffffff;
+    height: 5vh;
+    padding-top: 5px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #727171;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #313239;
+}
+
+#chat {
+    position: fixed;
+    width: 80vw;
+    height: 84vh;
+    top: 8vh;
+    left: 10vw;
+}
+
+#chat div {
+    padding-top: 0.1vh;
+}
+
+#bottom {
+    position: absolute;
+    bottom: 2vh;
+    width: 90vw;
+    height: 84vh;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.server_message {
+    text-align: left;
+    max-width: 60vw;
+}
+
+.server_message p {
+    width: fit-content;
+    background-color: #5e6776;
+    border-radius: 10px;
+    padding: 10px 10px 10px 10px;
+}
+
+.user_message {
+    text-align: right;
+    margin-left: 20vw;
+}
+
+.user_message p {
+    width: fit-content;
+    margin-left: auto;
+    margin-right: 10vw;
+    background-color: #0084ff;
+    border-radius: 10px;
+    padding: 10px 10px 10px 10px;
+}
+
+#entry {
+    position: fixed;
+    z-index: 999999;
+    text-align: center;
+    background-color: #202229;
+    width: 100vw;
+    height: 8vh;
+    bottom: 0px;
+    left: 0px;
+}
+
+#entry input {
+    width: 60%;
+    height: 4vh;
+    margin-top: 2vh;
+    border-radius: 5px;
+}
+
+#entry button {
+    width: 35px;
+    height: 35px;
+    border-radius: 100%;
+    background-color: aliceblue;
+    color: #000000;
+    font-family: Arial;
+    font-weight: bold;
+    margin-left: 15px;
+}
+
+#message,
+select,
+textarea {
+    padding-left: 1%;
+    background-color: aliceblue;
+    color: #000000;
+    font-family: Arial;
+    font-size: 14px;
+}

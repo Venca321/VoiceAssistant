@@ -1,0 +1,32 @@
+html {
+    background-color: #2d2f35;
+}
+
+h1 {
+    color: #ffffff;
+}
+
+p {
+    color: #ffffff;
+    font-family: Arial;
+}
+
+a {
+    color: #ffffff;
+    font-family: Arial;
+}
+
+input,
+select,
+textarea {
+    color: #ffffff;
+    font-family: Arial;
+}
+
+input {
+    background-color: #31333e;
+}
+
+button {
+    background-color: #31333e;
+}
