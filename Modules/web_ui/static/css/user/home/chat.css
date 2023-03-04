@@ -97,7 +97,7 @@ html {
 }
 
 .user_message {
-    text-align: right;
+    text-align: left;
     margin-left: 20vw;
 }
 
@@ -129,8 +129,8 @@ html {
 }
 
 #entry button {
-    width: 35px;
-    height: 35px;
+    width: 4vh;
+    height: 4vh;
     border-radius: 100%;
     background-color: aliceblue;
     color: #000000;
@@ -147,4 +147,20 @@ textarea {
     color: #000000;
     font-family: Arial;
     font-size: 14px;
+}
+
+@media screen and (max-device-width: 800px) {
+    #bottom {
+        bottom: 10vh;
+    }
+
+    #entry button {
+        font-size: 26px;
+    }
+
+    #message,
+    select,
+    textarea {
+        font-size: 26px;
+    }
 }
