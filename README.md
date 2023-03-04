@@ -9,7 +9,8 @@ MIA je hlasový asistent vytvořen v roce 2023.
 
 - Použijte: `python installer.py`
 - Postupujte podle pokynů
-- Spusťte [main.py](main.py) (ctrl+c to stop)
+- Spusťte [main.py](main.py) (`python main.py`)
+- Pokud potřebujete server zastavit, dejte v konzoli ctrl+c
 
 ---
 
@@ -39,3 +40,6 @@ MIA je hlasový asistent vytvořen v roce 2023.
 # Programming languages
 
 ![Python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
+![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white) 
+![JS](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
