@@ -34,8 +34,10 @@ class AuthManager():
         session["password"] = ""
 
     def is_logged():
-        if session["password"] == "" or session["password"] == "": return False
-        else: return True
+        try:
+            if session["username"] == "" or session["password"] == "": return False
+            else: return True
+        except: return False
 
     def user():
         data = {}
@@ -58,7 +60,7 @@ def login_post():
 
     if username and password: AuthManager.login(username, password)
 
-    if AuthManager.is_logged:
+    if AuthManager.is_logged():
         return redirect(url_for('home'))
     
     return render_template("user/login.html")
@@ -76,7 +78,7 @@ def regiter_post():
     
     if username and password and password == repeat_password: AuthManager.register(username, password)
 
-    if AuthManager.is_logged:
+    if AuthManager.is_logged():
         return redirect(url_for('home'))
     
     return render_template("user/register.html")
@@ -88,7 +90,7 @@ def logout():
 
 @app.route("/home") ##############################    Home    ##############################
 def home():
-    if AuthManager.is_logged:
+    if AuthManager.is_logged():
         return render_template("user/home/home.html")
 
     return redirect(url_for('login'))
@@ -96,7 +98,7 @@ def home():
 """
 @app.route("/home/settings")
 def settings():
-    if AuthManager.is_logged:
+    if AuthManager.is_logged():
         return "Ok"
 
     return redirect(url_for('login'))
@@ -106,7 +108,7 @@ def settings():
 def chat():
     session["messages_from_server"] = ["", "", "", "", "", "", "", "", "", ""]
     session["messages_from_user"] = ["", "", "", "", "", "", "", "", "", ""]
-    if AuthManager.is_logged:
+    if AuthManager.is_logged():
         user = AuthManager.user()
 
         flash(user["username"])
@@ -119,7 +121,7 @@ def chat():
 def chat_post():
     message = request.form["message"]
 
-    if AuthManager.is_logged:
+    if AuthManager.is_logged():
         if message:
             user = AuthManager.user()
 
@@ -156,7 +158,7 @@ def chat_post():
 
 @app.route("/home/voice") ##############################    Voice    ##############################
 def voice():
-    if AuthManager.is_logged:
+    if AuthManager.is_logged():
         return render_template("user/home/voice.html")
 
     return redirect(url_for('login'))
