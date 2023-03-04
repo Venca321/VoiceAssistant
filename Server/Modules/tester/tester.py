@@ -87,7 +87,7 @@ class Tester():
         time.sleep(0.2)
         print(f"\n Successfully loaded ({code_lines+config_lines+vocabulary_lines} lines):\n   {code_lines} lines of code\n   {config_lines} lines of configuration\n   {vocabulary_lines} lines of vocabulary data\n   {wiki_data} wikidata pages\n")
 
-    def test(output:bool=False): #output = True je 1. test (s printem)
+    def test_outdated(output:bool=False): #output = True je 1. test (s printem)
         """
         Otestuje funkčnost server systému
         """

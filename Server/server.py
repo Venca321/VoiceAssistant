@@ -33,7 +33,7 @@ class Threads():
         """
         print(" Testing functionality...", end="\r")
         time.sleep(3)
-        tester.Tester.test(True)
+        tester.Tester.test(True) #test_outdated()
         time.sleep(60)
         while True:
             start = time.time()
