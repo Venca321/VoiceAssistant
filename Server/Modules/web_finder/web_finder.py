@@ -1,6 +1,7 @@
 
 from Modules.functions.functions import *
-import wikipedia, os, csv
+from multiprocessing.pool import ThreadPool
+import wikipedia, os, csv, time
 
 class Wiki():
     def web_find(text:str):
@@ -38,7 +39,31 @@ class Wiki():
                 text = text.replace(checked_word, "").replace("  ", " ")
         if text.startswith(" "): text = text[1:]
 
-        wikidata = csv.reader(open("Data/wikidata/wikidata.csv", "r"))
+        pool = ThreadPool(processes=5)
+
+        async_result1 = pool.apply_async(Wiki.wikidata_reader, ("Data/wikidata/wikidata1.csv", text, odstavcu))
+        async_result2 = pool.apply_async(Wiki.wikidata_reader, ("Data/wikidata/wikidata2.csv", text, odstavcu))
+        async_result3 = pool.apply_async(Wiki.wikidata_reader, ("Data/wikidata/wikidata3.csv", text, odstavcu))
+        async_result4 = pool.apply_async(Wiki.wikidata_reader, ("Data/wikidata/wikidata4.csv", text, odstavcu))
+        async_result5 = pool.apply_async(Wiki.wikidata_reader, ("Data/wikidata/wikidata5.csv", text, odstavcu))
+
+        out1 = async_result1.get()
+        out2 = async_result2.get()
+        out3 = async_result3.get()
+        out4 = async_result4.get()
+        out5 = async_result5.get()
+
+        out = [out1, out2, out3, out4, out5]
+        for output in out:  
+            if output:
+                for checked_word in output.split(" "): #Pokud je nějaké slovo na 90%+ in words_to_remove, odeber ho
+                    if Texts.match(remove_from_output, checked_word) > 90:
+                        output = output.replace(checked_word, "").replace("  ", " ")
+
+                return output
+
+    def wikidata_reader(path_to_wikidata_file:str, text:str, odstavcu:int):
+        wikidata = csv.reader(open(path_to_wikidata_file, "r"))
         for row in wikidata:
             if row[1].lower() == text:
                 file = open(f"Data/wikidata/pages/{row[0]}.txt", "r")
@@ -58,12 +83,8 @@ class Wiki():
                 except: None
 
                 if output.startswith("\n"): output = output[1:]
-
-                for checked_word in output.split(" "): #Pokud je nějaké slovo na 90%+ in words_to_remove, odeber ho
-                    if Texts.match(remove_from_output, checked_word) > 90:
-                        output = output.replace(checked_word, "").replace("  ", " ")
-
                 return output
+        return None
 
 class Google:
     def find():

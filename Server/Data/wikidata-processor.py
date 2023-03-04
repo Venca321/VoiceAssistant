@@ -5,11 +5,18 @@ Script pro zpracování dat z wikipedie na použitelná wikidata, s kterými pra
 """
 
 import mwxml, glob, csv, html2text, re, time
-
 paths = glob.glob('wikidata/cswiki-latest-pages-articles*.xml*.bz2') #Načtení wiki dat (staženo z wikipedie)
 
-f = open('wikidata/wikidata.csv', 'w') #Zapsání co řádky znamenají
-writer = csv.writer(f)
+f = open('wikidata/wikidata1.csv', 'w') #Zapsání co řádky znamenají
+writer1 = csv.writer(f)
+f = open('wikidata/wikidata2.csv', 'w') #Zapsání co řádky znamenají
+writer2 = csv.writer(f)
+f = open('wikidata/wikidata3.csv', 'w') #Zapsání co řádky znamenají
+writer3 = csv.writer(f)
+f = open('wikidata/wikidata4.csv', 'w') #Zapsání co řádky znamenají
+writer4 = csv.writer(f)
+f = open('wikidata/wikidata5.csv', 'w') #Zapsání co řádky znamenají
+writer5 = csv.writer(f)
 
 start = time.time()
 print("Started")
@@ -24,7 +31,9 @@ def process_dump(dump, path):
 
                 founds = re.findall(r"!mark!(.*?)!/mark!", text.replace("[[", "!mark!").replace("]]", "!/mark!"))
                 for found in founds: 
-                    try: text = text.replace(found, found.split("|")[-1]).replace("[[", "").replace("]]", "")
+                    try: 
+                        if not "Soubor:" in text: text = text.replace(found, found.split("|")[-1]).replace("[[", "").replace("]]", "")
+                        else: text = text.replace(found, "").replace("[[", "").replace("]]", "")
                     except: text = text.replace("[[", "").replace("]]", "")
 
                 founds = re.findall("{{Infobox (.*?) }}", text)
@@ -56,13 +65,12 @@ banned_words = ["leden", "únor", "březen", "duben", "květen", "červen", "če
 aproved = 0
 banned = 0
 errors = 0
+counter = 0
 for page_id, title, text in mwxml.map(process_dump, paths):
+    if counter < 5: counter += 1
+    else: counter = 1
     try:
         process = True
-        if page_id == 4 or page_id == 7 or page_id == 8: #3 wiki info stránky, které nepotřebujeme
-            process = False
-            print(f'Stránka "{title}" (číslo:{page_id}) byla odstraněna')
-
         for i in banned_words: #Tohle vyřadí měsíce, dny a další stránky, které nepotřebuji
             for word in title.split(" "):
                 if i == word:
@@ -76,7 +84,12 @@ for page_id, title, text in mwxml.map(process_dump, paths):
         except: None
             
         if process:
-            writer.writerow([page_id, title])
+            if counter == 1: writer1.writerow([page_id, title])
+            elif counter == 2: writer2.writerow([page_id, title])
+            elif counter == 3: writer3.writerow([page_id, title])
+            elif counter == 4: writer4.writerow([page_id, title])
+            else: writer5.writerow([page_id, title])
+
             file = open(f"wikidata/pages/{page_id}.txt", "a")
             file.close()
             file = open(f"wikidata/pages/{page_id}.txt", "w")
@@ -87,5 +100,5 @@ for page_id, title, text in mwxml.map(process_dump, paths):
     except: errors += 1
 
 f.close()
-print(f"Dokončeno v čase {(time.time()-start/60)}min")
+print(f"Dokončeno v čase {(time.time()-start)/60}min")
 print(f"Zpracováno: {aproved+banned} stránek\nUloženo: {aproved} stránek\nOdstraněno: {banned} stránek\nErrorů: {errors}")
