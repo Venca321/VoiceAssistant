@@ -46,6 +46,8 @@ class Engine():
         elif WEB_WIKI == "True":  output = web_finder.Wiki.web_find(text)
         else: output = web_finder.Wiki.wikidata_find(text)
 
+        if not output: output = "Odpověď na tuto otázku neznám"
+
         data.write(f"{os.getcwd()}/Modules/engine/data/.userdata/{user['username']}.ini", "Log", datetime.datetime.now().strftime("%d/%m/%Y_%H/%M/%S/%f"), UserData.encode(f"{origo_text}", user['password']))
         logs = data.options(f"{os.getcwd()}/Modules/engine/data/.userdata/{user['username']}.ini", "Log")
         if len(logs) >= LOGS_LIMIT:
