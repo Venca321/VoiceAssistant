@@ -106,8 +106,8 @@ def settings():
 
 @app.route("/home/chat") ##############################    Chat    ##############################
 def chat():
-    session["messages_from_server"] = ["", "", "", "", "", "", "", "", "", ""]
-    session["messages_from_user"] = ["", "", "", "", "", "", "", "", "", ""]
+    session["messages_from_server"] = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+    session["messages_from_user"] = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
     if AuthManager.is_logged():
         user = AuthManager.user()
 

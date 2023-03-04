@@ -31,7 +31,7 @@ class Threads():
         Prováděné testy (kontrola souborů)
         """
         print(" Testing functionality...", end="\r")
-        time.sleep(3)
+        time.sleep(1)
         tester.Tester.test(True)
         time.sleep(60)
         while True:

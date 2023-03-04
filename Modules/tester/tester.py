@@ -89,8 +89,10 @@ class Tester():
 
         WEB_WIKI = data.read(f"{os.getcwd()}/Data/config.ini", "Settings", "wiki_finder_online")
         if WEB_WIKI == "False":
-            wikidata = csv.reader(open(f"{os.getcwd()}/Data/wikidata/wikidata.csv", "r"))
-            for row in wikidata: wiki_data += 1
+            wiki_files = ["wikidata1", "wikidata2", "wikidata3", "wikidata4", "wikidata5"]
+            for file in wiki_files:
+                wikidata = csv.reader(open(f"{os.getcwd()}/Data/wikidata/{file}.csv", "r"))
+                for _ in wikidata: wiki_data += 1
 
         print(f' Loading files...           100% [{100*"#"}]') #Vše ok
         time.sleep(0.2)

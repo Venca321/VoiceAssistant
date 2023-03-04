@@ -5,7 +5,7 @@
     <title>Chat</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/user/home/chat.css')}}">
-    <script src="js/chat.js"></script>
+    <script src="{{url_for('static', filename='js/chat.js')}}"></script>
 </head>
 
 <body>
@@ -25,9 +25,109 @@
     <section id="chat">
         <div id="bottom">
             {% with messages = get_flashed_messages() %}
-            {% if messages[20] %}
+            {% if messages[40] %}
             <div class="server_message">
+                <p id="Server 40"> {{messages[40]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[20] %}
+            <div class="user_message">
                 <p> {{messages[20]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[39] %}
+            <div class="server_message">
+                <p id="Server 39"> {{messages[39]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[19] %}
+            <div class="user_message">
+                <p> {{messages[19]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[38] %}
+            <div class="server_message">
+                <p id="Server 38"> {{messages[38]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[18] %}
+            <div class="user_message">
+                <p> {{messages[18]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[37] %}
+            <div class="server_message">
+                <p id="Server 37"> {{messages[37]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[17] %}
+            <div class="user_message">
+                <p> {{messages[17]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[36] %}
+            <div class="server_message">
+                <p id="Server 36"> {{messages[36]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[16] %}
+            <div class="user_message">
+                <p> {{messages[16]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[35] %}
+            <div class="server_message">
+                <p id="Server 35"> {{messages[35]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[15] %}
+            <div class="user_message">
+                <p> {{messages[15]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[34] %}
+            <div class="server_message">
+                <p id="Server 34"> {{messages[34]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[14] %}
+            <div class="user_message">
+                <p> {{messages[14]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[33] %}
+            <div class="server_message">
+                <p id="Server 33"> {{messages[33]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[13] %}
+            <div class="user_message">
+                <p> {{messages[13]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[32] %}
+            <div class="server_message">
+                <p id="Server 32"> {{messages[32]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[12] %}
+            <div class="user_message">
+                <p> {{messages[12]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[31] %}
+            <div class="server_message">
+                <p id="Server 31"> {{messages[31]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[11] %}
+            <div class="user_message">
+                <p> {{messages[11]}} </p>
+            </div>
+            {% endif %}
+            {% if messages[30] %}
+            <div class="server_message">
+                <p id="Server 30"> {{messages[30]}} </p>
             </div>
             {% endif %}
             {% if messages[10] %}
@@ -35,9 +135,9 @@
                 <p> {{messages[10]}} </p>
             </div>
             {% endif %}
-            {% if messages[19] %}
+            {% if messages[29] %}
             <div class="server_message">
-                <p> {{messages[19]}} </p>
+                <p id="Server 29"> {{messages[29]}} </p>
             </div>
             {% endif %}
             {% if messages[9] %}
@@ -45,9 +145,9 @@
                 <p> {{messages[9]}} </p>
             </div>
             {% endif %}
-            {% if messages[18] %}
+            {% if messages[28] %}
             <div class="server_message">
-                <p> {{messages[18]}} </p>
+                <p id="Server 28"> {{messages[28]}} </p>
             </div>
             {% endif %}
             {% if messages[8] %}
@@ -55,9 +155,9 @@
                 <p> {{messages[8]}} </p>
             </div>
             {% endif %}
-            {% if messages[17] %}
+            {% if messages[27] %}
             <div class="server_message">
-                <p> {{messages[17]}} </p>
+                <p id="Server 27"> {{messages[27]}} </p>
             </div>
             {% endif %}
             {% if messages[7] %}
@@ -65,9 +165,9 @@
                 <p> {{messages[7]}} </p>
             </div>
             {% endif %}
-            {% if messages[16] %}
+            {% if messages[26] %}
             <div class="server_message">
-                <p> {{messages[16]}} </p>
+                <p id="Server 26"> {{messages[26]}} </p>
             </div>
             {% endif %}
             {% if messages[6] %}
@@ -75,9 +175,9 @@
                 <p> {{messages[6]}} </p>
             </div>
             {% endif %}
-            {% if messages[15] %}
+            {% if messages[25] %}
             <div class="server_message">
-                <p> {{messages[15]}} </p>
+                <p id="Server 25"> {{messages[25]}} </p>
             </div>
             {% endif %}
             {% if messages[5] %}
@@ -85,9 +185,9 @@
                 <p> {{messages[5]}} </p>
             </div>
             {% endif %}
-            {% if messages[14] %}
+            {% if messages[24] %}
             <div class="server_message">
-                <p> {{messages[14]}} </p>
+                <p id="Server 24"> {{messages[24]}} </p>
             </div>
             {% endif %}
             {% if messages[4] %}
@@ -95,9 +195,9 @@
                 <p> {{messages[4]}} </p>
             </div>
             {% endif %}
-            {% if messages[13] %}
+            {% if messages[23] %}
             <div class="server_message">
-                <p> {{messages[13]}} </p>
+                <p id="Server 23"> {{messages[23]}} </p>
             </div>
             {% endif %}
             {% if messages[3] %}
@@ -105,9 +205,9 @@
                 <p> {{messages[3]}} </p>
             </div>
             {% endif %}
-            {% if messages[12] %}
+            {% if messages[22] %}
             <div class="server_message">
-                <p> {{messages[12]}} </p>
+                <p id="Server 22"> {{messages[22]}} </p>
             </div>
             {% endif %}
             {% if messages[2] %}
@@ -115,9 +215,9 @@
                 <p> {{messages[2]}} </p>
             </div>
             {% endif %}
-            {% if messages[11] %}
+            {% if messages[21] %}
             <div class="server_message">
-                <p> {{messages[11]}} </p>
+                <p id="Server 21"> {{messages[21]}} </p>
             </div>
             {% endif %}
             {% if messages[1] %}
