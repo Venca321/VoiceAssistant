@@ -3,5 +3,4 @@ wikidata/
 cache/
 .userdata/
 __pycache__
-certificate.ini
 users.ini
