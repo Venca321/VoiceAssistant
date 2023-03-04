@@ -12,11 +12,7 @@ window.onload = function () {
     elements.every(element => {
         var el = document.getElementById(element);
         if (!el) { return true }
-        else {
-            el.classList.add("typewriter");
-            typeWriter(el);
-            el.classList.remove("typewriter");
-        }
+        else { typeWriter(el); }
     })
 }
 
