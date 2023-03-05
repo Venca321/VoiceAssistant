@@ -12,15 +12,27 @@
     <section id="menu">
         {% with messages = get_flashed_messages() %}
         <p id="name"><span class="dot"></span> {{ messages[0] }}</p>
-        <a class="target base" href="/home" style="color:#5a9a9f;">Home</a>
+        <a class="target base" href="/home" style="color:#5a9a9f;">Domů</a>
         <br>
         <div class="tree">
+            <span><a class="target" href="/home" style="color:#5a9a9f;">Domů</a></span>
+            <br>
             <span><a class="target" href="/home/chat">Chat</a></span>
             <br>
             <span><a class="target" href="/home/voice">Voice</a></span>
         </div>
         <br>
-        <a id="logout" class="target" href="/logout">Logout</a>
+        <a class="target base" href="/home/settings">Nastavení</a>
+        <br>
+        <div class="tree">
+            <span><a class="target" href="/home/settings#profile">Profil</a></span>
+            <br>
+            <span><a class="target" href="/home/settings#preferences">Preference</a></span>
+            <br>
+            <span><a class="target" href="/home/settings#pro">MIA Pro</a></span>
+        </div>
+        <br>
+        <a id="logout" class="target" href="/logout">Odhlásit se</a>
         {% endwith %}
     </section>
 </body>

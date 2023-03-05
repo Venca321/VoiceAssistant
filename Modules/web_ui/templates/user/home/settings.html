@@ -2,27 +2,27 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Voice</title>
+    <title>Settings</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/user/home/sidebar.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/user/home/voice.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/user/home/settings.css')}}">
 </head>
 
 <body>
     <section id="menu">
         {% with messages = get_flashed_messages() %}
         <p id="name"><span class="dot"></span> {{ messages[0] }}</p>
-        <a class="target base" href="/home" style="color:#5a9a9f;">Domů</a>
+        <a class="target base" href="/home">Domů</a>
         <br>
         <div class="tree">
             <span><a class="target" href="/home">Domů</a></span>
             <br>
             <span><a class="target" href="/home/chat">Chat</a></span>
             <br>
-            <span><a class="target" href="/home/voice" style="color:#5a9a9f;">Voice</a></span>
+            <span><a class="target" href="/home/voice">Voice</a></span>
         </div>
         <br>
-        <a class="target base" href="/home/settings">Nastavení</a>
+        <a class="target base" href="/home/settings" style="color:#5a9a9f;">Nastavení</a>
         <br>
         <div class="tree">
             <span><a class="target" href="/home/settings#profile">Profil</a></span>

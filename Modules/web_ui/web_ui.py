@@ -137,14 +137,15 @@ def home():
 
     return redirect(url_for('login'))
 
-"""
-@app.route("/home/settings", strict_slashes=False)
+@app.route("/home/settings", strict_slashes=False) ##############################    Settings    ##############################
 def settings():
     if AuthManager.is_logged():
-        return "Ok"
+        user = AuthManager.user()
+
+        flash(user["username"])
+        return render_template("user/home/settings.html")
 
     return redirect(url_for('login'))
-"""
 
 @app.route("/home/chat", strict_slashes=False) ##############################    Chat    ##############################
 def chat():
