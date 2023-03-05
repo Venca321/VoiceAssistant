@@ -38,7 +38,7 @@
 }
 
 .target:hover {
-    color: #5a9a9f;
+    color: #5a9a9f !important;
 }
 
 .tree span {
