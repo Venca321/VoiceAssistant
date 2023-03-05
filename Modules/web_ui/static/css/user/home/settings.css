@@ -1,0 +1,22 @@
+html {
+    width: 80vw;
+    margin-left: 20vw;
+}
+
+#profile {
+    width: 60vw;
+    margin-left: 10vw;
+    margin-top: 20vh;
+}
+
+#preferences {
+    width: 60vw;
+    margin-left: 10vw;
+    margin-top: 20vh;
+}
+
+#pro {
+    width: 60vw;
+    margin-left: 10vw;
+    margin-top: 20vh;
+}

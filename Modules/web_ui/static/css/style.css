@@ -1,6 +1,7 @@
 html {
     background-color: #2e2e35;
     touch-action: manipulation;
+    scroll-behavior: smooth;
 }
 
 h1 {
