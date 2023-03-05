@@ -2,20 +2,20 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>BugReport</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/user/home/sidebar.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/user/home/home.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/user/home/contact/bugreport.css')}}">
 </head>
 
 <body>
     <section id="menu">
         {% with messages = get_flashed_messages() %}
         <p id="name"><span class="dot"></span> {{ messages[0] }}</p>
-        <a class="target base" href="/home" style="color:#5a9a9f;">Domů</a>
+        <a class="target base" href="/home">Domů</a>
         <br>
         <div class="tree">
-            <span><a class="target" href="/home" style="color:#5a9a9f;">Domů</a></span>
+            <span><a class="target" href="/home">Domů</a></span>
             <br>
             <span><a class="target" href="/home/chat">Chat</a></span>
             <br>
@@ -32,18 +32,24 @@
             <span><a class="target" href="/home/settings#pro">Placeholder</a></span>
         </div>
         <br>
-        <a class="target base" href="/home/contact">Kontakt</a>
+        <a class="target base" href="/home/contact" style="color:#5a9a9f;">Kontakt</a>
         <br>
         <div class="tree">
             <span><a class="target" href="/home/contact">Kontakt</a></span>
             <br>
             <span><a class="target" href="/home/featurerequest">Návrh na vylepšení</a></span>
             <br>
-            <span><a class="target" href="/home/bugreport">Nahlásit problém</a></span>
+            <span><a class="target" href="/home/bugreport" style="color:#5a9a9f;">Nahlásit problém</a></span>
         </div>
         <br>
         <a id="logout" class="target" href="/logout">Odhlásit se</a>
         {% endwith %}
+    </section>
+    <section id="mailto">
+        <form method="POST" autocomplete="off">
+            <input name="message" placeholder="Vaše zpráva..." autofocus="autofocus">
+            <button type="submit">Potvrdit</button>
+        </form>
     </section>
 </body>
 

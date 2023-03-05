@@ -3,10 +3,13 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 from Modules.engine.engine import *
 from Modules.user_manager.user_manager import *
 from waitress import serve
-import configparser, os
+import configparser, os, smtplib, ssl
 
 config = configparser.ConfigParser(allow_no_value=True)
 config.read(f"{os.getcwd()}/Data/config.ini")
+
+secret = configparser.ConfigParser(allow_no_value=True)
+secret.read(f"{os.getcwd()}/Modules/web_ui/data/secret.ini")
 
 app = Flask(__name__)
 app.secret_key = b'\x9d\x97Leel\xe1\x15o\xd9:\xe8'
@@ -77,6 +80,18 @@ class AuthManager():
         data["username"] = session["username"]
         data["password"] = session["password"]
         return data
+
+def sendmail(subject:str, message:str):
+    receiver_email = secret.get("Login", "email_to")
+    sender_email = secret.get("Login", "email")
+    password = secret.get("Login", "password")
+
+    with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        server.ehlo()
+        server.starttls(context=ssl.create_default_context())
+        server.ehlo()
+        server.login(sender_email, password)
+        server.sendmail(sender_email, receiver_email, f"Subject:{subject}\n{message}") 
 
 @app.route("/", strict_slashes=False) ##############################    Default    ##############################
 def index():
@@ -206,5 +221,63 @@ def voice():
 
         flash(user["username"])
         return render_template("user/home/voice.html")
+
+    return redirect(url_for('login'))
+
+@app.route("/home/contact", strict_slashes=False) ##############################    Contact    ##############################
+def contact():
+    if AuthManager.is_logged():
+        user = AuthManager.user()
+
+        flash(user["username"])
+        return render_template("user/home/contact/contact.html")
+
+    return redirect(url_for('login'))
+
+@app.route("/home/bugreport", strict_slashes=False) ##############################    BugReport    ##############################
+def bugreport():
+    if AuthManager.is_logged():
+        user = AuthManager.user()
+
+        flash(user["username"])
+        return render_template("user/home/contact/bugreport.html")
+
+    return redirect(url_for('login'))
+
+@app.route("/home/bugreport", strict_slashes=False, methods=["POST"])
+def bugreport_post():
+    message = request.form["message"]
+    if AuthManager.is_logged():
+        if message:
+            user = AuthManager.user()
+
+            sendmail("New bug reported!", message)
+
+            flash(user["username"])
+            return render_template("user/home/contact/bugreport.html")
+
+    return redirect(url_for('login'))
+
+@app.route("/home/featurerequest", strict_slashes=False) ##############################    FeatureRequest    ##############################
+def featurerequest():
+    if AuthManager.is_logged():
+        user = AuthManager.user()
+
+        flash(user["username"])
+        return render_template("user/home/contact/featurerequest.html")
+
+    return redirect(url_for('login'))
+
+@app.route("/home/featurerequest", strict_slashes=False, methods=["POST"])
+def featurerequest_post():
+    message = request.form["message"]
+    if AuthManager.is_logged():
+        if message:
+            user = AuthManager.user()
+
+            sendmail("New feature request!", message)
+
+            flash(user["username"])
+            return render_template("user/home/contact/featurerequest.html")
 
     return redirect(url_for('login'))
