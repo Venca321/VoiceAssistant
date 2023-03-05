@@ -10,6 +10,7 @@ MIA je hlasový asistent vytvořen v roce 2023.
 - Použijte: `python installer.py`
 - Postupujte podle pokynů
 - Spusťte [main.py](main.py) (`python main.py`)
+- Aplikaci najdete na[ localhost:5000](http://localhost:5000)
 - Pokud potřebujete server zastavit, dejte v konzoli ctrl+c
 
 ---
