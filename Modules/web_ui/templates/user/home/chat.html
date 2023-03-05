@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Chat</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/user/home/sidebar.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/user/home/chat.css')}}">
     <script src="{{url_for('static', filename='js/chat.js')}}"></script>
 </head>
@@ -11,11 +12,16 @@
 <body>
     <section id="menu">
         {% with messages = get_flashed_messages() %}
-        <!--<p id="back"><a href="/home">Zpět</a></p>-->
-        <p id="name">{{ messages[0] }}</p>
-        <a id="home" href="/home">Home</a>
+        <p id="name"><span class="dot"></span> {{ messages[0] }}</p>
+        <a class="target base" href="/home">Home</a>
         <br>
-        <a id="logout" href="/logout">Logout</a>
+        <div class="tree">
+            <span><a class="target" href="/home/chat" style="color:#5a9a9f;">Chat</a></span>
+            <br>
+            <span><a class="target" href="/home/voice">Voice</a></span>
+        </div>
+        <br>
+        <a id="logout" class="target" href="/logout">Logout</a>
         {% endwith %}
     </section>
 

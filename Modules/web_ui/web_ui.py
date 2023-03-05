@@ -3,32 +3,64 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 from Modules.engine.engine import *
 from Modules.user_manager.user_manager import *
 from waitress import serve
+import configparser, os
+
+config = configparser.ConfigParser(allow_no_value=True)
+config.read(f"{os.getcwd()}/Data/config.ini")
 
 app = Flask(__name__)
 app.secret_key = b'\x9d\x97Leel\xe1\x15o\xd9:\xe8'
 
 def start():
-    #serve(app, host="0.0.0.0", port=5000) # pro dev: flask run --host=0.0.0.0
-    serve(app, host="localhost", port=5000) #ngrok http 5000
+    serve(app, host="0.0.0.0", port=5000) # pro dev: flask run --host=0.0.0.0
+    #serve(app, host="localhost", port=5000) #ngrok http 5000
 
 class AuthManager():
+    def clear():
+        session["username"] = ""
+        session["password"] = ""
+
     def login(username:str, password:str):
+        if not username:
+            AuthManager.clear()
+            return "Zadejte uživatelské jméno"
+        
+        if not password:
+            AuthManager.clear()
+            return "Zadejte heslo"
+
         user = AuthStore.login(username, password)
         if user["status"] == "ok":
             session["username"] = username
             session["password"] = password
         else:
-            session["username"] = ""
-            session["password"] = ""
+            AuthManager.clear()
+            return "Neplatné uživatelské jméno nebo heslo"
 
-    def register(username:str, password:str):
+    def register(username:str, email:str, password:str, repeat_password:str):
+        if not email == "alfa-tester@token.cz":
+            AuthManager.clear()
+            return "Neplatný alfa token"
+        
+        if not username or len(username) < 4 or " " in username:
+            AuthManager.clear()
+            return "Neplatné uživatelské jméno"
+        
+        if not password or len(password) < 8 or " " in password:
+            AuthManager.clear()
+            return "Neplatné heslo"
+
+        if not password == repeat_password:
+            AuthManager.clear()
+            return "Hesla se neshodují"
+            
         user = AuthStore.register(username, password)
         if user["status"] == "ok":
             session["username"] = username
             session["password"] = password
         else:
-            session["username"] = ""
-            session["password"] = ""
+            AuthManager.clear()
+            return "Error"
 
     def logout():
         session["username"] = ""
@@ -52,6 +84,7 @@ def index():
 
 @app.route("/login") ##############################    Login    ##############################
 def login():
+    flash(config.get("Info", "version"))
     return render_template("user/login.html")
 
 @app.route("/login", methods=["POST"])
@@ -59,29 +92,34 @@ def login_post():
     username = request.form["username"]
     password = request.form["password"]
 
-    if username and password: AuthManager.login(username, password)
+    error = AuthManager.login(username, password)
 
     if AuthManager.is_logged():
         return redirect(url_for('home'))
     
+    flash(config.get("Info", "version"))
+    flash(error)
     return render_template("user/login.html")
 
 @app.route("/register") ##############################    Register    ##############################
 def register():
+    flash(config.get("Info", "version"))
     return render_template("user/register.html")
 
 @app.route("/register", methods=["POST"])
 def regiter_post():
-    email = "mail xD"
     username = request.form["username"]
+    email = request.form["email"]
     password = request.form["password"]
     repeat_password = request.form["repeat_password"]
     
-    if username and password and password == repeat_password: AuthManager.register(username, password)
+    error = AuthManager.register(username, email, password, repeat_password)
 
     if AuthManager.is_logged():
         return redirect(url_for('home'))
     
+    flash(config.get("Info", "version"))
+    flash(error)
     return render_template("user/register.html")
 
 @app.route("/logout") ##############################    Logout    ##############################
@@ -92,6 +130,9 @@ def logout():
 @app.route("/home") ##############################    Home    ##############################
 def home():
     if AuthManager.is_logged():
+        user = AuthManager.user()
+
+        flash(user["username"])
         return render_template("user/home/home.html")
 
     return redirect(url_for('login'))
@@ -160,6 +201,9 @@ def chat_post():
 @app.route("/home/voice") ##############################    Voice    ##############################
 def voice():
     if AuthManager.is_logged():
+        user = AuthManager.user()
+
+        flash(user["username"])
         return render_template("user/home/voice.html")
 
     return redirect(url_for('login'))

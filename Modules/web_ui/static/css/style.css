@@ -31,3 +31,14 @@ input {
 button {
     background-color: #31333e;
 }
+
+.error {
+    position: fixed;
+    top: 10px;
+    left: 20px;
+    z-index: 999999999999;
+    background-color: #ff370068;
+    width: fit-content;
+    padding: 10px 10px 10px 10px;
+    border-radius: 15px;
+}

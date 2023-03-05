@@ -2,31 +2,6 @@ html {
     overflow-x: hidden;
 }
 
-#menu {
-    position: fixed;
-    background-color: #202123;
-    text-align: center;
-    width: 20vw;
-    height: 100vh;
-    top: 0px;
-    left: 0px;
-}
-
-#name {
-    font-weight: 500;
-    font-size: 22px;
-}
-
-#home {
-    text-decoration: none;
-    font-size: 18px;
-}
-
-#logout {
-    text-decoration: none;
-    font-size: 18px;
-}
-
 #chat {
     position: fixed;
     margin-left: 20vw;
@@ -65,7 +40,7 @@ html {
     width: fit-content;
     margin-left: auto;
     margin-right: 10vw;
-    background-color: #258ad7;
+    background-color: #5a9a9f;
     border-radius: 10px;
     padding: 10px 10px 10px 10px;
 }

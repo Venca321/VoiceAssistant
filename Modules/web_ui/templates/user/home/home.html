@@ -4,13 +4,25 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/user/home/sidebar.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/user/home/home.css')}}">
 </head>
 
 <body>
-    <h1>Home</h1>
-    <a href="/home/chat">Chat</a>
-    <a href="/home/voice">Voice</a>
+    <section id="menu">
+        {% with messages = get_flashed_messages() %}
+        <p id="name"><span class="dot"></span> {{ messages[0] }}</p>
+        <a class="target base" href="/home" style="color:#5a9a9f;">Home</a>
+        <br>
+        <div class="tree">
+            <span><a class="target" href="/home/chat">Chat</a></span>
+            <br>
+            <span><a class="target" href="/home/voice">Voice</a></span>
+        </div>
+        <br>
+        <a id="logout" class="target" href="/logout">Logout</a>
+        {% endwith %}
+    </section>
 </body>
 
 </html>

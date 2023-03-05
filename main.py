@@ -7,7 +7,7 @@ from importlib.machinery import SourceFileLoader
 import multiprocessing, time, signal, os, subprocess
 
 os.system("clear")
-VERSION = data.read(f"{os.getcwd()}/Data/config.ini", "Settings", "version")
+VERSION = data.read(f"{os.getcwd()}/Data/config.ini", "Info", "version")
 MODULES = data.options(f"{os.getcwd()}/Modules/tester/data/config.ini", "Modules")
 imported = {}
 

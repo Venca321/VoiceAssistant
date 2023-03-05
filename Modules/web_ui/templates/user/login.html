@@ -9,16 +9,43 @@
 </head>
 
 <body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages[1] %}
+    <p class="error">Error: {{messages[1]}}</p>
+    {% endif %}
+    {% endwith %}
     <h1>Přihlášení</h1>
-    <p>Zde se můžete přihlásit svím účtem. Pokud ještě účet nemáte, můžete si ho <a
-            href="{{url_for('register')}}">vytvořit</a></p>
-    <form method="POST">
-        <input name="username" class="my_input" placeholder="Honzík847">
-        <br>
-        <input name="password" class="my_input" type="password" placeholder="**********">
-        <br>
-        <button type="submit"><a>Přihlásit se</a></button>
-    </form>
+    <div id="login_screen">
+        <form method="POST">
+            <a>E-mail nebo uživatelské jméno</a>
+            <input name="username" class="my_input" placeholder="Honzík847">
+            <br>
+            <a>Heslo</a>
+            <input name="password" class="my_input" type="password" placeholder="**********">
+            <br>
+            <button type="submit">Přihlásit se</button>
+            <p>Pokud ještě nemáte účet, můžete si ho <a href="{{url_for('register')}}">vytvořte</a></p>
+        </form>
+        <div id="info">
+            <h2>Mia hlasová asistentka</h2>
+
+            {% with messages = get_flashed_messages() %}
+            <p>Verze:
+                <a id="version">{{messages[0]}}</a>
+            </p>
+            {% endwith %}
+
+            <p>O projektu:</p>
+            <a>Mia je hlasová asistentka vytvořena v pythonu, html, css a javascriptu. Jejím cílem je poskytnou
+                uživatelům pomoct s věcmi každodenní potřeby od plánováním dne až po vyhledávání informací</a>
+            <div>
+                <p>Důležité informace: </p>
+                <a>Projekt je v rané fázi vývoje, mohou se vyskytovat bugy, můžete přijít o uložená data i účet. Pokud
+                    najdete nějaký problém, ohlašte to prosím na <a
+                        href="mailto:bugreport@vaclavparma.cz">bugreport@vaclavparma.cz</a></a>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
