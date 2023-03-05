@@ -2,5 +2,6 @@
 wikidata/
 cache/
 .userdata/
+tests/
 __pycache__
 users.ini
