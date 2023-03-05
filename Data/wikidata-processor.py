@@ -24,8 +24,11 @@ def process_dump(dump, path):
 
                 founds = re.findall(r"!mark!(.*?)!/mark!", text.replace("[[", "!mark!").replace("]]", "!/mark!"))
                 for found in founds: 
-                    try: text = text.replace(found, found.split("|")[-1]).replace("[[", "").replace("]]", "")
-                    except: text = text.replace("[[", "").replace("]]", "")
+                    if "Soubor:" in found: text = text.replace(found, "")
+                    else:
+                        try: text = text.replace(found, found.split("|")[-1])
+                        except: None
+                    text = text.replace("[[", "").replace("]]", "")
 
                 founds = re.findall("{{Infobox (.*?) }}", text)
                 for found in founds: text = text.replace(f"{{Infobox {found} }}", "")
@@ -87,5 +90,5 @@ for page_id, title, text in mwxml.map(process_dump, paths):
     except: errors += 1
 
 f.close()
-print(f"Dokončeno v čase {(time.time()-start/60)}min")
+print(f"Dokončeno v čase {(time.time()-start)/60}min")
 print(f"Zpracováno: {aproved+banned} stránek\nUloženo: {aproved} stránek\nOdstraněno: {banned} stránek\nErrorů: {errors}")

@@ -78,16 +78,16 @@ class AuthManager():
         data["password"] = session["password"]
         return data
 
-@app.route("/") ##############################    Default    ##############################
+@app.route("/", strict_slashes=False) ##############################    Default    ##############################
 def index():
     return redirect(url_for('login'))
 
-@app.route("/login") ##############################    Login    ##############################
+@app.route("/login", strict_slashes=False) ##############################    Login    ##############################
 def login():
     flash(config.get("Info", "version"))
     return render_template("user/login.html")
 
-@app.route("/login", methods=["POST"])
+@app.route("/login", strict_slashes=False, methods=["POST"])
 def login_post():
     username = request.form["username"]
     password = request.form["password"]
@@ -101,12 +101,12 @@ def login_post():
     flash(error)
     return render_template("user/login.html")
 
-@app.route("/register") ##############################    Register    ##############################
+@app.route("/register", strict_slashes=False) ##############################    Register    ##############################
 def register():
     flash(config.get("Info", "version"))
     return render_template("user/register.html")
 
-@app.route("/register", methods=["POST"])
+@app.route("/register", strict_slashes=False, methods=["POST"])
 def regiter_post():
     username = request.form["username"]
     email = request.form["email"]
@@ -122,12 +122,12 @@ def regiter_post():
     flash(error)
     return render_template("user/register.html")
 
-@app.route("/logout") ##############################    Logout    ##############################
+@app.route("/logout", strict_slashes=False) ##############################    Logout    ##############################
 def logout():
     AuthManager.logout()
     return redirect(url_for("login"))
 
-@app.route("/home") ##############################    Home    ##############################
+@app.route("/home", strict_slashes=False) ##############################    Home    ##############################
 def home():
     if AuthManager.is_logged():
         user = AuthManager.user()
@@ -138,7 +138,7 @@ def home():
     return redirect(url_for('login'))
 
 """
-@app.route("/home/settings")
+@app.route("/home/settings", strict_slashes=False)
 def settings():
     if AuthManager.is_logged():
         return "Ok"
@@ -146,7 +146,7 @@ def settings():
     return redirect(url_for('login'))
 """
 
-@app.route("/home/chat") ##############################    Chat    ##############################
+@app.route("/home/chat", strict_slashes=False) ##############################    Chat    ##############################
 def chat():
     session["messages_from_server"] = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
     session["messages_from_user"] = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
@@ -159,7 +159,7 @@ def chat():
 
     return redirect(url_for('login'))
 
-@app.route("/home/chat", methods=["POST"])
+@app.route("/home/chat", strict_slashes=False, methods=["POST"])
 def chat_post():
     message = request.form["message"]
 
@@ -198,7 +198,7 @@ def chat_post():
 
     return redirect(url_for('login'))
 
-@app.route("/home/voice") ##############################    Voice    ##############################
+@app.route("/home/voice", strict_slashes=False) ##############################    Voice    ##############################
 def voice():
     if AuthManager.is_logged():
         user = AuthManager.user()
