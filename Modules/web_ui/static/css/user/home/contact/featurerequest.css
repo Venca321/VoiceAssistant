@@ -2,3 +2,26 @@ html {
     width: 60vw;
     margin-left: 30vw;
 }
+
+h1 {
+    margin-top: 15vh;
+    font-size: 5vh;
+}
+
+textarea {
+    width: 60vw;
+    height: 50vh;
+    margin-top: 3vh;
+    background-color: #00000000;
+}
+
+textarea:focus {
+    outline: none;
+}
+
+button {
+    width: 10vw;
+    height: 5vh;
+    margin-left: 50.5vw;
+    color: #ffffff;
+}
