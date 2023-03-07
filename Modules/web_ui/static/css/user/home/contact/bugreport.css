@@ -9,19 +9,30 @@ h1 {
 }
 
 textarea {
-    width: 60vw;
-    height: 50vh;
+    width: 58vw;
+    height: 48vh;
     margin-top: 3vh;
     background-color: #00000000;
+    border-radius: 15px;
 }
 
 textarea:focus {
     outline: none;
 }
 
+.my_input,
+select,
+textarea {
+    padding-left: 1vw;
+    padding-right: 1vw;
+    padding-top: 1vw;
+    padding-bottom: 1vw;
+}
+
 button {
     width: 10vw;
     height: 5vh;
-    margin-left: 50.5vw;
+    margin-left: 25vw;
     color: #ffffff;
+    border-radius: 15px;
 }
