@@ -2,11 +2,10 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from Modules.engine.engine import *
 from Modules.user_manager.user_manager import *
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from waitress import serve
-import configparser
-import os
-import smtplib
-import ssl
+import configparser, os, smtplib, ssl
 
 config = configparser.ConfigParser(allow_no_value=True)
 config.read(f"{os.getcwd()}/Data/config.ini")
@@ -95,14 +94,16 @@ def sendmail(user: dict, subject: str, message: str):
     sender_email = secret.get("Login", "email")
     password = secret.get("Login", "password")
 
-    message = f"Subject:{subject}\nUsername: {user['username']}\nMessage: {message}".encode(
-        "utf-8")
+    msg = MIMEMultipart('alternative')
+    msg['Subject'] = subject
+    msg.attach(MIMEText(f"{user['username']}: \n{message}", 'plain', 'utf-8')) 
+
     with smtplib.SMTP("smtp.gmail.com", 587) as server:
         server.ehlo()
         server.starttls(context=ssl.create_default_context())
         server.ehlo()
         server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, message)
+        server.sendmail(sender_email, receiver_email, msg.as_string())
 
 
 # Default    ##############################
