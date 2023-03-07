@@ -95,14 +95,14 @@ def sendmail(user: dict, subject: str, message: str):
     sender_email = secret.get("Login", "email")
     password = secret.get("Login", "password")
 
-    print(user["username"], subject, message)
+    message = f"Subject:{subject}\nUsername: {user['username']}\nMessage: {message}".encode(
+        "utf-8")
     with smtplib.SMTP("smtp.gmail.com", 587) as server:
         server.ehlo()
         server.starttls(context=ssl.create_default_context())
         server.ehlo()
         server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email,
-                        f"Subject:{subject}\nUsername: {user['username']}\nMessage: {message}".encode("utf-8"))
+        server.sendmail(sender_email, receiver_email, message)
 
 
 # Default    ##############################
