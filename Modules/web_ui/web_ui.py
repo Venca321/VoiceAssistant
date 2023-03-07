@@ -326,3 +326,25 @@ def featurerequest_post():
             return render_template("user/contact/featurerequest.html")
 
     return redirect(url_for('login'))
+
+# Plugins    ##############################
+@app.route("/home/plugins", strict_slashes=False)
+def plugins():
+    if AuthManager.is_logged():
+        user = AuthManager.user()
+
+        flash(user["username"])
+        return render_template("user/plugins/plugins.html")
+
+    return redirect(url_for('login'))
+
+# Plugins Store    ##############################
+@app.route("/home/plugins/store", strict_slashes=False)
+def store():
+    if AuthManager.is_logged():
+        user = AuthManager.user()
+
+        flash(user["username"])
+        return render_template("user/plugins/store.html")
+
+    return redirect(url_for('login'))
