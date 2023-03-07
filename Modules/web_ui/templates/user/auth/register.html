@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 
 <head>
     <meta charset="UTF-8">
-    <title>Přihlášení</title>
+    <title>Registrace</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/user/login.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/user/auth/register.css')}}">
 </head>
 
 <body>
@@ -14,17 +13,23 @@
     <p class="error">Error: {{messages[1]}}</p>
     {% endif %}
     {% endwith %}
-    <h1>Přihlášení</h1>
+    <h1>Registrace</h1>
     <div id="login_screen">
         <form method="POST">
-            <a>E-mail nebo uživatelské jméno</a>
+            <a>Uživatelské jméno</a>
             <input name="username" class="my_input" placeholder="Honzík847">
+            <br>
+            <a>E-mail</a>
+            <input name="email" class="my_input" placeholder="honzik@fakemain.com">
             <br>
             <a>Heslo</a>
             <input name="password" class="my_input" type="password" placeholder="**********">
             <br>
-            <button type="submit">Přihlásit se</button>
-            <p>Pokud ještě nemáte účet, můžete si ho <a href="{{url_for('register')}}">vytvořte</a></p>
+            <a>Zopakujte heslo</a>
+            <input name="repeat_password" class="my_input" type="password" placeholder="**********">
+            <br>
+            <button type="submit">Zaregistrovat se</button>
+            <p>Pokud už účet máte <a href="{{url_for('login')}}">přihlašte se</a></p>
         </form>
         <div id="info">
             <h2>MIA hlasová asistentka</h2>

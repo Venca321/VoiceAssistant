@@ -116,7 +116,7 @@ def index():
 @app.route("/login", strict_slashes=False)
 def login():
     flash(config.get("Info", "version"))
-    return render_template("user/login.html")
+    return render_template("user/auth/login.html")
 
 
 @app.route("/login", strict_slashes=False, methods=["POST"])
@@ -131,14 +131,14 @@ def login_post():
 
     flash(config.get("Info", "version"))
     flash(error)
-    return render_template("user/login.html")
+    return render_template("user/auth/login.html")
 
 
 # Register    ##############################
 @app.route("/register", strict_slashes=False)
 def register():
     flash(config.get("Info", "version"))
-    return render_template("user/register.html")
+    return render_template("user/auth/register.html")
 
 
 @app.route("/register", strict_slashes=False, methods=["POST"])
@@ -155,7 +155,7 @@ def regiter_post():
 
     flash(config.get("Info", "version"))
     flash(error)
-    return render_template("user/register.html")
+    return render_template("user/auth/register.html")
 
 
 # Logout    ##############################
@@ -184,7 +184,7 @@ def settings():
         user = AuthManager.user()
 
         flash(user["username"])
-        return render_template("user/home/settings.html")
+        return render_template("user/settings/settings.html")
 
     return redirect(url_for('login'))
 
@@ -269,7 +269,7 @@ def contact():
         user = AuthManager.user()
 
         flash(user["username"])
-        return render_template("user/home/contact/contact.html")
+        return render_template("user/contact/contact.html")
 
     return redirect(url_for('login'))
 
@@ -281,7 +281,7 @@ def bugreport():
         user = AuthManager.user()
 
         flash(user["username"])
-        return render_template("user/home/contact/bugreport.html")
+        return render_template("user/contact/bugreport.html")
 
     return redirect(url_for('login'))
 
@@ -296,7 +296,7 @@ def bugreport_post():
             sendmail(user, "New bug reported!", message)
 
             flash(user["username"])
-            return render_template("user/home/contact/bugreport.html")
+            return render_template("user/contact/bugreport.html")
 
     return redirect(url_for('login'))
 
@@ -308,7 +308,7 @@ def featurerequest():
         user = AuthManager.user()
 
         flash(user["username"])
-        return render_template("user/home/contact/featurerequest.html")
+        return render_template("user/contact/featurerequest.html")
 
     return redirect(url_for('login'))
 
@@ -323,6 +323,6 @@ def featurerequest_post():
             sendmail(user, "New feature request!", message)
 
             flash(user["username"])
-            return render_template("user/home/contact/featurerequest.html")
+            return render_template("user/contact/featurerequest.html")
 
     return redirect(url_for('login'))

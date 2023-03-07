@@ -2,10 +2,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Contact</title>
+    <title>FeatuRerequest</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/user/home/sidebar.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/user/home/contact/contact.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/user/sidebar.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/user/contact/featurerequest.css')}}">
 </head>
 
 <body>
@@ -35,15 +35,23 @@
         <a class="target base" href="/home/contact" style="color:#5a9a9f;">Kontakt</a>
         <br>
         <div class="tree">
-            <span><a class="target" href="/home/contact" style="color:#5a9a9f;">Kontakt</a></span>
+            <span><a class="target" href="/home/contact">Kontakt</a></span>
             <br>
-            <span><a class="target" href="/home/featurerequest">Návrh na vylepšení</a></span>
+            <span><a class="target" href="/home/featurerequest" style="color:#5a9a9f;">Návrh na
+                    vylepšení</a></span>
             <br>
             <span><a class="target" href="/home/bugreport">Nahlásit problém</a></span>
         </div>
         <br>
         <a id="logout" class="target" href="/logout">Odhlásit se</a>
         {% endwith %}
+    </section>
+    <section id="mailto">
+        <h1>Návrh na vylepšení</h1>
+        <form method="POST" autocomplete="off">
+            <textarea name="message" placeholder="Vaše zpráva..." autofocus="autofocus"></textarea>
+            <button type="submit">Potvrdit</button>
+        </form>
     </section>
 </body>
 
