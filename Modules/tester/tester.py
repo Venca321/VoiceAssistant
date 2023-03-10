@@ -80,13 +80,6 @@ class Tester():
                     print(f'\n Error data file cannot be created! {os.getcwd()}/{data.read(CONFIG_FILE, "Other_data", i)}')
                     os._exit(1)
 
-        for i in data.options(CONFIG_FILE, "User_data"): #Testování dat
-            i_path = data.read(CONFIG_FILE, "User_data", i)
-            try: 
-                path = os.path.join(os.getcwd(), i_path, ".userdata/")
-                os.mkdir(path)
-            except: None
-
         WEB_WIKI = data.read(f"{os.getcwd()}/Data/config.ini", "Settings", "wiki_finder_online")
         if WEB_WIKI == "False":
             wikidata = csv.reader(open(f"{os.getcwd()}/Data/wikidata/wikidata.csv", "r"))

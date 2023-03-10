@@ -1,6 +1,6 @@
 
 from importlib.machinery import SourceFileLoader
-from Modules.user_manager.user_manager import UserData
+from Modules.database.database import *
 from Modules.functions.functions import *
 from Modules.web_finder import web_finder
 import os, datetime
@@ -48,10 +48,11 @@ class Engine():
 
         if not output: output = "Odpověď na tuto otázku neznám"
 
-        data.write(f"{os.getcwd()}/Modules/engine/data/.userdata/{user['username']}.ini", "Log", datetime.datetime.now().strftime("%d/%m/%Y_%H/%M/%S/%f"), UserData.encode(f"{origo_text}", user['password']))
-        logs = data.options(f"{os.getcwd()}/Modules/engine/data/.userdata/{user['username']}.ini", "Log")
+        #data.write(f"{os.getcwd()}/Modules/engine/data/.userdata/{user['username']}.ini", "Log", datetime.datetime.now().strftime("%d/%m/%Y_%H/%M/%S/%f"), UserData.encode(f"{origo_text}", user['password']))
+        
+        db.write("log", (user["username"], user["password"], datetime.datetime.now().strftime("%d/%m/%Y_%H:%M:%S:%f"), origo_text, output))
+        logs = db.read(user, "log") 
         if len(logs) >= LOGS_LIMIT:
-            for i in range(len(logs)-(LOGS_LIMIT-1)):
-                data.remove_option(f"{os.getcwd()}/Modules/engine/data/.userdata/{user['username']}.ini", "Log", logs[i])
+            db.command("delete from log where username=:username and password=:password and time=:time and request=:request and response=:response", {"username":user["username"], "password":user["password"], "time":logs[0][2], "request":logs[0][3], "response":logs[0][4]})
 
         return output

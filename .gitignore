@@ -1,8 +1,7 @@
 *.pyc
+*.db
 wikidata/
 cache/
-.userdata/
 tests/
 __pycache__
-users.ini
 secret.ini

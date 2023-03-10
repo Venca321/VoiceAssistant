@@ -1,7 +1,7 @@
 
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from Modules.engine.engine import *
-from Modules.user_manager.user_manager import *
+from Modules.database.database import *
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from waitress import serve
@@ -16,11 +16,9 @@ secret.read(f"{os.getcwd()}/Modules/web_ui/data/secret.ini")
 app = Flask(__name__)
 app.secret_key = b'\x9d\x97Leel\xe1\x15o\xd9:\xe8'
 
-
 def start():
     serve(app, host="0.0.0.0", port=5000)  # pro dev: flask run --host=0.0.0.0
     # serve(app, host="localhost", port=5000) #ngrok http 5000
-
 
 class AuthManager():
     def clear():
@@ -36,8 +34,8 @@ class AuthManager():
             AuthManager.clear()
             return "Zadejte heslo"
 
-        user = AuthStore.login(username, password)
-        if user["status"] == "ok":
+        user = db.login(username, password)
+        if user:
             session["username"] = username
             session["password"] = password
         else:
@@ -61,8 +59,8 @@ class AuthManager():
             AuthManager.clear()
             return "Hesla se neshodují"
 
-        user = AuthStore.register(username, password)
-        if user["status"] == "ok":
+        user = db.register(username, email, password)
+        if user:
             session["username"] = username
             session["password"] = password
         else:

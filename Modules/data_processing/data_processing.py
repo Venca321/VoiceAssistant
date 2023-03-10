@@ -1,6 +1,6 @@
 
 from Modules.functions.functions import *
-from Modules.user_manager.user_manager import UserData
+from Modules.database.database import *
 import os
 
 class Match():
@@ -32,7 +32,7 @@ class Notes():
                 option = num
                 finished = True
             else: num += 1
-        data.write(f"{os.getcwd()}/Modules/data_processing/data/.userdata/{user['username']}.ini", "Notes", str(option), UserData.encode(text, user["password"])) #Zapíše data
+        #data.write(f"{os.getcwd()}/Modules/data_processing/data/.userdata/{user['username']}.ini", "Notes", str(option), UserData.encode(text, user["password"])) #Zapíše data
 
     def read(user:dict):
         pass
@@ -49,7 +49,7 @@ class Records():
                 option = num
                 finished = True
             else: num += 1
-        data.write(f"{os.getcwd()}/Modules/data_processing/data/.userdata/{user['username']}.ini", "Records", str(option), UserData.encode(text, user["password"])) #Zapíše data
+        #data.write(f"{os.getcwd()}/Modules/data_processing/data/.userdata/{user['username']}.ini", "Records", str(option), UserData.encode(text, user["password"])) #Zapíše data
 
     def read(user:dict):
         pass
@@ -66,7 +66,7 @@ class To_do_list():
                 option = num
                 finished = True
             else: num += 1
-        data.write(f"{os.getcwd()}/Modules/data_processing/data/.userdata/{user['username']}.ini", "To_do_list", str(option), UserData.encode(text, user["password"])) #Zapíše data
+        #data.write(f"{os.getcwd()}/Modules/data_processing/data/.userdata/{user['username']}.ini", "To_do_list", str(option), UserData.encode(text, user["password"])) #Zapíše data
 
     def read(user:dict):
         pass

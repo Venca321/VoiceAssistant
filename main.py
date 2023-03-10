@@ -2,6 +2,7 @@
 
 from Modules.tester import tester
 from Modules.functions.functions import *
+from Modules.database.database import *
 from Modules.web_ui import web_ui
 from importlib.machinery import SourceFileLoader
 import multiprocessing, time, signal, os, subprocess
@@ -60,6 +61,7 @@ if __name__ == '__main__':
     
     tester.Tester.startup_test() #Test souborů
     time.sleep(1)
+    db.setup_my_db()
     multiprocessing.Process(target=Threads.tests).start() #Setup multiprocessingu
     multiprocessing.Process(target=Threads.data_update).start()
     multiprocessing.Process(target=web_ui.start).start() #Experimentální web UI
