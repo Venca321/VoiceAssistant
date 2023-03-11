@@ -18,10 +18,15 @@ class db():
 
         connection.close()
 
-    def register(username:str, email:str, password:str):
+    def register(username:str, email:str, password:str, repeat_password:str):
         """
         Registruje uživatele
         """
+        if not email == "alfa-tester@token.cz": return "Neplatný alfa token"
+        if not username or len(username) < 4 or " " in username: return "Neplatné uživatelské jméno"
+        if not password or len(password) < 8 or " " in password: return "Neplatné heslo"
+        if not password == repeat_password: return "Hesla se neshodují"
+
         connection = sqlite3.connect(DATABASE_FILE)
         cursor = connection.cursor()
 
@@ -34,12 +39,15 @@ class db():
             return True
         else:
             connection.close()
-            return False
+            return "Error"
 
     def login(username_or_email:str, password:str):
         """
         Checkne přihlášení uživatele
         """
+        if not username_or_email: return "Zadejte uživatelské jméno"
+        if not password: return "Zadejte heslo"
+
         connection = sqlite3.connect(DATABASE_FILE)
         cursor = connection.cursor()
 
@@ -50,7 +58,7 @@ class db():
         
         connection.close()
         if user: return True
-        return False
+        return "Neplatné uživatelské jméno nebo heslo"
 
     def write(table:str, items:tuple):
         """

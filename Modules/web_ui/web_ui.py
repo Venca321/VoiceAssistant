@@ -26,66 +26,34 @@ class AuthManager():
         session["password"] = ""
 
     def login(username: str, password: str):
-        if not username:
-            AuthManager.clear()
-            return "Zadejte uživatelské jméno"
-
-        if not password:
-            AuthManager.clear()
-            return "Zadejte heslo"
-
         user = db.login(username, password)
-        if user:
+        if user == True:
             session["username"] = username
             session["password"] = password
         else:
             AuthManager.clear()
-            return "Neplatné uživatelské jméno nebo heslo"
+            return user
 
     def register(username: str, email: str, password: str, repeat_password: str):
-        if not email == "alfa-tester@token.cz":
-            AuthManager.clear()
-            return "Neplatný alfa token"
-
-        if not username or len(username) < 4 or " " in username:
-            AuthManager.clear()
-            return "Neplatné uživatelské jméno"
-
-        if not password or len(password) < 8 or " " in password:
-            AuthManager.clear()
-            return "Neplatné heslo"
-
-        if not password == repeat_password:
-            AuthManager.clear()
-            return "Hesla se neshodují"
-
-        user = db.register(username, email, password)
-        if user:
+        user = db.register(username, email, password, repeat_password)
+        if user == True:
             session["username"] = username
             session["password"] = password
         else:
             AuthManager.clear()
-            return "Error"
-
-    def logout():
-        session["username"] = ""
-        session["password"] = ""
+            return user
 
     def is_logged():
         try:
-            if session["username"] == "" or session["password"] == "":
-                return False
-            else:
-                return True
-        except:
-            return False
+            if session["username"] == "" or session["password"] == "": return False
+            else: return True
+        except: return False
 
     def user():
         data = {}
         data["username"] = session["username"]
         data["password"] = session["password"]
         return data
-
 
 def sendmail(user: dict, subject: str, message: str):
     receiver_email = secret.get("Login", "email_to")
@@ -159,7 +127,7 @@ def regiter_post():
 # Logout    ##############################
 @app.route("/logout", strict_slashes=False)
 def logout():
-    AuthManager.logout()
+    AuthManager.clear()
     return redirect(url_for("login"))
 
 
