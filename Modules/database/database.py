@@ -1,7 +1,17 @@
 
-import sqlite3
+import sqlite3, random, string
 
 DATABASE_FILE = "Data/Database/database.db"
+
+def get_id(length):
+    while True:
+        new_id = "".join(random.choice(string.ascii_letters+string.digits) for i in range(length))
+        connection = sqlite3.connect(DATABASE_FILE)
+        cursor = connection.cursor()
+        cursor.execute(f"select * from users where id=:id", {"id": new_id})
+        if cursor.fetchall(): connection.close()
+        else: break
+    return new_id
 
 class db():
     def setup_my_db():
@@ -11,20 +21,20 @@ class db():
         connection = sqlite3.connect(DATABASE_FILE)
         cursor = connection.cursor()
 
-        try: cursor.execute(f"create table users (username text, email text, password text)")
+        try: cursor.execute(f"create table users (id text, username text, email text, password text)")
         except: None
-        try: cursor.execute(f"create table user_settings (username text, email text, password text, addressing text, name text, animation_speed integer)")
+        try: cursor.execute(f"create table user_settings (id text, addressing text, name text, animation_speed integer)")
         except: None
-        try: cursor.execute(f"create table log (username text, password text, time text, request text, response text)")
+        try: cursor.execute(f"create table log (id text, time text, request text, response text)")
         except: None
 
         connection.close()
 
-    def setup_user(username:str, email:str, password:str):
+    def setup_user(user:dict):
         """
         Setupne uživatele (vytvoří defaultní nastavení...)
         """
-        db.write("user_settings", (username, email, password, "---", "---", 1))
+        db.write("user_settings", (user["id"], "---", "---", 1))
 
     def register(username:str, email:str, password:str, repeat_password:str):
         """
@@ -38,19 +48,31 @@ class db():
         connection = sqlite3.connect(DATABASE_FILE)
         cursor = connection.cursor()
 
-        cursor.execute(f"select * from users where (username=:username or email=:username) and password=:password", {"username": username, "password": password})
-        user = cursor.fetchall()
-        if not user: 
-            cursor.execute(f"insert into users values (?,?,?)", (username, email, password))
-            connection.commit()
+        cursor.execute(f"select * from users where username=:username", {"username": username})
+        if cursor.fetchall(): 
             connection.close()
-
-            db.setup_user(username, email, password)
-
-            return True
-        else:
+            return "Uživatelské jméno již existuje"
+        
+        """
+        cursor.execute(f"select * from users where email=:email", {"email":email})
+        if cursor.fetchall():
             connection.close()
-            return "Error"
+            return "E-mail je již zaregistrován" 
+        """
+
+        id = get_id(25)
+        cursor.execute(f"insert into users values (?,?,?,?)", (id, username, email, password))
+        connection.commit()
+        connection.close()
+
+        user = {
+            "id": id,
+            "username": username,
+            "password": password
+        }
+        db.setup_user(user)
+
+        return user
 
     def login(username_or_email:str, password:str):
         """
@@ -68,7 +90,14 @@ class db():
         except: None
         
         connection.close()
-        if user: return True
+        if user: 
+            user = {
+                "id": user[0][0],
+                "username": user[0][1],
+                "password": user[0][3]
+            }
+
+            return user
         return "Neplatné uživatelské jméno nebo heslo"
 
     def write(table:str, items:tuple):
@@ -93,7 +122,7 @@ class db():
         cursor = connection.cursor()
 
         try:
-            cursor.execute(f"select * from {table} where username=:username and password=:password", {"username": user["username"], "password": user["password"]})
+            cursor.execute(f"select * from {table} where id=:id", {"id": user["id"]})
             data = cursor.fetchall()
         except: None
 
@@ -105,7 +134,7 @@ class db():
         """
         Provede specifický příkaz --security risk
         """
-        if not "username" in command or not "password" in command or not "username" in parametrs or not "password" in parametrs: return "AuthError"
+        if not "id" in command or not "id" in parametrs: return "AuthError"
         connection = sqlite3.connect(DATABASE_FILE)
         cursor = connection.cursor()
 

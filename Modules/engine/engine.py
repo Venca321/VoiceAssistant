@@ -48,9 +48,9 @@ class Engine():
 
         #data.write(f"{os.getcwd()}/Modules/engine/data/.userdata/{user['username']}.ini", "Log", datetime.datetime.now().strftime("%d/%m/%Y_%H/%M/%S/%f"), UserData.encode(f"{origo_text}", user['password']))
         
-        db.write("log", (user["username"], user["password"], datetime.datetime.now().strftime("%d/%m/%Y_%H:%M:%S:%f"), origo_text, output))
+        db.write("log", (user["id"], datetime.datetime.now().strftime("%d/%m/%Y_%H:%M:%S:%f"), origo_text, output))
         logs = db.read(user, "log") 
         if len(logs) >= LOGS_LIMIT:
-            db.command("delete from log where username=:username and password=:password and time=:time and request=:request and response=:response", {"username":user["username"], "password":user["password"], "time":logs[0][2], "request":logs[0][3], "response":logs[0][4]})
+            db.command("delete from log where id=:id and time=:time and request=:request and response=:response", {"id":user["id"], "time":logs[0][2], "request":logs[0][3], "response":logs[0][4]})
 
         return output

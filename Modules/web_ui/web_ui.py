@@ -24,35 +24,40 @@ class AuthManager():
     def clear():
         session["username"] = ""
         session["password"] = ""
+        session["id"] = ""
 
     def login(username: str, password: str):
         user = db.login(username, password)
-        if user == True:
-            session["username"] = username
-            session["password"] = password
-        else:
+        try:
+            session["id"] = user["id"]
+            session["username"] = user["username"]
+            session["password"] = user["password"]
+        except:
             AuthManager.clear()
             return user
 
     def register(username: str, email: str, password: str, repeat_password: str):
         user = db.register(username, email, password, repeat_password)
-        if user == True:
-            session["username"] = username
-            session["password"] = password
-        else:
+        try:
+            session["id"] = user["id"]
+            session["username"] = user["username"]
+            session["password"] = user["password"]
+        except:
             AuthManager.clear()
             return user
 
     def is_logged():
         try:
-            if session["username"] == "" or session["password"] == "": return False
+            if session["username"] == "" or session["password"] == "" or session["id"] == "": return False
             else: return True
         except: return False
 
     def user():
-        data = {}
-        data["username"] = session["username"]
-        data["password"] = session["password"]
+        data = {
+            "id": session["id"],
+            "username": session["username"],
+            "password": session["password"]
+        }
         return data
 
 def sendmail(user: dict, subject: str, message: str):
@@ -142,19 +147,6 @@ def home():
 
     return redirect(url_for('login'))
 
-
-# Settings    ##############################
-@app.route("/home/settings", strict_slashes=False)
-def settings():
-    if AuthManager.is_logged():
-        user = AuthManager.user()
-
-        flash(user["username"])
-        return render_template("user/settings/settings.html")
-
-    return redirect(url_for('login'))
-
-
 # Chat    ##############################
 @app.route("/home/chat", strict_slashes=False)
 def chat():
@@ -227,9 +219,41 @@ def voice():
 
     return redirect(url_for('login'))
 
+# Settings    ##############################
+@app.route("/settings", strict_slashes=False)
+def settings():
+    if AuthManager.is_logged():
+        user = AuthManager.user()
+
+        flash(user["username"])
+        return render_template("user/settings/settings.html")
+
+    return redirect(url_for('login'))
+
+# Plugins    ##############################
+@app.route("/plugins", strict_slashes=False)
+def plugins():
+    if AuthManager.is_logged():
+        user = AuthManager.user()
+
+        flash(user["username"])
+        return render_template("user/plugins/plugins.html")
+
+    return redirect(url_for('login'))
+
+# Plugins Store    ##############################
+@app.route("/plugins/store", strict_slashes=False)
+def store():
+    if AuthManager.is_logged():
+        user = AuthManager.user()
+
+        flash(user["username"])
+        return render_template("user/plugins/store.html")
+
+    return redirect(url_for('login'))
 
 # Contact    ##############################
-@app.route("/home/contact", strict_slashes=False)
+@app.route("/contact", strict_slashes=False)
 def contact():
     if AuthManager.is_logged():
         user = AuthManager.user()
@@ -241,7 +265,7 @@ def contact():
 
 
 # BugReport    ##############################
-@app.route("/home/bugreport", strict_slashes=False)
+@app.route("/contact/bugreport", strict_slashes=False)
 def bugreport():
     if AuthManager.is_logged():
         user = AuthManager.user()
@@ -252,7 +276,7 @@ def bugreport():
     return redirect(url_for('login'))
 
 
-@app.route("/home/bugreport", strict_slashes=False, methods=["POST"])
+@app.route("/contact/bugreport", strict_slashes=False, methods=["POST"])
 def bugreport_post():
     message = request.form["message"]
     if AuthManager.is_logged():
@@ -268,7 +292,7 @@ def bugreport_post():
 
 
 # FeatureRequest    ##############################
-@app.route("/home/featurerequest", strict_slashes=False)
+@app.route("/contact/featurerequest", strict_slashes=False)
 def featurerequest():
     if AuthManager.is_logged():
         user = AuthManager.user()
@@ -279,7 +303,7 @@ def featurerequest():
     return redirect(url_for('login'))
 
 
-@app.route("/home/featurerequest", strict_slashes=False, methods=["POST"])
+@app.route("/contact/featurerequest", strict_slashes=False, methods=["POST"])
 def featurerequest_post():
     message = request.form["message"]
     if AuthManager.is_logged():
@@ -290,27 +314,5 @@ def featurerequest_post():
 
             flash(user["username"])
             return render_template("user/contact/featurerequest.html")
-
-    return redirect(url_for('login'))
-
-# Plugins    ##############################
-@app.route("/home/plugins", strict_slashes=False)
-def plugins():
-    if AuthManager.is_logged():
-        user = AuthManager.user()
-
-        flash(user["username"])
-        return render_template("user/plugins/plugins.html")
-
-    return redirect(url_for('login'))
-
-# Plugins Store    ##############################
-@app.route("/home/plugins/store", strict_slashes=False)
-def store():
-    if AuthManager.is_logged():
-        user = AuthManager.user()
-
-        flash(user["username"])
-        return render_template("user/plugins/store.html")
 
     return redirect(url_for('login'))
