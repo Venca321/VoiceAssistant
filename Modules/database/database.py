@@ -1,7 +1,7 @@
 
 import sqlite3
 
-DATABASE_FILE = "Data/database.db"
+DATABASE_FILE = "Data/Database/database.db"
 
 class db():
     def setup_my_db():
@@ -13,10 +13,18 @@ class db():
 
         try: cursor.execute(f"create table users (username text, email text, password text)")
         except: None
+        try: cursor.execute(f"create table user_settings (username text, email text, password text, addressing text, name text, animation_speed integer)")
+        except: None
         try: cursor.execute(f"create table log (username text, password text, time text, request text, response text)")
         except: None
 
         connection.close()
+
+    def setup_user(username:str, email:str, password:str):
+        """
+        Setupne uživatele (vytvoří defaultní nastavení...)
+        """
+        db.write("user_settings", (username, email, password, "---", "---", 1))
 
     def register(username:str, email:str, password:str, repeat_password:str):
         """
@@ -36,6 +44,9 @@ class db():
             cursor.execute(f"insert into users values (?,?,?)", (username, email, password))
             connection.commit()
             connection.close()
+
+            db.setup_user(username, email, password)
+
             return True
         else:
             connection.close()
