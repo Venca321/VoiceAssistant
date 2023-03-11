@@ -19,9 +19,7 @@ class Engine():
         """
         Zpracuje požadavek text[str] a vrátí odpověď[str], nebo nic, pokud odpověď není
         """
-        if not text: return
         origo_text = text
-        if text == "9H9k2bm!&64iNoerHuwB@HkON": return "nNq8j3ma15G^KXaV33Ma*W^Rj"
         text = text.lower()
         chars_to_remove = data.options(f"{os.getcwd()}/Modules/engine/data/config.ini", "Characters to remove")
         words_to_remove = data.options(f"{os.getcwd()}/Modules/engine/data/config.ini", "Words to remove")

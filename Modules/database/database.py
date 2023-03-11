@@ -66,21 +66,6 @@ class db():
 
         connection.close()
 
-    def write_multiple(table:str, items:list):
-        """
-        Vloží více řádků do kolekce
-        items = [(neco, neco2), (neco, neco2)]
-        """
-        connection = sqlite3.connect(DATABASE_FILE)
-        cursor = connection.cursor()
-
-        try:
-            cursor.executemany(f"insert into {table} values ({(len(items[0]) * '?,')[:-1]})", items)
-            connection.commit()
-        except: None
-
-        connection.close()
-
     def read(user:dict, table:str):
         """
         returne hodnoty s daným filtrem
@@ -101,6 +86,7 @@ class db():
         """
         Provede specifický příkaz --security risk
         """
+        if not "username" in command or not "password" in command or not "username" in parametrs or not "password" in parametrs: return "AuthError"
         connection = sqlite3.connect(DATABASE_FILE)
         cursor = connection.cursor()
 

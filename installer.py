@@ -1,9 +1,5 @@
 
-import os, random, string
-
-def get_random_string(length): #Generování certifikátu
-    letters = string.ascii_letters + string.digits
-    return ''.join(random.choice(letters) for i in range(length))
+import os
 
 while True:
     input1 = input("Mohu instalovat potřebné knihovny z requirements.txt (Y/n)? ").lower()
