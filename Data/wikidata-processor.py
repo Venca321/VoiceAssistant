@@ -4,7 +4,13 @@ Script pro zpracování dat z wikipedie na použitelná wikidata, s kterými pra
 !!! Na mém Pc běželo zhruba 45 minut (dejte tomu čas) !!!
 """
 
-import mwxml, glob, csv, html2text, re, time
+try:
+    import mwxml, glob, csv, html2text, re, time
+except:
+    import os
+    os.system("pip install mwxml")
+    os.system("pip install html2text")
+    import mwxml, glob, csv, html2text, re, time
 
 paths = glob.glob('wikidata/cswiki-latest-pages-articles*.xml*.bz2') #Načtení wiki dat (staženo z wikipedie)
 
