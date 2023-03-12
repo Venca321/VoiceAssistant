@@ -15,15 +15,15 @@ while True:
     if input4 == "y" or input4 == "": break
     elif input4 == "n": 
         data = configparser.ConfigParser(allow_no_value=True)
-        data.read("Server/Data/config.ini")
+        data.read("Data/config.ini")
         data.set("Settings", "wiki_finder_online", "False")
-        with open("Server/Data/config.ini", "w") as configfile: data.write(configfile) #Uložení
+        with open("Data/config.ini", "w") as configfile: data.write(configfile) #Uložení
         print("Než budete pokračovat, postupujte podle dokumentace a stáhněte si wikidata")
         exit()
 
 data = configparser.ConfigParser(allow_no_value=True)
-data.read("Server/Data/config.ini")
+data.read("Data/config.ini")
 data.set("Settings", "wiki_finder_online", "True")
-with open("Server/Data/config.ini", "w") as configfile: data.write(configfile) #Uložení
+with open("Data/config.ini", "w") as configfile: data.write(configfile) #Uložení
 
 print("Instalace dokončena")
