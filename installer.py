@@ -38,6 +38,19 @@ while True:
         print("Než budete pokračovat, postupujte podle dokumentace a stáhněte si wikidata")
         exit()
 
+os.mkdir("Modules/ngrok/data")
+input2 = input("Ngrok token: ")
+file = open("Modules/ngrok/data/ngrok.txt", "a").close()
+file = open("Modules/ngrok/data/ngrok.txt", "w")
+file.write(input2)
+file.close()
+
+input3 = input("Discord bot token: ")
+file = open("Modules/ngrok/data/token.txt", "a").close()
+file = open("Modules/ngrok/data/token.txt", "w")
+file.write(input3)
+file.close()
+
 data = configparser.ConfigParser(allow_no_value=True)
 data.read("Data/config.ini")
 data.set("Settings", "wiki_finder_online", "True")
