@@ -65,23 +65,24 @@ banned_words = ["leden", "únor", "březen", "duben", "květen", "červen", "če
 aproved = 0
 banned = 0
 errors = 0
+last_printed = 0
 for page_id, title, text in mwxml.map(process_dump, paths):
     try:
+        percentage = aproved / 1100
+        if percentage.is_integer() and not percentage == last_printed: 
+            last_printed = percentage
+            print(f"Probíhá zpracování dat ({percentage}%)")
+
         process = True
-        if page_id == 4 or page_id == 7 or page_id == 8: #3 wiki info stránky, které nepotřebujeme
-            process = False
-            print(f'Stránka "{title}" (číslo:{page_id}) byla odstraněna')
+        if page_id == 4 or page_id == 7 or page_id == 8:  process = False
 
         for i in banned_words: #Tohle vyřadí měsíce, dny a další stránky, které nepotřebuji
             for word in title.split(" "):
-                if i == word:
-                    process = False
-                    print(f'Stránka "{title}" (číslo:{page_id}) byla odstraněna')
+                if i == word: process = False
 
         try:
             int(title) #Tohle odstraní všechny stránky s názvem pouze čísla (převážně roky / informace o číslech - není potřeba)
             process = False
-            print(f'Stránka "{title}" (číslo:{page_id}) byla odstraněna')
         except: None
             
         if process:

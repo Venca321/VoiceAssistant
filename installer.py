@@ -10,6 +10,22 @@ os.system('pip install -r requirements.txt') #Instalace requirements.txt
 
 import configparser
 
+try: os.mkdir("Modules/ngrok/data")
+except: None
+input2 = input("Ngrok token: ")
+try: file = open("Modules/ngrok/data/ngrok.txt", "a").close()
+except: None
+file = open("Modules/ngrok/data/ngrok.txt", "w")
+file.write(input2)
+file.close()
+
+input3 = input("Discord bot token: ")
+try: file = open("Modules/ngrok/data/token.txt", "a").close()
+except: None
+file = open("Modules/ngrok/data/token.txt", "w")
+file.write(input3)
+file.close()
+
 while True:
     input1 = input("Chcete použít ngrok pro hosting (budete ho muset manuálně instalovat) (Y/n)? ").lower()
     if input1 == "y" or input1 == "": 
@@ -36,23 +52,8 @@ while True:
         data.set("Settings", "wiki_finder_online", "False")
         with open("Data/config.ini", "w") as configfile: data.write(configfile) #Uložení
         print("Než budete pokračovat, postupujte podle dokumentace a stáhněte si wikidata")
+        print("Instalace dokončena")
         exit()
-
-try: os.mkdir("Modules/ngrok/data")
-except: None
-input2 = input("Ngrok token: ")
-try: file = open("Modules/ngrok/data/ngrok.txt", "a").close()
-except: None
-file = open("Modules/ngrok/data/ngrok.txt", "w")
-file.write(input2)
-file.close()
-
-input3 = input("Discord bot token: ")
-try: file = open("Modules/ngrok/data/token.txt", "a").close()
-except: None
-file = open("Modules/ngrok/data/token.txt", "w")
-file.write(input3)
-file.close()
 
 data = configparser.ConfigParser(allow_no_value=True)
 data.read("Data/config.ini")
