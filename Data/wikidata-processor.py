@@ -12,6 +12,9 @@ except:
     os.system("pip install html2text")
     import mwxml, glob, csv, html2text, re, time
 
+try: os.mkdir("wikidata/pages")
+except: None
+
 paths = glob.glob('wikidata/cswiki-latest-pages-articles*.xml*.bz2') #Načtení wiki dat (staženo z wikipedie)
 
 f = open('wikidata/wikidata.csv', 'w') #Zapsání co řádky znamenají
