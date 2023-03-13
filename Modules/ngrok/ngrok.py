@@ -1,5 +1,6 @@
 
-import os, json, time, discord, sys
+import discord
+from pyngrok import ngrok
 
 def discord_status():
     FILE = "Modules/ngrok/tunnels.json"
@@ -14,22 +15,16 @@ def discord_status():
         ip = start_ngrok()
         channel = client.get_channel(1084757107447975956)
         await channel.send(f"@here Server restarted, now is on:\n{ip}")
-
-        for _ in range(3): #Vymaže ten curl print, který nenávidím
-            sys.stdout.write("\033[F")
-            print(" "*100)
-            sys.stdout.write("\033[F")
-
         print(f" Ngrok running on {ip}\n")
 
     def start_ngrok():
-        os.system("ngrok http 5000 &")
-        time.sleep(3)
-        os.system(f"curl  http://localhost:4040/api/tunnels > {FILE}")
+        file = open("Modules/ngrok/data/ngrok.txt", "r")
+        ngrok_token = file.read()
+        file.close()
 
-        with open(FILE) as data_file: datajson = json.load(data_file)
-        for i in datajson['tunnels']: ip = i['public_url']
-        os.remove(FILE)
+        ngrok.set_auth_token(ngrok_token)
+        ssh_tunnel = ngrok.connect(5000, "http")
+        ip = str(ssh_tunnel).split(" ")[1].replace('"', "")
 
         return ip
 
