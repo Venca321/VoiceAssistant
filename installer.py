@@ -38,15 +38,18 @@ while True:
         print("Než budete pokračovat, postupujte podle dokumentace a stáhněte si wikidata")
         exit()
 
-os.mkdir("Modules/ngrok/data")
+try: os.mkdir("Modules/ngrok/data")
+except: None
 input2 = input("Ngrok token: ")
-file = open("Modules/ngrok/data/ngrok.txt", "a").close()
+try: file = open("Modules/ngrok/data/ngrok.txt", "a").close()
+except: None
 file = open("Modules/ngrok/data/ngrok.txt", "w")
 file.write(input2)
 file.close()
 
 input3 = input("Discord bot token: ")
-file = open("Modules/ngrok/data/token.txt", "a").close()
+try: file = open("Modules/ngrok/data/token.txt", "a").close()
+except: None
 file = open("Modules/ngrok/data/token.txt", "w")
 file.write(input3)
 file.close()
