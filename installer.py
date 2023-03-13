@@ -11,6 +11,23 @@ os.system('pip install -r requirements.txt') #Instalace requirements.txt
 import configparser
 
 while True:
+    input1 = input("Chcete použít ngrok pro hosting (budete ho muset manuálně instalovat) (Y/n)? ").lower()
+    if input1 == "y" or input1 == "": 
+        data = configparser.ConfigParser(allow_no_value=True)
+        data.read("Data/config.ini")
+        data.set("Settings", "nrgok", "True")
+        with open("Data/config.ini", "w") as configfile: data.write(configfile) #Uložení
+        print("Prosím, než spustíte main.py, ujistěte se, že máte nainstalovaný ngrok")
+        break
+    
+    elif input1 == "n": 
+        data = configparser.ConfigParser(allow_no_value=True)
+        data.read("Data/config.ini")
+        data.set("Settings", "ngrok", "False")
+        with open("Data/config.ini", "w") as configfile: data.write(configfile) #Uložení
+        break
+
+while True:
     input4 = input("Chcete použít vyhledávání informací online (Y/n)? ").lower()
     if input4 == "y" or input4 == "": break
     elif input4 == "n": 

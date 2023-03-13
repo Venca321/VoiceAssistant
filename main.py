@@ -10,6 +10,7 @@ import multiprocessing, time, signal, os, subprocess
 
 os.system("clear")
 VERSION = data.read(f"{os.getcwd()}/Data/config.ini", "Info", "version")
+NGROK = data.read(f"{os.getcwd()}/Data/config.ini", "Settings", "ngrok")
 MODULES = data.options(f"{os.getcwd()}/Modules/tester/data/config.ini", "Modules")
 imported = {}
 
@@ -66,6 +67,6 @@ if __name__ == '__main__':
     multiprocessing.Process(target=Threads.tests).start() #Setup multiprocessingu
     multiprocessing.Process(target=Threads.data_update).start()
     multiprocessing.Process(target=web_ui.start).start() #Experimentální web UI
-    multiprocessing.Process(target=ngrok.discord_status).start() #Ngrok status report
+    if NGROK == "True": multiprocessing.Process(target=ngrok.discord_status).start() #Ngrok status report
 
 """ Parma Industries """
