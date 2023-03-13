@@ -5,3 +5,4 @@ cache/
 tests/
 __pycache__
 secret.ini
+token.txt

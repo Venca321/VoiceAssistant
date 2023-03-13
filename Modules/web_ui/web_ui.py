@@ -17,8 +17,8 @@ app = Flask(__name__)
 app.secret_key = b'\x9d\x97Leel\xe1\x15o\xd9:\xe8'
 
 def start():
-    serve(app, host="0.0.0.0", port=5000)  # pro dev: flask run --host=0.0.0.0
-    # serve(app, host="localhost", port=5000) #ngrok http 5000
+    #serve(app, host="0.0.0.0", port=5000)  # pro dev: flask run --host=0.0.0.0
+    serve(app, host="localhost", port=5000) #ngrok http 5000
 
 class AuthManager():
     def clear():

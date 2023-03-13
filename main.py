@@ -3,6 +3,7 @@
 from Modules.tester import tester
 from Modules.functions.functions import *
 from Modules.database.database import *
+from Modules.ngrok import ngrok
 from Modules.web_ui import web_ui
 from importlib.machinery import SourceFileLoader
 import multiprocessing, time, signal, os, subprocess
@@ -65,5 +66,6 @@ if __name__ == '__main__':
     multiprocessing.Process(target=Threads.tests).start() #Setup multiprocessingu
     multiprocessing.Process(target=Threads.data_update).start()
     multiprocessing.Process(target=web_ui.start).start() #Experimentální web UI
+    multiprocessing.Process(target=ngrok.discord_status).start() #Ngrok status report
 
 """ Parma Industries """
