@@ -94,6 +94,7 @@ class Tester():
         Otestuje funkčnost server systému
         """
         HOST = socket.gethostbyname(socket.gethostname())
+        NGROK = data.read(f"{os.getcwd()}/Data/config.ini", "Settings", "ngrok")
         if output: print(f' Testing functionality...     0% [{100*"."}]', end="\r")
 
         #Nějak otestovat, že server reálně funguje
@@ -101,4 +102,4 @@ class Tester():
         if output: 
             print(f' Testing functionality...   100% [{100*"#"}]')
             time.sleep(0.2)
-            print(f" Everything seems to be working properly (Server on: {HOST})\n")
+            if not NGROK == "True":  print(f" Everything seems to be working properly (Server on: {HOST})\n")

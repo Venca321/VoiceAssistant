@@ -23,7 +23,7 @@ def discord_status():
         print(f" Ngrok running on {ip}\n")
 
     def start_ngrok():
-        os.system("ngrok http 5000 >/dev/null 2>&1 &")
+        os.system("ngrok http 5000 &")
         time.sleep(3)
         os.system(f"curl  http://localhost:4040/api/tunnels > {FILE}")
 

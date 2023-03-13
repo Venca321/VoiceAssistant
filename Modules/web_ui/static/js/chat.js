@@ -17,12 +17,14 @@ window.onload = function () {
 }
 
 function typeWriter(el) {
-    const textArray = el.innerHTML.split('');
-    el.innerHTML = '';
-    if (textArray.length < 30) {
-        textArray.forEach((letter, i) => setTimeout(() => (el.innerHTML += letter), 30 * i));
-    }
-    else {
-        textArray.forEach((letter, i) => setTimeout(() => (el.innerHTML += letter), 15 * i));
+    if (el.innerHTML.includes("animate: ")) {
+        const textArray = el.innerHTML.replace("animate: ", "").split('');
+        el.innerHTML = '';
+        if (textArray.length < 30) {
+            textArray.forEach((letter, i) => setTimeout(() => (el.innerHTML += letter), 30 * i));
+        }
+        else {
+            textArray.forEach((letter, i) => setTimeout(() => (el.innerHTML += letter), 15 * i));
+        }
     }
 }

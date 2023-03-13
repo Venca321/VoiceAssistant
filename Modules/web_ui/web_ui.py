@@ -2,6 +2,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from Modules.engine.engine import *
 from Modules.database.database import *
+from Modules.functions.functions import *
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from waitress import serve
@@ -16,9 +17,10 @@ secret.read(f"{os.getcwd()}/Modules/web_ui/data/secret.ini")
 app = Flask(__name__)
 app.secret_key = b'\x9d\x97Leel\xe1\x15o\xd9:\xe8'
 
+NGROK = data.read(f"{os.getcwd()}/Data/config.ini", "Settings", "ngrok")
 def start():
-    #serve(app, host="0.0.0.0", port=5000)  # pro dev: flask run --host=0.0.0.0
-    serve(app, host="localhost", port=5000) #ngrok http 5000
+    if NGROK == "True": serve(app, host="localhost", port=5000) #ngrok http 5000
+    else: serve(app, host="0.0.0.0", port=5000)  # pro dev: flask run --host=0.0.0.0
 
 class AuthManager():
     def clear():
@@ -150,14 +152,28 @@ def home():
 # Chat    ##############################
 @app.route("/home/chat", strict_slashes=False)
 def chat():
-    session["messages_from_server"] = ["", "", "", "", "", "",
-                                       "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
-    session["messages_from_user"] = ["", "", "", "", "", "",
-                                     "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+    
     if AuthManager.is_logged():
         user = AuthManager.user()
 
+        message_from_server = []
+        message_from_user = []
+        logs = db.read(user, "log")[:20]
+        for log in logs:
+            message_from_server.append(log[3])
+            message_from_user.append(log[2])
+
+        for _ in range(20 - len(message_from_server)): message_from_server.append("")
+        for _ in range(20 - len(message_from_user)): message_from_user.append("")
+
+        session["messages_from_server"] = message_from_server
+        session["messages_from_user"] = message_from_user
+
         flash(user["username"])
+        for i in message_from_user:
+            flash(i)
+        for i in message_from_server:
+            flash(i)
 
         return render_template("user/home/chat.html")
 
@@ -176,12 +192,16 @@ def chat_post():
             user_mes.remove(user_mes[0])
             user_mes.append(message)
 
+            response = Engine.process(user, message)
             server_mes = session["messages_from_server"]
             server_mes.remove(server_mes[0])
-            server_mes.append(Engine.process(user, message))
+            server_mes.append(response)
 
             session["messages_from_user"] = user_mes
             session["messages_from_server"] = server_mes
+
+            server_mes.remove(server_mes[-1])
+            server_mes.append(f"animate: {response}")
 
             flash(user["username"])
             for i in user_mes:
